@@ -1,7 +1,7 @@
 /**
  * Happy Hour Slot - PWA Service Worker
  */
-const CACHE_NAME = 'slot-3d-v17';
+const CACHE_NAME = 'slot-3d-v18';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -21,6 +21,8 @@ const ASSETS_TO_CACHE = [
   './assets/symbols/bell.svg',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
+  './assets/icons/icon-maskable-512.png',
+  './assets/icons/apple-touch-icon.png',
   './assets/icons/favicon.png'
 ];
 

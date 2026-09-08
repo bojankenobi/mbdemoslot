@@ -237,8 +237,8 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (isIOS) {
         const isEn = window.i18n && window.i18n.currentLang === 'en';
         alert(isEn 
-          ? "📲 To install Grand Slot on iPhone/iPad:\n1. Tap the Share button in Safari (⎋)\n2. Scroll down and tap 'Add to Home Screen' (⊞)\n\nThe app will launch in full screen without browser bars!" 
-          : "📲 Za instalaciju Grand Slota na iPhone/iPad:\n1. Dodirnite dugme Deli u Safariju (⎋)\n2. Izaberite 'Dodaj na početni ekran' (⊞)\n\nAplikacija će se otvarati preko celog ekrana kao prava izvorna igra!");
+          ? "📲 To install grandslot on iPhone/iPad:\n1. Tap the Share button in Safari (⎋)\n2. Scroll down and tap 'Add to Home Screen' (⊞)\n\nThe app will launch in full screen without browser bars!" 
+          : "📲 Za instalaciju grandslot aplikacije na iPhone/iPad:\n1. Dodirnite dugme Deli u Safariju (⎋)\n2. Izaberite 'Dodaj na početni ekran' (⊞)\n\nAplikacija će se otvarati preko celog ekrana kao prava izvorna igra!");
       }
     });
   }
