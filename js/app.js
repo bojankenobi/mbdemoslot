@@ -9,6 +9,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const game = new window.SlotGame();
   window.slotGame = game;
 
+  // Universal Responsive Scaler (Guarantees cylinder + lever are 100% visible on any phone)
+  function updateSlotScale() {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const availW = Math.max(260, vw - 22);
+    const scaleW = Math.min(1.0, availW / 490);
+    const availH = Math.max(100, vh - 300);
+    const scaleH = Math.min(1.0, availH / 160);
+    const finalScale = Math.min(scaleW, scaleH);
+    document.documentElement.style.setProperty('--slot-scale', finalScale.toFixed(4));
+  }
+  window.addEventListener('resize', updateSlotScale);
+  window.addEventListener('orientationchange', () => setTimeout(updateSlotScale, 100));
+  updateSlotScale();
+
   // 2. User Controls Bindings
   const spinBtn = document.getElementById('spin-btn');
   const autoBtn = document.getElementById('auto-btn');
