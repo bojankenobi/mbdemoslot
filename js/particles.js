@@ -38,8 +38,16 @@ class ParticleEngine {
   }
 
   resize() {
-    this.width = this.canvas.width = window.innerWidth;
-    this.height = this.canvas.height = window.innerHeight;
+    this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
+    this.canvas.width = Math.round(this.width * this.dpr);
+    this.canvas.height = Math.round(this.height * this.dpr);
+    this.canvas.style.width = `${this.width}px`;
+    this.canvas.style.height = `${this.height}px`;
+    if (this.ctx) {
+      this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    }
   }
 
   // Pre-render the high-resolution 3D coin face & back to an offscreen canvas once

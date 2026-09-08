@@ -7,7 +7,6 @@ class SlotAudio {
     this.ctx = null;
     this.isMuted = false;
     this.spinInterval = null;
-    this.initContext();
   }
 
   initContext() {

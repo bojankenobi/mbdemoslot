@@ -147,7 +147,6 @@ body {
    Guarantees 100% full visibility of cylinder + lever on all mobile screens
    ------------------------------------------------------------ */
 .slot-stage-scaler {
-  --slot-scale: min(1, calc((100vw - 22px) / 490));
   width: calc(490px * var(--slot-scale, 1));
   height: calc(154px * var(--slot-scale, 1));
   position: relative;
@@ -174,7 +173,7 @@ body {
 .cylinder-ground-shadow {
   position: absolute;
   top: 130px;
-  left: 18px;
+  left: 40px;
   width: 368px;
   height: 26px;
   background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 80%);
@@ -187,9 +186,9 @@ body {
    ============================================================ */
 .slot-cylinder-replica {
   position: absolute;
-  left: 4px;
+  left: 26px;
   top: 5px;
-  width: 396px;
+  width: 416px;
   height: 144px;
   display: inline-flex;
   align-items: center;
@@ -314,6 +313,7 @@ body {
 .cylinder-drum-body {
   position: relative;
   width: 304px;
+  flex-shrink: 0;
   height: 144px;
   border-radius: 0; /* Straight horizontal cylinder sides, NO pill curves! */
   background: linear-gradient(180deg, 
@@ -941,7 +941,9 @@ body {
   max-width: 440px;
   padding: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 149, 20, 0.3);
-  max-height: 90vh;
+  max-height: 85vh;
+  max-height: 85dvh;
+  -webkit-overflow-scrolling: touch;
   overflow-y: auto;
 }
 
@@ -1072,20 +1074,110 @@ body {
 
 @media (max-width: 370px) {
   .brand-logo-wrap {
-    max-width: 220px;
+    max-width: 210px;
   }
   .main-brand-logo {
-    max-height: 46px;
+    max-height: 44px;
   }
   .hud-val {
     font-size: 0.92rem;
+  }
+  .bet-controls-row {
+    gap: 4px;
+  }
+  .btn-secondary {
+    padding: 7px 8px;
+    font-size: 0.72rem;
+  }
+  .btn-step {
+    width: 32px;
+    height: 32px;
+    font-size: 1.05rem;
+  }
+  .bet-display {
+    padding: 0 6px;
+    font-size: 0.8rem;
   }
   .btn-spin {
     font-size: 1.05rem;
     height: 44px;
   }
+  .btn-auto {
+    height: 44px;
+    padding: 0 12px;
+  }
   .btn-icon {
     padding: 4px 6px;
+    font-size: 0.68rem;
+  }
+  .paytable-grid {
+    grid-template-columns: 1fr;
+  }
+  .pay-card {
+    padding: 6px 10px;
+  }
+}
+
+/* Short viewports & Mobile Landscape Orientation */
+@media (max-height: 650px) {
+  .game-container {
+    padding-top: max(4px, env(safe-area-inset-top));
+    padding-bottom: max(6px, env(safe-area-inset-bottom));
+    justify-content: space-around;
+  }
+  .brand-logo-wrap {
+    max-width: 190px;
+    margin-bottom: 0;
+  }
+  .main-brand-logo {
+    max-height: 38px;
+  }
+  .stage-area {
+    margin: 0 auto;
+    padding: 2px 0 4px;
+  }
+  .status-banner {
+    margin-top: 6px;
+    margin-bottom: 2px;
+    min-height: 28px;
+    font-size: 0.82rem;
+    padding: 2px 12px;
+  }
+  .hud-panel {
+    margin-top: 4px;
+    gap: 4px;
+  }
+  .hud-card {
+    padding: 2px 6px;
+  }
+  .hud-label {
+    font-size: 0.58rem;
+    margin-bottom: 0;
+  }
+  .hud-val {
+    font-size: 0.98rem;
+  }
+  .controls-panel {
+    margin-top: 4px;
+    gap: 5px;
+  }
+  .btn-secondary {
+    padding: 6px 10px;
+  }
+  .btn-spin {
+    height: 42px;
+    font-size: 1.1rem;
+  }
+  .btn-auto {
+    height: 42px;
+    padding: 0 12px;
+  }
+  .aux-row {
+    margin-top: 4px;
+    gap: 4px;
+  }
+  .btn-icon {
+    padding: 3px 6px;
     font-size: 0.68rem;
   }
 }

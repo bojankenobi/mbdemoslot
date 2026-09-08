@@ -218,22 +218,27 @@ class SlotGame3D {
     const [s1, s2, s3] = results;
     let winMultiplier = 0;
     let winType = '';
+    let winningReels = [];
 
     // 3 of a kind
     if (s1.id === s2.id && s2.id === s3.id) {
       winMultiplier = s1.payout3;
       winType = window.i18n ? window.i18n.t(`combo_${s1.id}_3x`) : `3x ${s1.name.toUpperCase()}!`;
+      winningReels = [0, 1, 2];
     }
     // 2 of a kind
     else if (s1.id === s2.id) {
       winMultiplier = s1.payout2;
       winType = window.i18n ? window.i18n.t(`combo_${s1.id}_2x`) : `2x ${s1.name.toUpperCase()}!`;
+      winningReels = [0, 1];
     } else if (s2.id === s3.id) {
       winMultiplier = s2.payout2;
       winType = window.i18n ? window.i18n.t(`combo_${s2.id}_2x`) : `2x ${s2.name.toUpperCase()}!`;
+      winningReels = [1, 2];
     } else if (s1.id === s3.id) {
       winMultiplier = s1.payout2;
       winType = window.i18n ? window.i18n.t(`combo_${s1.id}_2x`) : `2x ${s1.name.toUpperCase()}!`;
+      winningReels = [0, 2];
     }
     // Any Flower + BAR combo
     else if (
@@ -243,15 +248,14 @@ class SlotGame3D {
     ) {
       winMultiplier = 5;
       winType = window.i18n ? window.i18n.t('combo_flower_bar') : 'CVET & BAR KOMBO!';
+      winningReels = [0, 1, 2];
     }
 
     // 3 Diamonds trigger Free Spins
     const diamondCount = [s1, s2, s3].filter(s => s.id === 'diamond').length;
-    if (diamondCount === 3) {
+    const isDiamondBonus = (diamondCount === 3);
+    if (isDiamondBonus) {
       this.freeSpins += 5;
-      this.showMessage(window.i18n ? window.i18n.t('freeSpinsWon') : '💎 5 BESPLATNIH SPINOVA OSVOJENO! 💎', 'jackpot');
-      window.slotAudio.playJackpot();
-      if (window.particleEngine) window.particleEngine.spawnCelebration(true);
     }
 
     if (winMultiplier > 0) {
@@ -259,20 +263,29 @@ class SlotGame3D {
       this.balance += totalWin;
       this.lastWin = totalWin;
 
-      const isJackpot = winMultiplier >= 40 || s1.id === 'flower';
-      if (isJackpot) {
-        this.showMessage(`${window.i18n ? window.i18n.t('bigWin') : '🎰 VELIKI DOBITAK! +'}${totalWin} 🎰`, 'jackpot');
+      if (isDiamondBonus) {
+        const msg = window.i18n 
+          ? window.i18n.t('freeSpinsPlusWin', { amount: totalWin }) 
+          : `💎 5 BESPLATNIH SPINOVA + ${totalWin}! 💎`;
+        this.showMessage(msg, 'jackpot');
         window.slotAudio.playJackpot();
         if (window.particleEngine) window.particleEngine.spawnCelebration(true);
       } else {
-        const prefix = window.i18n ? window.i18n.t('winPrefix') : 'DOBITAK: +';
-        this.showMessage(`${prefix}${totalWin} (${winType})`, 'win');
-        window.slotAudio.playWin();
-        if (window.particleEngine) window.particleEngine.spawnCelebration(false);
+        const isJackpot = winMultiplier >= 40 || s1.id === 'flower';
+        if (isJackpot) {
+          this.showMessage(`${window.i18n ? window.i18n.t('bigWin') : '🎰 VELIKI DOBITAK! +'}${totalWin} 🎰`, 'jackpot');
+          window.slotAudio.playJackpot();
+          if (window.particleEngine) window.particleEngine.spawnCelebration(true);
+        } else {
+          const prefix = window.i18n ? window.i18n.t('winPrefix') : 'DOBITAK: +';
+          this.showMessage(`${prefix}${totalWin} (${winType})`, 'win');
+          window.slotAudio.playWin();
+          if (window.particleEngine) window.particleEngine.spawnCelebration(false);
+        }
       }
 
       // Highlight winning center tiles
-      this.highlightWinningTiles();
+      this.highlightWinningTiles(winningReels);
     } else {
       if (this.freeSpins <= 0) {
         this.showMessage(window.i18n ? window.i18n.t('tryAgain') : 'POKUŠAJTE PONOVO!', 'normal');
@@ -293,12 +306,14 @@ class SlotGame3D {
     }
   }
 
-  highlightWinningTiles() {
-    for (let r = 0; r < 3; r++) {
+  highlightWinningTiles(indices = [0, 1, 2]) {
+    indices.forEach(r => {
       const drum = this.drumElements[r];
-      const winTile = drum.querySelector('.reel-tile[data-idx="1"]');
-      if (winTile) winTile.classList.add('win-center');
-    }
+      if (drum) {
+        const winTile = drum.querySelector('.reel-tile[data-idx="1"]');
+        if (winTile) winTile.classList.add('win-center');
+      }
+    });
   }
 
   showMessage(msg, type = 'normal') {

@@ -1,7 +1,7 @@
 /**
  * Happy Hour Slot - PWA Service Worker
  */
-const CACHE_NAME = 'slot-3d-v19';
+const CACHE_NAME = 'slot-3d-v20';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -50,7 +50,7 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
+    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
       if (cachedResponse) {
         return cachedResponse;
       }
