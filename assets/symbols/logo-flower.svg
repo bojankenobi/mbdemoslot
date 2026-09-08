@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 150 150" width="100%" height="100%">
+  <defs>
+    <linearGradient id="flower-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="25%" stop-color="#fff4b8" />
+      <stop offset="55%" stop-color="#f5c038" />
+      <stop offset="85%" stop-color="#d49514" />
+      <stop offset="100%" stop-color="#784400" />
+    </linearGradient>
+    <filter id="flower-shad" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.85"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#ffd54f" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <g filter="url(#flower-shad)">
+    <!-- Central 4-Point Sparkle -->
+    <path fill="url(#flower-gold)" stroke="#fffef0" stroke-width="0.8" stroke-linejoin="round"
+          d="M64.88,42.15c-.25,0-.45.18-.49.42-.02.13-1.94,11.8-4.94,14.78-3,2.98-14.68,4.83-14.81,4.85-.24.04-.42.24-.43.49,0,.25.18.45.42.49.13.02,11.8,1.94,14.78,4.94,2.98,3,4.83,14.68,4.85,14.81.03.24.24.42.49.42s.45-.18.49-.42c.02-.13,1.94-11.8,4.94-14.78,3-2.98,14.68-4.83,14.81-4.85.24-.03.42-.24.42-.49,0-.25-.18-.45-.42-.49-.13-.02-11.8-1.94-14.78-4.94-2.98-3-4.83-14.68-4.85-14.81-.03-.24-.24-.42-.49-.42h0Z"/>
+    <!-- 7 Surrounding Diamond Petals -->
+    <polygon fill="url(#flower-gold)" stroke="#fffef0" stroke-width="0.8" stroke-linejoin="round" points="85.07 0 64.88 12.11 64.88 36.33 85.07 24.22 85.07 0"/>
+    <polygon fill="url(#flower-gold)" stroke="#fffef0" stroke-width="0.8" stroke-linejoin="round" points="29.39 6.8 26.28 30.13 45.22 45.23 48.33 21.9 29.39 6.8"/>
+    <polygon fill="url(#flower-gold)" stroke="#fffef0" stroke-width="0.8" stroke-linejoin="round" points="0 54.56 16.3 71.54 39.91 66.15 23.61 49.17 0 54.56"/>
+    <polygon fill="url(#flower-gold)" stroke="#fffef0" stroke-width="0.8" stroke-linejoin="round" points="19.02 107.33 42.46 105.17 52.96 83.35 29.53 85.5 19.02 107.33"/>
+    <polygon fill="url(#flower-gold)" stroke="#fffef0" stroke-width="0.8" stroke-linejoin="round" points="72.13 125.35 85.06 105.68 74.54 83.86 61.62 103.53 72.13 125.35"/>
+    <polygon fill="url(#flower-gold)" stroke="#fffef0" stroke-width="0.8" stroke-linejoin="round" points="119.33 95.07 112.02 72.7 88.4 67.31 95.72 89.68 119.33 95.07"/>
+    <polygon fill="url(#flower-gold)" stroke="#fffef0" stroke-width="0.8" stroke-linejoin="round" points="125.09 39.28 103.03 31.05 84.1 46.16 106.15 54.38 125.09 39.28"/>
+
+    <!-- Central Sparkle Flare -->
+    <g transform="translate(64.88, 62.67) scale(0.6)">
+      <circle cx="0" cy="0" r="3" fill="#ffffff" filter="drop-shadow(0 0 3px #fff)"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldframe" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff8d1" />
+      <stop offset="30%" stop-color="#f5c542" />
+      <stop offset="70%" stop-color="#b38210" />
+      <stop offset="100%" stop-color="#593b00" />
+    </linearGradient>
+    <linearGradient id="barfill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#241a4a" />
+      <stop offset="50%" stop-color="#150f2e" />
+      <stop offset="100%" stop-color="#0a0717" />
+    </linearGradient>
+    <linearGradient id="textgold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="40%" stop-color="#ffe082" />
+      <stop offset="80%" stop-color="#ffb300" />
+      <stop offset="100%" stop-color="#ff8f00" />
+    </linearGradient>
+    <filter id="shadowbar" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="2" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadowbar)">
+    <!-- Outer gold border bar -->
+    <rect x="12" y="38" width="96" height="44" rx="10" fill="url(#goldframe)" stroke="#fff2b2" stroke-width="1.5" />
+    <!-- Inner dark navy inset -->
+    <rect x="16" y="42" width="88" height="36" rx="7" fill="url(#barfill)" stroke="#ffd700" stroke-width="0.8" />
+    
+    <!-- Bold stylish BAR text -->
+    <text x="60" y="68" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="25" text-anchor="middle" letter-spacing="3" fill="url(#textgold)" stroke="#7c5300" stroke-width="0.5">BAR</text>
+  </g>
+</svg>

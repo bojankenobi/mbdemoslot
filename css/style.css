@@ -1,0 +1,1028 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,900;1,900&family=Playfair+Display:ital,wght@1,700&family=Yellowtail&display=swap');
+
+:root {
+  --gold-light: #fff5c0;
+  --gold-primary: #f6c845;
+  --gold-mid: #d99a18;
+  --gold-dark: #8c5d04;
+  --gold-border: #b8860b;
+  --bg-dark: #090a0f;
+  --text-main: #f3f3f3;
+  --font-title: 'Montserrat', sans-serif;
+  --font-script: 'Yellowtail', cursive;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none; /* Prevents long-press callout in iOS */
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overscroll-behavior: none; /* Prevents browser pull-to-refresh & bounce */
+  overscroll-behavior-y: none;
+  touch-action: manipulation; /* Instant touch feedback without delay */
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-title);
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Background Sunburst & Ambient Radial Glow */
+.bg-rays {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  background: 
+    radial-gradient(circle at 50% 38%, rgba(246, 200, 69, 0.16) 0%, rgba(26, 22, 16, 0.4) 35%, rgba(10, 11, 16, 0.98) 75%, #050608 100%),
+    repeating-conic-gradient(from 0deg at 50% 38%, rgba(255, 215, 0, 0.025) 0deg 12deg, transparent 12deg 24deg);
+}
+
+#fx-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Main Container - Full Height Distribution & iOS / Android Safe Area Insets */
+.game-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 540px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  /* Support edge-to-edge screens with notch, Dynamic Island, and home indicator */
+  padding-top: max(10px, env(safe-area-inset-top));
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+  padding-left: max(14px, env(safe-area-inset-left));
+  padding-right: max(14px, env(safe-area-inset-right));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; /* Top header, Center stage, Bottom controls */
+  text-align: center;
+}
+
+/* Discreet Language Switcher Pill (Intimna ikonica u uglu) */
+.lang-switch-discreet {
+  position: absolute;
+  top: max(8px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+  z-index: 15;
+}
+
+.lang-pill-btn {
+  background: rgba(18, 20, 30, 0.72);
+  border: 1px solid rgba(217, 154, 24, 0.4);
+  color: #ffda73;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 16px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.lang-pill-btn:hover {
+  background: rgba(32, 36, 52, 0.9);
+  border-color: rgba(246, 200, 69, 0.8);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.lang-pill-btn:active {
+  transform: scale(0.95);
+}
+
+.lang-globe {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.lang-label {
+  color: #ffd700;
+  font-weight: 900;
+  font-size: 0.75rem;
+}
+
+/* Header & Brand SVG Logo (Zaglavlje) */
+.header-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-bottom: 4px;
+  width: 100%;
+}
+
+.brand-logo-wrap {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 10px;
+  animation: logoGlowPulse 3.5s ease-in-out infinite alternate;
+}
+
+.main-brand-logo {
+  width: 100%;
+  height: auto;
+  max-height: 82px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 18px rgba(246, 200, 69, 0.45));
+  transition: transform 0.3s ease;
+}
+
+@keyframes logoGlowPulse {
+  0% {
+    filter: drop-shadow(0 0 8px rgba(208, 162, 92, 0.3));
+    transform: scale(0.98);
+  }
+  100% {
+    filter: drop-shadow(0 0 22px rgba(246, 200, 69, 0.65));
+    transform: scale(1.02);
+  }
+}
+
+/* Stage Area with 3D Cylinder - Generous Breathing Room */
+.stage-area {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto 0; /* Centers cylinder with ample breathing space */
+  padding: 14px 0 22px;
+}
+
+/* 3D Ground Shadow */
+.cylinder-ground-shadow {
+  position: absolute;
+  top: 160px;
+  width: 82%;
+  height: 28px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 80%);
+  filter: blur(8px);
+  z-index: 1;
+}
+
+/* ============================================================
+   1:1 EXACT REPLICA 3D GOLDEN SLOT CYLINDER
+   ============================================================ */
+.slot-cylinder-replica {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.9));
+  transform: translateZ(0);
+}
+
+/* ------------------------------------------------------------
+   STEPPED ENDCAPS (Left & Right - 100% Mathematically Symmetric)
+   Seamless 3-tier: Outer Dome -> Mid Tier -> Flush Drum Collar
+   ------------------------------------------------------------ */
+.cylinder-cap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  z-index: 6;
+  flex-shrink: 0;
+}
+
+.cap-left {
+  flex-direction: row;
+}
+
+/* Mirrored for 100% exact symmetry */
+.cap-right {
+  flex-direction: row;
+}
+
+/* Base metallic gold gradient shared across all cylinder sections */
+.cap-step {
+  background: linear-gradient(180deg, 
+    #2b1400 0%, 
+    #6e3f00 8%, 
+    #d49514 20%, 
+    #ffea8c 36%, 
+    #ffffff 45%, 
+    #fad355 56%, 
+    #b57608 74%, 
+    #4f2c00 90%, 
+    #211100 100%
+  );
+}
+
+/* Tier 1: Flush Collar (flange directly docking with main drum) */
+.cap-step.cap-collar {
+  width: 18px;
+  height: 144px; /* EXACTLY matches cylinder-drum-body height! */
+  border-radius: 0;
+  position: relative;
+  z-index: 5;
+}
+
+.cap-left .cap-collar {
+  box-shadow: 
+    inset 1px 0 1px rgba(255, 255, 255, 0.7),
+    inset -1px 0 2px rgba(0, 0, 0, 0.5);
+  border-top: 1.5px solid #ffe57f;
+  border-bottom: 1.5px solid #4a2800;
+}
+
+.cap-right .cap-collar {
+  box-shadow: 
+    inset -1px 0 1px rgba(255, 255, 255, 0.7),
+    inset 1px 0 2px rgba(0, 0, 0, 0.5);
+  border-top: 1.5px solid #ffe57f;
+  border-bottom: 1.5px solid #4a2800;
+}
+
+/* Tier 2: Mid Stepped Tier */
+.cap-step.cap-mid {
+  width: 16px;
+  height: 122px;
+  border-radius: 2px;
+  position: relative;
+  z-index: 4;
+}
+
+.cap-left .cap-mid {
+  box-shadow: 
+    inset 1.5px 0 2px rgba(255, 255, 255, 0.8),
+    inset -1px 0 2px rgba(0, 0, 0, 0.6),
+    0 2px 8px rgba(0, 0, 0, 0.75);
+}
+
+.cap-right .cap-mid {
+  box-shadow: 
+    inset -1.5px 0 2px rgba(255, 255, 255, 0.8),
+    inset 1px 0 2px rgba(0, 0, 0, 0.6),
+    0 2px 8px rgba(0, 0, 0, 0.75);
+}
+
+/* Tier 3: Outermost Dome Cap */
+.cap-step.cap-outer {
+  width: 22px;
+  height: 98px;
+  position: relative;
+  z-index: 3;
+}
+
+.cap-left .cap-outer {
+  border-radius: 12px 0 0 12px;
+  box-shadow: 
+    inset 2px 0 3px rgba(255, 255, 255, 0.85),
+    inset -1px 0 3px rgba(0, 0, 0, 0.7),
+    0 4px 12px rgba(0, 0, 0, 0.85);
+}
+
+.cap-right .cap-outer {
+  border-radius: 0 12px 12px 0;
+  box-shadow: 
+    inset -2px 0 3px rgba(255, 255, 255, 0.85),
+    inset 1px 0 3px rgba(0, 0, 0, 0.7),
+    0 4px 12px rgba(0, 0, 0, 0.85);
+}
+
+/* ------------------------------------------------------------
+   MAIN GOLDEN CYLINDER DRUM BODY (Housing 3 Solid Gold Reels)
+   Seamless flush fit with endcap collars - zero gaps or notches!
+   ------------------------------------------------------------ */
+.cylinder-drum-body {
+  position: relative;
+  width: 304px;
+  height: 144px;
+  border-radius: 0; /* Straight horizontal cylinder sides, NO pill curves! */
+  background: linear-gradient(180deg, 
+    #2b1400 0%, 
+    #6e3f00 8%, 
+    #d49514 20%, 
+    #ffea8c 36%, 
+    #ffffff 45%, 
+    #fad355 56%, 
+    #b57608 74%, 
+    #4f2c00 90%, 
+    #211100 100%
+  );
+  border: none;
+  border-top: 1.5px solid #ffe57f;
+  border-bottom: 1.5px solid #4a2800;
+  box-shadow: 
+    inset 0 2px 3px rgba(255, 255, 255, 0.9),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.9),
+    0 8px 24px rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 4;
+}
+
+/* Top Horizontal Highlight & Flare (just like reference image!) */
+.drum-highlight-flare {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  width: 28px;
+  height: 28px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 215, 0, 0.6) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 15;
+  filter: blur(1px);
+}
+
+.drum-rim-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, 
+    #ffffff 0%, 
+    #fff7c2 25%, 
+    #f6c845 50%, 
+    #b8790b 80%, 
+    #593500 100%
+  );
+  z-index: 12;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.drum-rim-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, 
+    #4a2800 0%, 
+    #996000 40%, 
+    #684100 80%, 
+    #2b1800 100%
+  );
+  z-index: 12;
+}
+
+/* Cylindrical Depth Shadow (Top & bottom curvature of cylinder) */
+.drum-cylinder-shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  background: linear-gradient(180deg, 
+    rgba(35, 18, 0, 0.88) 0%, 
+    rgba(60, 32, 0, 0.35) 18%, 
+    transparent 32%, 
+    transparent 68%, 
+    rgba(60, 32, 0, 0.4) 82%, 
+    rgba(30, 14, 0, 0.92) 100%
+  );
+}
+
+.drum-cylinder-glare {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 11;
+  background: linear-gradient(180deg, 
+    rgba(255, 255, 255, 0.4) 0%, 
+    rgba(255, 255, 255, 0.1) 14%, 
+    transparent 30%, 
+    transparent 70%, 
+    rgba(255, 255, 255, 0.05) 85%, 
+    transparent 100%
+  );
+}
+
+/* ------------------------------------------------------------
+   THE 3 REELS (Dark Contrast Surface for High-Visibility Play)
+   ------------------------------------------------------------ */
+.reels-surface {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2px 1fr 2px 1fr;
+  align-items: center;
+  z-index: 5;
+  background: #0b0c10;
+}
+
+.reel-column {
+  position: relative;
+  height: 100%;
+  perspective: 750px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, 
+    #07080b 0%, 
+    #11131a 20%, 
+    #161922 50%, 
+    #11131a 80%, 
+    #07080b 100%
+  );
+}
+
+/* Thin vertical gold/bronze divider line between dark reels */
+.reel-groove {
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, 
+    #140c02 0%, 
+    #b8790b 25%, 
+    #ffe285 50%, 
+    #b8790b 75%, 
+    #140c02 100%
+  );
+  box-shadow: 
+    -1px 0 2px rgba(0, 0, 0, 0.85),
+    1px 0 2px rgba(255, 255, 255, 0.2);
+  z-index: 8;
+}
+
+/* ------------------------------------------------------------
+   REEL STRIP ENGINE (Continuous Smooth Downward Rolling Wheel)
+   ------------------------------------------------------------ */
+.reel-strip, .reel-3d-drum {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Each Tile on the Dark Luxury Reel Band */
+.reel-tile {
+  width: 100%;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  background: linear-gradient(180deg, 
+    #08090d 0%, 
+    #11141c 18%, 
+    #171b25 45%, 
+    #1a1e29 55%, 
+    #11141c 82%, 
+    #07080b 100%
+  );
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.08);
+}
+
+.reel-tile .symbol-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.85));
+  transition: transform 0.2s;
+  margin: 0 auto;
+}
+
+/* Fast Motion Streak during High-Speed Spin (Zero GPU re-rasterization bottleneck) */
+.reel-strip.spinning .symbol-img,
+.reel-3d-drum.spinning .symbol-img {
+  transform: scaleY(1.08); /* Vertical speed streak */
+  opacity: 0.92;
+}
+
+/* Center Payline Winning Symbol Glow & Pulse */
+.win-center .symbol-img {
+  transform: scale(1.18);
+  filter: drop-shadow(0 0 16px #ffd700) drop-shadow(0 0 28px rgba(255, 215, 0, 0.95));
+  animation: centerPulse 0.5s infinite alternate ease-in-out;
+}
+
+@keyframes centerPulse {
+  0% { transform: scale(1.10); }
+  100% { transform: scale(1.24); }
+}
+
+/* ------------------------------------------------------------
+   45-DEGREE MECHANICAL LEVER ON THE RIGHT END
+   Mounted flush against the outer edge of the cylinder cap
+   ------------------------------------------------------------ */
+.slot-lever-replica {
+  position: absolute;
+  left: calc(100% - 3px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 140px;
+  height: 120px;
+  cursor: pointer;
+  z-index: 15;
+  pointer-events: auto;
+}
+
+.lever-pivot-mount {
+  position: absolute;
+  left: -2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 22px;
+  border-radius: 4px;
+  background: radial-gradient(circle at 40% 40%, #ffffff 0%, #ffd54f 35%, #b8860b 75%, #4a2800 100%);
+  border: 1px solid rgba(255, 235, 130, 0.8);
+  box-shadow: 
+    0 3px 6px rgba(0, 0, 0, 0.85),
+    inset 0 1px 2px #fff;
+  z-index: 2;
+}
+
+.lever-pivot-arm {
+  position: absolute;
+  left: 2px;
+  top: calc(50% - 92px);
+  width: 11px;
+  height: 92px;
+  transform-origin: 5px 92px; /* Exact pivot nestled flush on the outer edge */
+  transform: rotate(50deg);
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.35);
+  z-index: 3;
+}
+
+.lever-shaft {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 10px;
+  height: 92px;
+  background: linear-gradient(90deg, 
+    #ffffff 0%, 
+    #fff4ba 18%, 
+    #f6c845 44%, 
+    #c48a12 75%, 
+    #4a2800 100%
+  );
+  border-radius: 5px;
+  box-shadow: 
+    3px 4px 10px rgba(0, 0, 0, 0.7),
+    inset 1px 0 1px rgba(255, 255, 255, 0.8);
+}
+
+.lever-ball {
+  position: absolute;
+  top: -18px;
+  left: -14px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, 
+    #ffffff 0%, 
+    #fff8d1 22%, 
+    #ffd54f 50%, 
+    #d99a18 78%, 
+    #5c3400 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.9),
+    0 0 25px rgba(255, 215, 0, 0.75),
+    inset 0 2px 4px #ffffff;
+}
+
+/* Lever Pull Action: swings down around the center of the outer cylinder */
+.slot-lever-replica.pulled .lever-pivot-arm {
+  transform: rotate(115deg) scaleY(0.85);
+  transition: transform 0.14s ease-in;
+}
+
+.status-banner {
+  min-height: 38px;
+  margin-top: 26px; /* Generous breathing room under the gold cylinder */
+  margin-bottom: 4px;
+  padding: 6px 20px;
+  border-radius: 20px;
+  background: rgba(14, 16, 24, 0.75);
+  border: 1px solid rgba(217, 154, 24, 0.45);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 215, 0, 0.15);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #ffda73;
+  text-shadow: 0 2px 4px #000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+.status-win {
+  color: #69f0ae;
+  border-color: rgba(105, 240, 174, 0.6);
+  background: rgba(8, 28, 18, 0.85);
+  box-shadow: 0 4px 20px rgba(105, 240, 174, 0.35);
+  animation: pulseText 0.4s ease-in-out infinite alternate;
+}
+
+.status-jackpot {
+  color: #ffd700;
+  font-size: 1.15rem;
+  border-color: rgba(255, 215, 0, 0.8);
+  background: rgba(36, 26, 6, 0.9);
+  box-shadow: 0 4px 24px rgba(255, 215, 0, 0.55);
+  animation: pulseText 0.3s ease-in-out infinite alternate;
+}
+
+.status-gold {
+  color: #ffd700;
+  border-color: rgba(246, 200, 69, 0.6);
+  background: rgba(30, 22, 6, 0.8);
+}
+
+.status-warning {
+  color: #ff5252;
+  border-color: rgba(255, 82, 82, 0.5);
+  background: rgba(36, 10, 10, 0.8);
+}
+
+@keyframes pulseText {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.06); }
+}
+
+/* ============================================================
+   HUD / DASHBOARD COUNTERS
+   ============================================================ */
+.hud-panel {
+  width: 100%;
+  max-width: 440px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.hud-card {
+  background: linear-gradient(180deg, #1c1d29 0%, #0e0f14 100%);
+  border: 1px solid #c48a12;
+  border-radius: 12px;
+  padding: 6px 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6), inset 0 0 8px rgba(0, 0, 0, 0.7);
+}
+
+.hud-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #a0a2b2;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+}
+
+.hud-val {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #ffd700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+.hud-card.win-card .hud-val {
+  color: #69f0ae;
+  text-shadow: 0 0 8px rgba(105, 240, 174, 0.4);
+}
+
+/* ============================================================
+   CONTROL BUTTONS
+   ============================================================ */
+.controls-panel {
+  width: 100%;
+  max-width: 440px;
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bet-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.btn-secondary {
+  background: linear-gradient(180deg, #2b2d3d 0%, #171822 100%);
+  border: 1px solid #737894;
+  color: #e2e4f0;
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 9px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.btn-secondary:active {
+  transform: translateY(2px);
+  background: #151620;
+}
+
+.bet-stepper {
+  display: flex;
+  align-items: center;
+  background: #111218;
+  border: 1px solid #d99a18;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.btn-step {
+  background: #202230;
+  border: none;
+  color: #ffd700;
+  font-size: 1.2rem;
+  font-weight: 900;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-step:active {
+  background: #33364d;
+}
+
+.bet-display {
+  padding: 0 12px;
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.spin-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-spin {
+  flex: 1;
+  height: 56px;
+  background: linear-gradient(180deg, #fff7c2 0%, #ffd54f 20%, #ff9800 65%, #c43e00 100%);
+  border: 2px solid #fff2a8;
+  border-radius: 14px;
+  color: #210d02;
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  cursor: pointer;
+  box-shadow: 
+    0 6px 18px rgba(255, 111, 0, 0.5),
+    0 0 25px rgba(255, 215, 0, 0.4),
+    inset 0 2px 2px #ffffff;
+  transition: transform 0.1s, filter 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-spin:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 8px rgba(255, 111, 0, 0.5);
+  filter: brightness(0.9);
+}
+
+.btn-spin.disabled,
+.btn-spin:disabled {
+  filter: grayscale(0.8) opacity(0.6);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-auto {
+  background: linear-gradient(180deg, #373b52 0%, #1e202d 100%);
+  border: 1px solid #7c81a2;
+  color: #e5e8f8;
+  font-size: 0.8rem;
+  font-weight: 800;
+  height: 56px;
+  padding: 0 18px;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.btn-auto.active {
+  background: linear-gradient(180deg, #ff4081 0%, #c51162 100%);
+  border-color: #ff80ab;
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(255, 64, 129, 0.6);
+}
+
+/* Auxiliary / Modal Controls */
+.aux-row {
+  width: 100%;
+  max-width: 440px;
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn-icon {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e0e0e0;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.btn-install {
+  background: linear-gradient(180deg, #f6c845 0%, #d49514 100%);
+  color: #111;
+  font-weight: 800;
+  border: none;
+  display: none;
+}
+
+/* Modal for Paytable */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-card {
+  background: #161722;
+  border: 2px solid #d49514;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 440px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 149, 20, 0.3);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #2e3146;
+  padding-bottom: 10px;
+}
+
+.modal-title {
+  color: #ffd700;
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.paytable-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.pay-card {
+  background: #0f1017;
+  border: 1px solid #2e3146;
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pay-img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.pay-info {
+  text-align: left;
+}
+
+.pay-name {
+  font-size: 0.78rem;
+  color: #bbb;
+  font-weight: 700;
+}
+
+.pay-val {
+  font-size: 0.95rem;
+  color: #ffd700;
+  font-weight: 900;
+}
+
+.bonus-info-box {
+  background: rgba(121, 40, 202, 0.15);
+  border: 1px solid #7928ca;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: left;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.bonus-title {
+  color: #e040fb;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+/* Responsiveness for mobile screens */
+@media (max-width: 480px) {
+  .brand-logo-wrap { max-width: 280px; }
+  .main-brand-logo { max-height: 64px; }
+  .slot-cylinder-replica {
+    transform: scale(0.82);
+    transform-origin: center center;
+    margin-right: 28px; /* gives clearance for the lever ball */
+  }
+  .btn-spin { font-size: 1.2rem; height: 50px; }
+}

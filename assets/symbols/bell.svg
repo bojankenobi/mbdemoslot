@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <!-- Rich 3D Cylindrical Gold Gradient for Bell Body -->
+    <linearGradient id="bell-body-gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4a2200" />
+      <stop offset="12%" stop-color="#9a5200" />
+      <stop offset="28%" stop-color="#f5b82e" />
+      <stop offset="42%" stop-color="#fff9d6" />
+      <stop offset="60%" stop-color="#f59e0b" />
+      <stop offset="82%" stop-color="#b45309" />
+      <stop offset="100%" stop-color="#3d1b00" />
+    </linearGradient>
+
+    <!-- Bottom Rim Torus Gradient -->
+    <linearGradient id="bell-rim-gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#592c00" />
+      <stop offset="18%" stop-color="#d97706" />
+      <stop offset="38%" stop-color="#fff8d1" />
+      <stop offset="55%" stop-color="#fbbf24" />
+      <stop offset="85%" stop-color="#92400e" />
+      <stop offset="100%" stop-color="#451e00" />
+    </linearGradient>
+
+    <!-- Clapper Sphere Gradient -->
+    <radialGradient id="bell-clapper-gold" cx="38%" cy="38%" r="62%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="35%" stop-color="#fcd34d" />
+      <stop offset="70%" stop-color="#b45309" />
+      <stop offset="100%" stop-color="#451a03" />
+    </radialGradient>
+
+    <!-- Top Loop Gradient -->
+    <linearGradient id="bell-loop-gold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fff5b8" />
+      <stop offset="50%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#5c2b00" />
+    </linearGradient>
+
+    <!-- Deep Drop Shadow -->
+    <filter id="bell-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#000000" flood-opacity="0.8"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#f59e0b" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#bell-shadow)">
+    <!-- 1. Top Hanging Ring / Crown Mount -->
+    <path d="M 52,24 C 52,14 68,14 68,24" fill="none" stroke="url(#bell-loop-gold)" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="60" cy="24" rx="10" ry="3.5" fill="url(#bell-rim-gold)" stroke="#fff8d1" stroke-width="0.8"/>
+
+    <!-- 2. Clapper Shaft & Sphere (Drawn inside/behind the lip) -->
+    <!-- Clapper Stem -->
+    <rect x="58" y="74" width="4" height="15" fill="#542b00"/>
+    <!-- Spherical Clapper Ball -->
+    <circle cx="60" cy="88" r="9.5" fill="url(#bell-clapper-gold)" stroke="#fff8d1" stroke-width="0.8"/>
+
+    <!-- 3. Bell Main Dome Body -->
+    <!-- Smooth flared bell shape from top shoulder down to wide base -->
+    <path d="M 50,24 C 50,24 45,44 42,56 C 39,68 32,77 20,83 C 32,87 45,89 60,89 C 75,89 88,87 100,83 C 88,77 81,68 78,56 C 75,44 70,24 70,24 Z"
+          fill="url(#bell-body-gold)" stroke="#ffe082" stroke-width="0.8"/>
+
+    <!-- 4. Inner Hollow Cavity (Dark Depth at Bottom Lip) -->
+    <path d="M 20,83 C 32,79 45,77 60,77 C 75,77 88,79 100,83 C 88,87 75,89 60,89 C 45,89 32,87 20,83 Z"
+          fill="#2b1400" opacity="0.85"/>
+
+    <!-- 5. 3D Rounded Torus Bottom Lip / Rim -->
+    <path d="M 18,83 C 18,80 37,78 60,78 C 83,78 102,80 102,83 C 102,86 83,89 60,89 C 37,89 18,86 18,83 Z"
+          fill="url(#bell-rim-gold)" stroke="#fffbe0" stroke-width="1.2"/>
+
+    <!-- Decorative Raised Band around Bell Waist -->
+    <path d="M 39,64 C 45,66 52,67 60,67 C 68,67 75,66 81,64" fill="none" stroke="#fff8d1" stroke-width="1.8" opacity="0.6"/>
+
+    <!-- 6. Left Shoulder Specular Highlight -->
+    <path d="M 44,32 C 40,46 37,60 30,76" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+
+    <!-- 7. Sparkle Glint on Top-Left Rim -->
+    <g transform="translate(36, 81) scale(0.7)">
+      <path d="M 0,-6 Q 0,0 -6,0 Q 0,0 0,6 Q 0,0 6,0 Q 0,0 0,-6 Z" fill="#ffffff" filter="drop-shadow(0 0 2px #fff)"/>
+    </g>
+  </g>
+</svg>

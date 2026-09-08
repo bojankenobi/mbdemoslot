@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <radialGradient id="petalglow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ab47bc" />
+      <stop offset="50%" stop-color="#6a1b9a" />
+      <stop offset="100%" stop-color="#38006b" />
+    </radialGradient>
+    <linearGradient id="goldcenter" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff4b8" />
+      <stop offset="40%" stop-color="#ffd54f" />
+      <stop offset="80%" stop-color="#ffb300" />
+      <stop offset="100%" stop-color="#ff8f00" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+  
+  <g filter="url(#shadow)">
+    <!-- 8 diamond petals radiating outwards -->
+    <polygon points="60,20 67,42 60,49 53,42" fill="url(#petalglow)" stroke="#ffd54f" stroke-width="0.8"/>
+    <polygon points="88,32 82,53 73,48 78,38" fill="url(#petalglow)" stroke="#ffd54f" stroke-width="0.8"/>
+    <polygon points="100,60 78,67 71,60 78,53" fill="url(#petalglow)" stroke="#ffd54f" stroke-width="0.8"/>
+    <polygon points="88,88 78,82 73,72 82,67" fill="url(#petalglow)" stroke="#ffd54f" stroke-width="0.8"/>
+    <polygon points="60,100 53,78 60,71 67,78" fill="url(#petalglow)" stroke="#ffd54f" stroke-width="0.8"/>
+    <polygon points="32,88 38,78 47,83 42,93" fill="url(#petalglow)" stroke="#ffd54f" stroke-width="0.8"/>
+    <polygon points="20,60 42,53 49,60 42,67" fill="url(#petalglow)" stroke="#ffd54f" stroke-width="0.8"/>
+    <polygon points="32,32 42,42 37,47 27,37" fill="url(#petalglow)" stroke="#ffd54f" stroke-width="0.8"/>
+    
+    <!-- Central 4-pointed golden sparkle star -->
+    <path d="M 60,38 Q 60,60 38,60 Q 60,60 60,82 Q 60,60 82,60 Q 60,60 60,38 Z" fill="url(#goldcenter)" stroke="#ffffff" stroke-width="0.5"/>
+    <circle cx="60" cy="60" r="3.5" fill="#ffffff" />
+  </g>
+</svg>

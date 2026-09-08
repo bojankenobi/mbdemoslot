@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <!-- Heavy 24K Gold Chrome Frame -->
+    <linearGradient id="seven-gold-chrome" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="20%" stop-color="#fff4b8" />
+      <stop offset="45%" stop-color="#f6c845" />
+      <stop offset="70%" stop-color="#bf850b" />
+      <stop offset="90%" stop-color="#f6c845" />
+      <stop offset="100%" stop-color="#543600" />
+    </linearGradient>
+
+    <!-- Inner Fiery Ruby Red Enamel -->
+    <linearGradient id="seven-ruby-red" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff3d5a" />
+      <stop offset="35%" stop-color="#e50914" />
+      <stop offset="75%" stop-color="#b00020" />
+      <stop offset="100%" stop-color="#62000a" />
+    </linearGradient>
+
+    <!-- Specular Highlight Sheen -->
+    <linearGradient id="seven-glass-sheen" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85" />
+      <stop offset="45%" stop-color="#ffffff" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Deep 3D Shadow -->
+    <filter id="seven-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#000000" flood-opacity="0.85"/>
+      <feDropShadow dx="0" dy="1" stdDeviation="6" flood-color="#ff1744" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#seven-shadow)">
+    <!-- 1. Outer 24K Gold Chrome Bevel Base -->
+    <path d="M 22,20 L 98,20 C 100,20 101,21 100,23 L 64,99 C 63,101 60,101 58,99 L 42,99 C 40,99 39,97 41,94 L 69,38 L 26,38 C 23,38 22,36 22,33 L 22,23 C 22,21 23,20 22,20 Z"
+          fill="url(#seven-gold-chrome)" stroke="#fff8d1" stroke-width="1.5" stroke-linejoin="round"/>
+
+    <!-- 2. Recessed Inner Ruby Enamel Inset -->
+    <path d="M 26,24 L 94,24 L 63,94 L 46,94 L 72,34 L 26,34 Z"
+          fill="url(#seven-ruby-red)" stroke="#ffb300" stroke-width="1" stroke-linejoin="round"/>
+
+    <!-- 3. Glass Specular Sheen on Top Bar & Upper Stem -->
+    <path d="M 26,24 L 94,24 L 88,34 L 26,34 Z" fill="url(#seven-glass-sheen)"/>
+    <polygon points="76,34 94,24 80,62 67,62" fill="url(#seven-glass-sheen)" opacity="0.6"/>
+
+    <!-- 4. Brilliant Sparkle Glint on Top-Right Corner -->
+    <g transform="translate(95, 23)">
+      <path d="M 0,-6 Q 0,0 -6,0 Q 0,0 0,6 Q 0,0 6,0 Q 0,0 0,-6 Z" fill="#ffffff" filter="drop-shadow(0 0 2px #fff)"/>
+      <circle cx="0" cy="0" r="1.2" fill="#ffffff"/>
+    </g>
+  </g>
+</svg>

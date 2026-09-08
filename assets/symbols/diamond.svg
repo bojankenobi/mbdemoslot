@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <!-- Facet Gradients for 3D Brilliant Diamond -->
+    <linearGradient id="dia-table" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="35%" stop-color="#e0f7fa" />
+      <stop offset="70%" stop-color="#80deea" />
+      <stop offset="100%" stop-color="#26c6da" />
+    </linearGradient>
+    <linearGradient id="dia-crown-top" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#b2ebf2" />
+      <stop offset="60%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#e0f7fa" />
+    </linearGradient>
+    <linearGradient id="dia-crown-left" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#80deea" />
+      <stop offset="100%" stop-color="#00acc1" />
+    </linearGradient>
+    <linearGradient id="dia-crown-right" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e0f7fa" />
+      <stop offset="50%" stop-color="#4dd0e1" />
+      <stop offset="100%" stop-color="#0097a7" />
+    </linearGradient>
+    <linearGradient id="dia-pav-center" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4dd0e1" />
+      <stop offset="40%" stop-color="#00bcd4" />
+      <stop offset="80%" stop-color="#00838f" />
+      <stop offset="100%" stop-color="#006064" />
+    </linearGradient>
+    <linearGradient id="dia-pav-left" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#80deea" />
+      <stop offset="50%" stop-color="#00acc1" />
+      <stop offset="100%" stop-color="#004d40" />
+    </linearGradient>
+    <linearGradient id="dia-pav-right" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#26c6da" />
+      <stop offset="60%" stop-color="#00838f" />
+      <stop offset="100%" stop-color="#00363a" />
+    </linearGradient>
+    <linearGradient id="dia-pav-deep-l" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00acc1" />
+      <stop offset="100%" stop-color="#00363a" />
+    </linearGradient>
+    <linearGradient id="dia-pav-deep-r" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00838f" />
+      <stop offset="100%" stop-color="#002528" />
+    </linearGradient>
+    
+    <!-- Outer Glow & Drop Shadow -->
+    <filter id="dia-glow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.85"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#00e5ff" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#dia-glow)">
+    <!-- 1. Pavilion Lower Body Facets (Tapering to Culet at 60, 98) -->
+    <!-- Far-left pavilion wing -->
+    <polygon points="16,48 38,48 60,98" fill="url(#dia-pav-deep-l)" stroke="#b2ebf2" stroke-width="0.75" stroke-linejoin="round"/>
+    <!-- Far-right pavilion wing -->
+    <polygon points="82,48 104,48 60,98" fill="url(#dia-pav-deep-r)" stroke="#b2ebf2" stroke-width="0.75" stroke-linejoin="round"/>
+    <!-- Mid-left pavilion facet -->
+    <polygon points="38,48 50,48 60,98" fill="url(#dia-pav-left)" stroke="#ffffff" stroke-width="0.75" stroke-linejoin="round"/>
+    <!-- Mid-right pavilion facet -->
+    <polygon points="70,48 82,48 60,98" fill="url(#dia-pav-right)" stroke="#b2ebf2" stroke-width="0.75" stroke-linejoin="round"/>
+    <!-- Center pavilion facet (deep brilliance) -->
+    <polygon points="50,48 70,48 60,98" fill="url(#dia-pav-center)" stroke="#ffffff" stroke-width="0.8" stroke-linejoin="round"/>
+
+    <!-- 2. Crown Upper Facets (From Girdle y=48 to Table y=26) -->
+    <!-- Far-left crown triangle -->
+    <polygon points="16,48 38,48 36,26" fill="url(#dia-crown-left)" stroke="#ffffff" stroke-width="0.75" stroke-linejoin="round"/>
+    <!-- Far-right crown triangle -->
+    <polygon points="82,48 104,48 84,26" fill="url(#dia-crown-right)" stroke="#ffffff" stroke-width="0.75" stroke-linejoin="round"/>
+    <!-- Mid-left crown kite facet -->
+    <polygon points="38,48 50,48 60,38 36,26" fill="url(#dia-crown-top)" stroke="#ffffff" stroke-width="0.75" stroke-linejoin="round"/>
+    <!-- Mid-right crown kite facet -->
+    <polygon points="70,48 82,48 84,26 60,38" fill="url(#dia-table)" stroke="#ffffff" stroke-width="0.75" stroke-linejoin="round"/>
+    <!-- Center crown inverted triangle -->
+    <polygon points="50,48 70,48 60,38" fill="#e0f7fa" stroke="#ffffff" stroke-width="0.75" stroke-linejoin="round"/>
+
+    <!-- 3. Top Horizontal Table Facet -->
+    <polygon points="36,26 84,26 60,38" fill="url(#dia-table)" stroke="#ffffff" stroke-width="1" stroke-linejoin="round"/>
+
+    <!-- 4. Brilliant Prismatic Sparkle Glints -->
+    <!-- Main glint on top-left facet -->
+    <g transform="translate(36, 26)">
+      <path d="M 0,-8 Q 0,0 -8,0 Q 0,0 0,8 Q 0,0 8,0 Q 0,0 0,-8 Z" fill="#ffffff" filter="drop-shadow(0 0 3px #00e5ff)"/>
+      <circle cx="0" cy="0" r="1.5" fill="#ffffff"/>
+    </g>
+    <!-- Secondary small glint on right girdle -->
+    <g transform="translate(84, 48) scale(0.65)">
+      <path d="M 0,-7 Q 0,0 -7,0 Q 0,0 0,7 Q 0,0 7,0 Q 0,0 0,-7 Z" fill="#ffffff" filter="drop-shadow(0 0 2px #fff)"/>
+    </g>
+  </g>
+</svg>
