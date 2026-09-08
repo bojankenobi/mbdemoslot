@@ -89,29 +89,32 @@ body {
   text-align: center;
 }
 
-/* Discreet Language Switcher Pill (Intimna ikonica u uglu) */
-.lang-switch-discreet {
-  position: absolute;
-  top: max(8px, env(safe-area-inset-top));
-  right: max(12px, env(safe-area-inset-right));
-  z-index: 15;
+/* Discreet Language Bar Above Logo (Never overlaps logo) */
+.lang-bar-top {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 4px 2px;
+  margin-bottom: 2px;
+  z-index: 10;
 }
 
 .lang-pill-btn {
   background: rgba(18, 20, 30, 0.72);
   border: 1px solid rgba(217, 154, 24, 0.4);
   color: #ffda73;
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   font-weight: 800;
   letter-spacing: 1px;
   cursor: pointer;
-  padding: 4px 10px;
-  border-radius: 16px;
+  padding: 3px 8px;
+  border-radius: 14px;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   transition: all 0.2s ease;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
@@ -128,7 +131,7 @@ body {
 }
 
 .lang-globe {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   line-height: 1;
 }
 
@@ -562,6 +565,9 @@ body {
   cursor: pointer;
   z-index: 15;
   pointer-events: auto;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .lever-pivot-mount {
@@ -1017,12 +1023,75 @@ body {
 
 /* Responsiveness for mobile screens */
 @media (max-width: 480px) {
-  .brand-logo-wrap { max-width: 280px; }
-  .main-brand-logo { max-height: 64px; }
-  .slot-cylinder-replica {
-    transform: scale(0.82);
-    transform-origin: center center;
-    margin-right: 28px; /* gives clearance for the lever ball */
+  .lang-bar-top {
+    padding: 0 2px 2px;
+    margin-bottom: 0;
   }
-  .btn-spin { font-size: 1.2rem; height: 50px; }
+  .lang-pill-btn {
+    font-size: 0.68rem;
+    padding: 2px 7px;
+  }
+  .brand-logo-wrap {
+    max-width: 270px;
+    padding: 0 4px;
+  }
+  .main-brand-logo {
+    max-height: 58px;
+  }
+  .stage-area {
+    padding: 8px 0 16px;
+    overflow: visible;
+  }
+  .slot-cylinder-replica {
+    /* Responsive scaling so cylinder + 45-deg lever fit with comfortable margin */
+    transform: scale(min(0.78, calc((100vw - 28px) / 440)));
+    transform-origin: center center;
+    margin-right: 36px; /* Offsets the lever so the lever ball is 100% visible on the right */
+  }
+  .status-banner {
+    margin-top: 18px;
+    font-size: 0.92rem;
+    padding: 5px 14px;
+    min-height: 34px;
+  }
+  .hud-panel {
+    gap: 6px;
+  }
+  .hud-card {
+    padding: 5px 6px;
+  }
+  .hud-label {
+    font-size: 0.62rem;
+  }
+  .hud-val {
+    font-size: 1.05rem;
+  }
+  .btn-spin {
+    font-size: 1.2rem;
+    height: 50px;
+  }
+  .aux-row {
+    margin-top: 8px;
+    gap: 6px;
+  }
+  .btn-icon {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 370px) {
+  .brand-logo-wrap {
+    max-width: 230px;
+  }
+  .main-brand-logo {
+    max-height: 48px;
+  }
+  .slot-cylinder-replica {
+    transform: scale(min(0.70, calc((100vw - 20px) / 440)));
+    margin-right: 38px;
+  }
+  .hud-val {
+    font-size: 0.95rem;
+  }
 }

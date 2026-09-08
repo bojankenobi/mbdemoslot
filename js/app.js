@@ -55,7 +55,97 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Spin triggers: button, 3D lever, and Space key
   if (spinBtn) spinBtn.addEventListener('click', () => game.spin());
-  if (lever) lever.addEventListener('click', () => game.spin());
+
+  // 3D Lever Interaction: Click, Touch Tap, and Mobile Swipe / Drag Down
+  if (lever) {
+    const leverArm = lever.querySelector('.lever-pivot-arm');
+    let startY = 0;
+    let currentDeltaY = 0;
+    let isDragging = false;
+    let justSwiped = false;
+
+    // Standard click handler (tap or click without dragging)
+    lever.addEventListener('click', () => {
+      if (justSwiped) return;
+      game.spin();
+    });
+
+    // Pointer events for real-time swipe / pull tracking
+    lever.addEventListener('pointerdown', (e) => {
+      if (game.isSpinning) return;
+      startY = e.clientY;
+      currentDeltaY = 0;
+      isDragging = true;
+      try {
+        lever.setPointerCapture(e.pointerId);
+      } catch (err) {}
+      if (leverArm) {
+        leverArm.style.transition = 'none';
+      }
+    });
+
+    lever.addEventListener('pointermove', (e) => {
+      if (!isDragging || game.isSpinning) return;
+      const deltaY = e.clientY - startY;
+
+      if (deltaY > 0) {
+        currentDeltaY = deltaY;
+        if (leverArm) {
+          // Pivot arm rests at rotate(50deg), swings to rotate(115deg)
+          const pullAngle = 50 + Math.min(65, deltaY * 0.75);
+          const pullScale = 1 - Math.min(0.15, (deltaY / 90) * 0.15);
+          leverArm.style.transform = `rotate(${pullAngle}deg) scaleY(${pullScale})`;
+        }
+      }
+    });
+
+    const finishLeverDrag = (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      try {
+        if (e && e.pointerId && lever.hasPointerCapture(e.pointerId)) {
+          lever.releasePointerCapture(e.pointerId);
+        }
+      } catch (err) {}
+
+      if (currentDeltaY >= 25 && !game.isSpinning) {
+        // Dragged down far enough to trigger spin!
+        justSwiped = true;
+        setTimeout(() => { justSwiped = false; }, 450);
+
+        if (leverArm) {
+          leverArm.style.transition = 'transform 0.12s ease-in';
+          leverArm.style.transform = 'rotate(115deg) scaleY(0.85)';
+        }
+
+        game.spin();
+
+        // Release back to rest position smoothly
+        setTimeout(() => {
+          if (leverArm) {
+            leverArm.style.transition = 'transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.35)';
+            leverArm.style.transform = '';
+            setTimeout(() => {
+              if (leverArm) leverArm.style.transition = '';
+            }, 360);
+          }
+        }, 220);
+      } else {
+        // Drag was small -> spring back to resting angle
+        if (leverArm) {
+          leverArm.style.transition = 'transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.35)';
+          leverArm.style.transform = '';
+          setTimeout(() => {
+            if (leverArm) leverArm.style.transition = '';
+          }, 260);
+        }
+      }
+      currentDeltaY = 0;
+    };
+
+    lever.addEventListener('pointerup', finishLeverDrag);
+    lever.addEventListener('pointercancel', finishLeverDrag);
+  }
 
   window.addEventListener('keydown', (e) => {
     if (e.code === 'Space' && !e.repeat && !paytableModal.classList.contains('active')) {

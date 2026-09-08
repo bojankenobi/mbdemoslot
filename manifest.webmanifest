@@ -1,6 +1,6 @@
 {
-  "name": "Grand Slot 3D",
-  "short_name": "Grand Slot",
+  "name": "grandslot",
+  "short_name": "grandslot",
   "description": "Luksuzna 3D Slot PWA igra sa pravim kazino iskustvom",
   "start_url": "./index.html",
   "scope": "./",
