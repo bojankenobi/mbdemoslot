@@ -111,6 +111,16 @@ class SlotGame3D {
     // Clear previous win highlight
     document.querySelectorAll('.reel-tile').forEach(t => t.classList.remove('win-center'));
 
+    // Trigger illumination flash effect on the round Grandslot spin button
+    if (this.spinBtn) {
+      this.spinBtn.classList.remove('flash-active');
+      void this.spinBtn.offsetWidth;
+      this.spinBtn.classList.add('flash-active');
+      setTimeout(() => {
+        if (this.spinBtn) this.spinBtn.classList.remove('flash-active');
+      }, 420);
+    }
+
     // Animate mechanical lever on right hub
     if (this.leverEl) {
       this.leverEl.classList.add('pulled');

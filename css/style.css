@@ -679,20 +679,32 @@ body {
   transition: transform 0.14s ease-in;
 }
 
+/* ------------------------------------------------------------
+   STATUS MESSAGE BANNER
+   Centered in the middle space between cylinder and bet controls
+   ------------------------------------------------------------ */
+.status-banner-wrap {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 6px auto 2px auto;
+  z-index: 10;
+}
+
 .status-banner {
   position: relative;
   z-index: 10;
-  min-height: 38px;
-  margin-top: 14px;
-  margin-bottom: 2px;
-  padding: 6px 20px;
+  min-height: 36px;
+  padding: 5px 20px;
   border-radius: 20px;
-  background: rgba(14, 16, 24, 0.75);
+  background: rgba(14, 16, 24, 0.78);
   border: 1px solid rgba(217, 154, 24, 0.45);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 215, 0, 0.15);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  font-size: 1.02rem;
+  font-size: 0.95rem;
   font-weight: 800;
   letter-spacing: 1px;
   color: #ffda73;
@@ -700,6 +712,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
   transition: all 0.25s ease;
 }
 
@@ -740,95 +753,107 @@ body {
 /* ============================================================
    HUD / DASHBOARD COUNTERS
    ============================================================ */
+/* ============================================================
+   HUD / INTIMATE BORDERLESS COUNTERS
+   Clean typography, high-visibility, zero bulky card borders
+   ============================================================ */
 .hud-panel {
   width: 100%;
   max-width: 440px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 12px;
+  margin: 4px auto 6px auto;
+  padding: 2px 4px;
 }
 
-.hud-card {
-  background: linear-gradient(180deg, #1c1d29 0%, #0e0f14 100%);
-  border: 1px solid #c48a12;
-  border-radius: 12px;
-  padding: 6px 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6), inset 0 0 8px rgba(0, 0, 0, 0.7);
+.hud-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 2px 4px;
 }
 
 .hud-label {
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 1px;
-  color: #a0a2b2;
+  letter-spacing: 1.5px;
+  color: rgba(230, 235, 255, 0.65);
   margin-bottom: 2px;
   text-transform: uppercase;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
 }
 
 .hud-val {
-  font-size: 1.2rem;
+  font-family: var(--font-title);
+  font-size: 1.35rem;
   font-weight: 900;
   color: #ffd700;
-  text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 14px rgba(255, 215, 0, 0.45);
 }
 
-.hud-card.win-card .hud-val {
+.hud-item.win-item .hud-val {
   color: #69f0ae;
-  text-shadow: 0 0 8px rgba(105, 240, 174, 0.4);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 14px rgba(105, 240, 174, 0.55);
 }
 
 /* ============================================================
-   CONTROL BUTTONS
+   CONTROLS PANEL & THUMB-FRIENDLY ACTION CLUSTER
+   Bet controls on left, luxury circular Grandslot spin on right
    ============================================================ */
 .controls-panel {
   width: 100%;
   max-width: 440px;
-  margin-top: 14px;
+  margin-top: 6px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
-.bet-controls-row {
+.main-action-cluster {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+}
+
+/* Left Side: Bet Stepper, Auto Spin & Fast Bet Options */
+.bet-side-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.bet-stepper-row {
+  display: flex;
+  align-items: center;
   gap: 8px;
 }
 
-.btn-secondary {
-  background: linear-gradient(180deg, #2b2d3d 0%, #171822 100%);
-  border: 1px solid #737894;
-  color: #e2e4f0;
-  font-size: 0.8rem;
-  font-weight: 800;
-  padding: 9px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.15s;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
-}
-
-.btn-secondary:active {
-  transform: translateY(2px);
-  background: #151620;
-}
-
 .bet-stepper {
+  flex: 1;
   display: flex;
   align-items: center;
-  background: #111218;
-  border: 1px solid #d99a18;
+  justify-content: space-between;
+  background: rgba(17, 18, 24, 0.9);
+  border: 1px solid rgba(217, 154, 24, 0.6);
   border-radius: 12px;
   overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
 .btn-step {
   background: #202230;
   border: none;
   color: #ffd700;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 900;
   width: 38px;
   height: 38px;
@@ -836,72 +861,41 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 0.15s, transform 0.1s;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .btn-step:active {
-  background: #33364d;
+  background: #3a3e5c;
+  transform: scale(0.92);
 }
 
 .bet-display {
-  padding: 0 12px;
-  font-size: 0.95rem;
+  padding: 0 8px;
+  font-size: 0.88rem;
   font-weight: 900;
+  letter-spacing: 1px;
   color: #ffffff;
-}
-
-.spin-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.btn-spin {
-  flex: 1;
-  height: 56px;
-  background: linear-gradient(180deg, #fff7c2 0%, #ffd54f 20%, #ff9800 65%, #c43e00 100%);
-  border: 2px solid #fff2a8;
-  border-radius: 14px;
-  color: #210d02;
-  font-family: var(--font-title);
-  font-size: 1.4rem;
-  font-weight: 900;
-  letter-spacing: 2px;
-  cursor: pointer;
-  box-shadow: 
-    0 6px 18px rgba(255, 111, 0, 0.5),
-    0 0 25px rgba(255, 215, 0, 0.4),
-    inset 0 2px 2px #ffffff;
-  transition: transform 0.1s, filter 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.btn-spin:active {
-  transform: translateY(3px);
-  box-shadow: 0 2px 8px rgba(255, 111, 0, 0.5);
-  filter: brightness(0.9);
-}
-
-.btn-spin.disabled,
-.btn-spin:disabled {
-  filter: grayscale(0.8) opacity(0.6);
-  cursor: not-allowed;
-  transform: none;
 }
 
 .btn-auto {
   background: linear-gradient(180deg, #373b52 0%, #1e202d 100%);
   border: 1px solid #7c81a2;
   color: #e5e8f8;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 800;
-  height: 56px;
-  padding: 0 18px;
-  border-radius: 14px;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.btn-auto:active {
+  transform: scale(0.94);
 }
 
 .btn-auto.active {
@@ -911,60 +905,225 @@ body {
   box-shadow: 0 0 14px rgba(255, 64, 129, 0.6);
 }
 
-/* Auxiliary / Modal Controls */
-.aux-row {
-  width: 100%;
-  max-width: 440px;
-  margin-top: 14px;
+.bet-quick-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-secondary {
+  flex: 1;
+  background: linear-gradient(180deg, #2b2d3d 0%, #171822 100%);
+  border: 1px solid #737894;
+  color: #e2e4f0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 8px 6px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.btn-secondary:active {
+  transform: translateY(1px) scale(0.96);
+  background: #151620;
+}
+
+/* ------------------------------------------------------------
+   RIGHT-SIDE LUXURY CIRCULAR GRANDSLOT SPIN BUTTON
+   Optimized for natural player thumb access on mobile & desktop
+   ------------------------------------------------------------ */
+.spin-side-wrap {
+  position: relative;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
 }
 
-.btn-icon {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #e0e0e0;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 0.78rem;
-  font-weight: 700;
+.btn-spin-round {
+  position: relative;
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  border: none;
+  background: radial-gradient(circle at 35% 30%, 
+    #fff5b8 0%, 
+    #ffd54f 24%, 
+    #ff9100 62%, 
+    #b84300 92%, 
+    #5c1b00 100%
+  );
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.75),
+    0 3px 12px rgba(255, 145, 0, 0.65),
+    inset 0 3px 4px rgba(255, 255, 255, 0.8),
+    inset 0 -4px 6px rgba(60, 20, 0, 0.8);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  outline: none;
+  transition: transform 0.12s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.2s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  z-index: 5;
+}
+
+/* Gold bevel ring around circular button */
+.btn-spin-round::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffe082 0%, #b8790b 45%, #ffd700 70%, #593500 100%);
+  z-index: -1;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+/* Inner Face of Circular Button with Dark Velvet Contrast */
+.spin-face {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 45% 40%, 
+    #23160a 0%, 
+    #170c04 55%, 
+    #0a0501 100%
+  );
+  border: 1.5px solid rgba(255, 224, 130, 0.65);
+  box-shadow: 
+    inset 0 3px 6px rgba(0, 0, 0, 0.9),
+    inset 0 0 10px rgba(255, 170, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  pointer-events: none;
+  transition: transform 0.15s ease;
+}
+
+.spin-flower-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 6px rgba(255, 215, 0, 0.4));
+  transition: transform 0.25s ease;
+}
+
+.spin-text-mini {
+  font-family: var(--font-title);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #ffe57f;
+  text-shadow: 0 1px 3px #000, 0 0 6px rgba(255, 215, 0, 0.6);
+  line-height: 1;
+}
+
+/* Efekat Posvetljenja (Flash Glow & Burst on Click/Spin) */
+.spin-light-burst {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 220, 80, 0.8) 35%, rgba(255, 145, 0, 0.4) 65%, transparent 80%);
+  opacity: 0;
+  transform: scale(0.65);
+  pointer-events: none;
+  transition: opacity 0.3s ease-out, transform 0.35s ease-out;
+  z-index: 10;
+  mix-blend-mode: screen;
+}
+
+/* Active & Flash Illumination on Click / Spin */
+.btn-spin-round:active,
+.btn-spin-round.flash-active {
+  transform: scale(0.92);
+  filter: brightness(1.45) drop-shadow(0 0 20px #ffd700);
+  box-shadow: 
+    0 2px 10px rgba(0, 0, 0, 0.9),
+    0 0 35px rgba(255, 215, 0, 0.95),
+    0 0 55px rgba(255, 145, 0, 0.75);
+}
+
+.btn-spin-round:active .spin-light-burst,
+.btn-spin-round.flash-active .spin-light-burst {
+  opacity: 1;
+  transform: scale(1.35);
+}
+
+.btn-spin-round:active .spin-flower-logo,
+.btn-spin-round.flash-active .spin-flower-logo {
+  transform: scale(1.15) rotate(18deg);
+}
+
+.btn-spin-round.disabled,
+.btn-spin-round:disabled {
+  filter: grayscale(0.7) opacity(0.55);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================================
+   MINIMALIST ICON-ONLY FOOTER CONTROLS
+   Saves maximum space, discrete and elegant
+   ============================================================ */
+.aux-row {
+  width: 100%;
+  max-width: 440px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.btn-icon-mini {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #d2d5e3;
+  font-size: 1.05rem;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
+  cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  -webkit-tap-highlight-color: transparent;
 }
 
-.btn-icon:hover {
-  background: rgba(255, 255, 255, 0.15);
+.btn-icon-mini:hover {
+  background: rgba(255, 215, 0, 0.12);
   border-color: rgba(255, 215, 0, 0.4);
+  color: #ffd700;
+  transform: scale(1.08);
 }
 
-.btn-icon:active {
-  transform: scale(0.96);
+.btn-icon-mini:active {
+  transform: scale(0.92);
+  background: rgba(255, 215, 0, 0.22);
 }
 
-.btn-lang {
-  background: rgba(217, 154, 24, 0.16);
-  border-color: rgba(217, 154, 24, 0.45);
-  color: #ffda73;
+.btn-icon-mini.btn-lang {
+  background: rgba(217, 154, 24, 0.1);
+  border-color: rgba(217, 154, 24, 0.35);
 }
 
-.btn-lang:hover {
-  background: rgba(217, 154, 24, 0.28);
-  border-color: #ffd54f;
-  color: #ffffff;
-}
-
-.btn-install {
-  background: linear-gradient(180deg, #f6c845 0%, #d49514 100%);
-  color: #111;
-  font-weight: 800;
-  border: none;
-  display: none;
+.btn-icon-mini.btn-install {
+  background: rgba(246, 200, 69, 0.18);
+  border-color: rgba(246, 200, 69, 0.45);
+  display: none; /* Shown dynamically if beforeinstallprompt fires */
 }
 
 /* Modal for Paytable */
@@ -1087,42 +1246,50 @@ body {
     padding: 0 4px;
   }
   .main-brand-logo {
-    max-height: 54px;
+    max-height: 52px;
   }
   .stage-area {
-    padding: 6px 0 12px;
+    padding: 4px 0 8px;
     overflow: visible;
   }
+  .status-banner-wrap {
+    margin: 4px auto 2px auto;
+  }
   .status-banner {
-    margin-top: 10px;
     font-size: 0.88rem;
-    padding: 4px 12px;
+    padding: 4px 14px;
     min-height: 32px;
   }
   .hud-panel {
-    gap: 6px;
-  }
-  .hud-card {
-    padding: 4px 6px;
+    gap: 8px;
+    margin: 3px auto 4px auto;
   }
   .hud-label {
-    font-size: 0.6rem;
+    font-size: 0.64rem;
   }
   .hud-val {
-    font-size: 1.02rem;
+    font-size: 1.2rem;
   }
-  .btn-spin {
-    font-size: 1.15rem;
-    height: 48px;
+  .btn-spin-round {
+    width: 82px;
+    height: 82px;
+  }
+  .spin-face {
+    width: 68px;
+    height: 68px;
+  }
+  .spin-flower-logo {
+    width: 38px;
+    height: 38px;
   }
   .aux-row {
     margin-top: 8px;
-    gap: 6px;
+    gap: 10px;
   }
-  .btn-icon {
-    padding: 5px 8px;
-    font-size: 0.72rem;
-    gap: 4px;
+  .btn-icon-mini {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
   }
 }
 
@@ -1131,38 +1298,56 @@ body {
     max-width: 210px;
   }
   .main-brand-logo {
-    max-height: 44px;
+    max-height: 42px;
+  }
+  .status-banner {
+    font-size: 0.82rem;
+    padding: 3px 10px;
+    min-height: 28px;
   }
   .hud-val {
-    font-size: 0.92rem;
+    font-size: 1.05rem;
   }
-  .bet-controls-row {
-    gap: 4px;
+  .hud-label {
+    font-size: 0.58rem;
   }
-  .btn-secondary {
-    padding: 7px 8px;
-    font-size: 0.72rem;
+  .btn-spin-round {
+    width: 74px;
+    height: 74px;
+  }
+  .spin-face {
+    width: 60px;
+    height: 60px;
+  }
+  .spin-flower-logo {
+    width: 32px;
+    height: 32px;
+  }
+  .spin-text-mini {
+    font-size: 0.65rem;
   }
   .btn-step {
     width: 32px;
     height: 32px;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
   }
   .bet-display {
-    padding: 0 6px;
-    font-size: 0.8rem;
-  }
-  .btn-spin {
-    font-size: 1.05rem;
-    height: 44px;
+    padding: 0 5px;
+    font-size: 0.78rem;
   }
   .btn-auto {
-    height: 44px;
-    padding: 0 12px;
+    height: 34px;
+    padding: 0 8px;
+    font-size: 0.72rem;
   }
-  .btn-icon {
-    padding: 4px 6px;
+  .btn-secondary {
+    padding: 6px 4px;
     font-size: 0.68rem;
+  }
+  .btn-icon-mini {
+    width: 32px;
+    height: 32px;
+    font-size: 0.92rem;
   }
   .paytable-grid {
     grid-template-columns: 1fr;
@@ -1180,58 +1365,78 @@ body {
     justify-content: space-around;
   }
   .brand-logo-wrap {
-    max-width: 190px;
+    max-width: 180px;
     margin-bottom: 0;
   }
   .main-brand-logo {
-    max-height: 38px;
+    max-height: 36px;
   }
   .stage-area {
     margin: 0 auto;
     padding: 2px 0 4px;
   }
+  .status-banner-wrap {
+    margin: 2px auto 1px auto;
+  }
   .status-banner {
-    margin-top: 6px;
-    margin-bottom: 2px;
-    min-height: 28px;
-    font-size: 0.82rem;
-    padding: 2px 12px;
+    min-height: 26px;
+    font-size: 0.8rem;
+    padding: 2px 10px;
   }
   .hud-panel {
-    margin-top: 4px;
+    margin: 2px auto 3px auto;
     gap: 4px;
-  }
-  .hud-card {
-    padding: 2px 6px;
+    padding: 0 4px;
   }
   .hud-label {
-    font-size: 0.58rem;
+    font-size: 0.55rem;
     margin-bottom: 0;
   }
   .hud-val {
-    font-size: 0.98rem;
+    font-size: 1.02rem;
   }
   .controls-panel {
-    margin-top: 4px;
-    gap: 5px;
+    margin-top: 3px;
   }
-  .btn-secondary {
-    padding: 6px 10px;
+  .main-action-cluster {
+    gap: 10px;
   }
-  .btn-spin {
-    height: 42px;
-    font-size: 1.1rem;
+  .btn-spin-round {
+    width: 68px;
+    height: 68px;
+  }
+  .spin-face {
+    width: 56px;
+    height: 56px;
+  }
+  .spin-flower-logo {
+    width: 30px;
+    height: 30px;
+  }
+  .spin-text-mini {
+    font-size: 0.6rem;
+  }
+  .btn-step {
+    width: 30px;
+    height: 30px;
+    font-size: 1.05rem;
   }
   .btn-auto {
-    height: 42px;
-    padding: 0 12px;
+    height: 32px;
+    padding: 0 8px;
+    font-size: 0.7rem;
+  }
+  .btn-secondary {
+    padding: 5px 6px;
+    font-size: 0.68rem;
   }
   .aux-row {
-    margin-top: 4px;
-    gap: 4px;
+    margin-top: 3px;
+    gap: 8px;
   }
-  .btn-icon {
-    padding: 3px 6px;
-    font-size: 0.68rem;
+  .btn-icon-mini {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
   }
 }

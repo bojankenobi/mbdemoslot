@@ -17,13 +17,13 @@
   
   <!-- Manifest & Icons -->
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" type="image/png" sizes="64x64" href="assets/icons/favicon.png?v=28">
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png?v=28">
-  <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon-512.png?v=28">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png?v=28">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/icons/favicon.png?v=30">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png?v=30">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon-512.png?v=30">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png?v=30">
   
   <!-- Styles -->
-  <link rel="stylesheet" href="css/style.css?v=28">
+  <link rel="stylesheet" href="css/style.css?v=30">
 </head>
 <body>
   <!-- Ambient Gold Rays Background -->
@@ -107,69 +107,81 @@
       </div>
     </div>
   </div>
+    </section>
 
-    <!-- Status Message Banner -->
-    <div class="status-banner" id="status-banner" data-i18n="ready">
-      SPREMNI ZA IGRU!
+    <!-- Status Message Banner: Situated cleanly between slot machine and bet controls -->
+    <div class="status-banner-wrap">
+      <div class="status-banner" id="status-banner" data-i18n="ready">
+        SPREMNI ZA IGRU!
+      </div>
     </div>
-  </section>
 
-    <!-- HUD Dashboard Counters (Noge / Footer Controls) -->
+    <!-- HUD Dashboard Counters (Intimate Borderless Display) -->
     <section class="hud-panel">
-      <div class="hud-card">
+      <div class="hud-item">
         <div class="hud-label" data-i18n="credits">Krediti</div>
         <div class="hud-val" id="val-balance">1,000</div>
       </div>
-      <div class="hud-card">
+      <div class="hud-item">
         <div class="hud-label" data-i18n="bet">Ulog</div>
         <div class="hud-val" id="val-bet">20</div>
       </div>
-      <div class="hud-card win-card">
+      <div class="hud-item win-item">
         <div class="hud-label" data-i18n="win">Dobitak</div>
         <div class="hud-val" id="val-win">0</div>
       </div>
     </section>
 
-    <!-- Controls Panel -->
+    <!-- Controls Panel: Left side Bet controls, Right side Big Round Grandslot Spin -->
     <section class="controls-panel">
-      <!-- Bet Adjustment Row -->
-      <div class="bet-controls-row">
-        <button class="btn-secondary" id="refill-credits-btn" title="Dodaj besplatne kredite" data-i18n="addCredits" data-i18n-title="addCreditsTitle">+ KREDITI</button>
-        
-        <div class="bet-stepper">
-          <button class="btn-step" id="bet-minus" aria-label="Smanji ulog" data-i18n-title="decreaseBet">−</button>
-          <span class="bet-display" data-i18n="betLabel">ULOG</span>
-          <button class="btn-step" id="bet-plus" aria-label="Povećaj ulog" data-i18n-title="increaseBet">+</button>
+      <div class="main-action-cluster">
+        <div class="bet-side-controls">
+          <!-- Top Row: Stepper & Auto -->
+          <div class="bet-stepper-row">
+            <div class="bet-stepper">
+              <button class="btn-step" id="bet-minus" aria-label="Smanji ulog" data-i18n-title="decreaseBet">−</button>
+              <span class="bet-display" data-i18n="betLabel">ULOG</span>
+              <button class="btn-step" id="bet-plus" aria-label="Povećaj ulog" data-i18n-title="increaseBet">+</button>
+            </div>
+            <button class="btn-auto" id="auto-btn" data-i18n="autoSpin">AUTO</button>
+          </div>
+
+          <!-- Bottom Row: + Krediti & Max Bet -->
+          <div class="bet-quick-row">
+            <button class="btn-secondary" id="refill-credits-btn" title="Dodaj besplatne kredite" data-i18n="addCredits" data-i18n-title="addCreditsTitle">+ KREDITI</button>
+            <button class="btn-secondary" id="max-bet-btn" data-i18n="maxBet">MAX BET</button>
+          </div>
         </div>
 
-        <button class="btn-secondary" id="max-bet-btn" data-i18n="maxBet">MAX BET</button>
-      </div>
-
-      <!-- Spin & Auto Spin Row -->
-      <div class="spin-row">
-        <button class="btn-spin" id="spin-btn">
-          <span data-i18n="spin">SPIN</span>
-        </button>
-        <button class="btn-auto" id="auto-btn" data-i18n="autoSpin">AUTO</button>
+        <!-- Right Side: Luxury Circular Grandslot SPIN Button for player's thumb -->
+        <div class="spin-side-wrap">
+          <button class="btn-spin-round" id="spin-btn" aria-label="Spin" title="Spin" data-i18n-title="spin">
+            <div class="spin-light-burst"></div>
+            <div class="spin-face">
+              <img src="assets/symbols/logo-flower.svg" alt="SPIN" class="spin-flower-logo" />
+              <span class="spin-text-mini" data-i18n="spin">SPIN</span>
+            </div>
+          </button>
+        </div>
       </div>
     </section>
 
-    <!-- Footer Controls -->
+    <!-- Minimalist Icon-Only Footer Controls (Save Space) -->
     <footer class="aux-row">
-      <button class="btn-icon" id="paytable-btn">
-        <span>📖</span> <span data-i18n="rulesAndPayouts">Pravila i Isplate</span>
+      <button class="btn-icon-mini" id="paytable-btn" title="Pravila i Isplate" data-i18n-title="rulesAndPayouts" aria-label="Pravila">
+        <span>❓</span>
       </button>
 
-      <button class="btn-icon btn-install" id="pwa-install-btn">
-        <span>📲</span> <span data-i18n="installApp">Instaliraj App</span>
+      <button class="btn-icon-mini btn-install" id="pwa-install-btn" title="Instaliraj App" data-i18n-title="installApp" aria-label="Instaliraj App">
+        <span>📲</span>
       </button>
 
-      <button class="btn-icon" id="sound-btn">
-        <span class="icon">🔊</span> <span data-i18n="sound">Zvuk</span>
+      <button class="btn-icon-mini" id="sound-btn" title="Zvuk" data-i18n-title="sound" aria-label="Zvuk">
+        <span class="icon">🔊</span>
       </button>
 
-      <button class="btn-icon btn-lang" id="lang-toggle" title="Promeni jezik / Change language">
-        <span class="lang-globe">🌐</span> <span class="lang-label" id="lang-current-label">SR</span>
+      <button class="btn-icon-mini btn-lang" id="lang-toggle" title="Promeni jezik / Change language" aria-label="Jezik">
+        <span class="icon">🌐</span>
       </button>
     </footer>
   </main>
@@ -241,10 +253,10 @@
   </div>
 
   <!-- Scripts -->
-  <script src="js/audio.js?v=28"></script>
-  <script src="js/i18n.js?v=28"></script>
-  <script src="js/particles.js?v=28"></script>
-  <script src="js/slot.js?v=28"></script>
-  <script src="js/app.js?v=28"></script>
+  <script src="js/audio.js?v=30"></script>
+  <script src="js/i18n.js?v=30"></script>
+  <script src="js/particles.js?v=30"></script>
+  <script src="js/slot.js?v=30"></script>
+  <script src="js/app.js?v=30"></script>
 </body>
 </html>
