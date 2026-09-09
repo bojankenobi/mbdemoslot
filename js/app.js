@@ -185,7 +185,16 @@ document.addEventListener('DOMContentLoaded', () => {
     soundBtn.addEventListener('click', () => {
       const isMuted = window.slotAudio.toggleMute();
       soundBtn.classList.toggle('muted', isMuted);
-      soundBtn.querySelector('.icon').textContent = isMuted ? '🔇' : '🔊';
+      const onIcon = soundBtn.querySelector('.sound-on-icon');
+      const offIcon = soundBtn.querySelector('.sound-off-icon');
+      if (onIcon && offIcon) {
+        onIcon.style.display = isMuted ? 'none' : 'block';
+        offIcon.style.display = isMuted ? 'block' : 'none';
+      }
+      const iconEl = soundBtn.querySelector('.icon');
+      if (iconEl) {
+        iconEl.textContent = isMuted ? '🔇' : '🔊';
+      }
     });
   }
 
