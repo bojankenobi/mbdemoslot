@@ -13,11 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateSlotScale() {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    const availW = Math.max(260, vw - 22);
-    const scaleW = Math.min(1.0, availW / 490);
+    const availW = Math.max(260, vw - 24);
+    const scaleW = Math.min(1.0, availW / 510);
     const availH = Math.max(100, vh - 300);
-    const scaleH = Math.min(1.0, availH / 160);
-    const finalScale = Math.min(scaleW, scaleH);
+    const scaleH = Math.min(1.0, availH / 165);
+    const finalScale = Math.max(0.48, Math.min(scaleW, scaleH));
     document.documentElement.style.setProperty('--slot-scale', finalScale.toFixed(4));
   }
   window.addEventListener('resize', updateSlotScale);
@@ -106,8 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (deltaY > 0) {
         currentDeltaY = deltaY;
         if (leverArm) {
-          // Pivot arm rests at rotate(50deg), swings to rotate(115deg)
-          const pullAngle = 50 + Math.min(65, deltaY * 0.75);
+          // Pivot arm rests at rotate(44deg), swings to rotate(115deg)
+          const pullAngle = 44 + Math.min(71, deltaY * 0.75);
           const pullScale = 1 - Math.min(0.15, (deltaY / 90) * 0.15);
           leverArm.style.transform = `rotate(${pullAngle}deg) scaleY(${pullScale})`;
         }
@@ -265,7 +265,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4. Register Service Worker
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js')
-      .then((reg) => console.log('PWA Service Worker registered:', reg.scope))
+      .then((reg) => {
+        console.log('PWA Service Worker registered:', reg.scope);
+        reg.update();
+      })
       .catch((err) => console.error('PWA Service Worker registration failed:', err));
   }
 });
