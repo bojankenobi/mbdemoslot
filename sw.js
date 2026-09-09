@@ -1,7 +1,7 @@
 /**
  * Happy Hour Slot - PWA Service Worker
  */
-const CACHE_NAME = 'slot-3d-v32';
+const CACHE_NAME = 'slot-3d-v33';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

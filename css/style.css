@@ -699,18 +699,16 @@ body {
   min-height: 38px;
   padding: 6px 24px;
   border-radius: 20px;
-  background: linear-gradient(180deg, rgba(32, 20, 5, 0.88) 0%, rgba(16, 10, 2, 0.94) 100%);
-  border: 1.5px solid #d49514;
+  background: rgba(10, 12, 18, 0.75);
+  border: 1.5px solid rgba(212, 149, 20, 0.7);
   box-shadow: 
-    0 4px 14px rgba(0, 0, 0, 0.75), 
-    0 0 14px rgba(212, 149, 20, 0.35),
-    inset 0 1px 2px rgba(255, 235, 150, 0.35);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+    0 4px 14px rgba(0, 0, 0, 0.6), 
+    0 0 12px rgba(212, 149, 20, 0.25),
+    inset 0 1px 2px rgba(255, 215, 0, 0.25);
   font-size: 0.96rem;
   font-weight: 900;
   letter-spacing: 1.2px;
-  color: #ffea8c;
+  color: #ffd700;
   text-shadow: 0 1px 3px #000, 0 0 8px rgba(255, 215, 0, 0.6);
   display: inline-flex;
   align-items: center;
@@ -851,21 +849,20 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(180deg, #241604 0%, #140c02 100%);
-  border: 1.5px solid #d49514;
+  background: rgba(12, 14, 22, 0.75);
+  border: 1.5px solid rgba(212, 149, 20, 0.7);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.75),
-    0 0 12px rgba(212, 149, 20, 0.3),
-    inset 0 2px 4px rgba(0, 0, 0, 0.85),
-    inset 0 0 8px rgba(212, 149, 20, 0.2);
+    0 4px 12px rgba(0, 0, 0, 0.6),
+    0 0 10px rgba(212, 149, 20, 0.2),
+    inset 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 .btn-step {
-  background: linear-gradient(180deg, #442a07 0%, #241603 100%);
+  background: rgba(255, 255, 255, 0.04);
   border: none;
-  color: #ffe082;
+  color: #ffd700;
   font-family: var(--font-title);
   font-size: 1.35rem;
   font-weight: 900;
@@ -876,23 +873,20 @@ body {
   align-items: center;
   justify-content: center;
   text-shadow: 0 1px 3px #000, 0 0 8px rgba(255, 215, 0, 0.6);
-  box-shadow: inset 0 1px 2px rgba(255, 235, 150, 0.3);
   transition: all 0.15s ease;
   -webkit-user-select: none;
   user-select: none;
 }
 
 .btn-step:hover {
-  background: linear-gradient(180deg, #5c3909 0%, #301d04 100%);
+  background: rgba(255, 215, 0, 0.18);
   color: #ffffff;
   text-shadow: 0 0 12px #ffd700;
-  box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.5);
 }
 
 .btn-step:active {
-  background: #190f02;
+  background: rgba(255, 215, 0, 0.3);
   transform: scale(0.92);
-  filter: brightness(1.2);
 }
 
 .bet-display {
@@ -906,9 +900,9 @@ body {
 }
 
 .btn-auto {
-  background: linear-gradient(180deg, #3d2606 0%, #1f1302 100%);
-  border: 1.5px solid #d49514;
-  color: #ffe082;
+  background: rgba(12, 14, 22, 0.75);
+  border: 1.5px solid rgba(212, 149, 20, 0.7);
+  color: #ffd700;
   font-family: var(--font-title);
   font-size: 0.82rem;
   font-weight: 900;
@@ -918,23 +912,21 @@ body {
   border-radius: 11px;
   cursor: pointer;
   box-shadow: 
-    0 4px 10px rgba(0, 0, 0, 0.7),
-    0 0 10px rgba(212, 149, 20, 0.25),
-    inset 0 1.5px 2px rgba(255, 235, 150, 0.4),
-    inset 0 -2px 3px rgba(0, 0, 0, 0.8);
+    0 4px 10px rgba(0, 0, 0, 0.6),
+    0 0 10px rgba(212, 149, 20, 0.2),
+    inset 0 1px 2px rgba(255, 215, 0, 0.2);
   text-shadow: 0 1px 3px #000, 0 0 8px rgba(255, 215, 0, 0.6);
   transition: all 0.15s ease;
   flex-shrink: 0;
 }
 
 .btn-auto:hover {
-  background: linear-gradient(180deg, #59390a 0%, #2f1c04 100%);
-  border-color: #ffe57f;
+  background: rgba(255, 215, 0, 0.15);
+  border-color: #ffd700;
   color: #ffffff;
   box-shadow: 
     0 4px 14px rgba(0, 0, 0, 0.8),
-    0 0 16px rgba(255, 215, 0, 0.5),
-    inset 0 1.5px 3px rgba(255, 255, 255, 0.5);
+    0 0 16px rgba(255, 215, 0, 0.5);
   transform: translateY(-1px);
 }
 
@@ -943,10 +935,10 @@ body {
 }
 
 .btn-auto.active {
-  background: radial-gradient(circle at 35% 30%, #ff2a55 0%, #990022 100%);
+  background: #d4143d;
   border-color: #ffd700;
   color: #ffffff;
-  box-shadow: 0 0 18px rgba(255, 42, 85, 0.85), 0 0 24px rgba(255, 215, 0, 0.7);
+  box-shadow: 0 0 18px rgba(212, 20, 61, 0.85), 0 0 24px rgba(255, 215, 0, 0.7);
   text-shadow: 0 0 8px #ffffff;
 }
 
@@ -958,9 +950,9 @@ body {
 
 .btn-secondary {
   flex: 1;
-  background: linear-gradient(180deg, #3d2606 0%, #1f1302 100%);
-  border: 1.5px solid #d49514;
-  color: #ffe57f;
+  background: rgba(12, 14, 22, 0.75);
+  border: 1.5px solid rgba(212, 149, 20, 0.7);
+  color: #ffd700;
   font-family: var(--font-title);
   font-size: 0.78rem;
   font-weight: 900;
@@ -970,29 +962,27 @@ body {
   cursor: pointer;
   transition: all 0.15s ease;
   box-shadow: 
-    0 4px 10px rgba(0, 0, 0, 0.7),
-    0 0 10px rgba(212, 149, 20, 0.25),
-    inset 0 1.5px 2px rgba(255, 235, 150, 0.4),
-    inset 0 -2px 3px rgba(0, 0, 0, 0.8);
+    0 4px 10px rgba(0, 0, 0, 0.6),
+    0 0 10px rgba(212, 149, 20, 0.2),
+    inset 0 1px 2px rgba(255, 215, 0, 0.2);
   text-align: center;
   white-space: nowrap;
   text-shadow: 0 1px 3px #000, 0 0 6px rgba(255, 215, 0, 0.55);
 }
 
 .btn-secondary:hover {
-  background: linear-gradient(180deg, #59390a 0%, #2f1c04 100%);
-  border-color: #ffe57f;
+  background: rgba(255, 215, 0, 0.15);
+  border-color: #ffd700;
   color: #ffffff;
   box-shadow: 
     0 4px 14px rgba(0, 0, 0, 0.8),
-    0 0 16px rgba(255, 215, 0, 0.5),
-    inset 0 1.5px 3px rgba(255, 255, 255, 0.5);
+    0 0 16px rgba(255, 215, 0, 0.5);
   transform: translateY(-1px);
 }
 
 .btn-secondary:active {
   transform: translateY(1px) scale(0.96);
-  background: #140c01;
+  background: rgba(255, 215, 0, 0.25);
 }
 
 /* ------------------------------------------------------------
@@ -1156,18 +1146,17 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #3d2708 0%, #201302 65%, #100a01 100%);
-  border: 1.5px solid #d49514;
+  background: rgba(12, 14, 22, 0.75);
+  border: 1.5px solid rgba(212, 149, 20, 0.7);
   color: #ffd700;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   box-shadow: 
-    0 4px 10px rgba(0, 0, 0, 0.75),
-    0 0 10px rgba(212, 149, 20, 0.3),
-    inset 0 1.5px 2px rgba(255, 235, 150, 0.5),
-    inset 0 -2px 3px rgba(0, 0, 0, 0.85);
+    0 4px 10px rgba(0, 0, 0, 0.6),
+    0 0 10px rgba(212, 149, 20, 0.2),
+    inset 0 1px 2px rgba(255, 215, 0, 0.2);
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   -webkit-tap-highlight-color: transparent;
   padding: 0;
@@ -1175,25 +1164,24 @@ body {
 }
 
 .btn-icon-mini:hover {
-  background: radial-gradient(circle at 35% 30%, #5c3b0c 0%, #331e04 65%, #190f02 100%);
-  border-color: #ffe57f;
+  background: rgba(255, 215, 0, 0.16);
+  border-color: #ffd700;
   color: #ffffff;
   transform: scale(1.12);
   box-shadow: 
     0 6px 16px rgba(0, 0, 0, 0.85),
-    0 0 18px rgba(255, 215, 0, 0.7),
-    inset 0 1.5px 3px rgba(255, 255, 255, 0.6);
+    0 0 18px rgba(255, 215, 0, 0.7);
 }
 
 .btn-icon-mini:active {
   transform: scale(0.92);
-  filter: brightness(1.3);
+  background: rgba(255, 215, 0, 0.3);
 }
 
 .gold-icon {
   width: 20px;
   height: 20px;
-  fill: #ffe082;
+  fill: #ffd700;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 6px rgba(255, 215, 0, 0.5));
   transition: fill 0.2s ease, filter 0.2s ease;
   pointer-events: none;
@@ -1205,13 +1193,13 @@ body {
 }
 
 .btn-icon-mini.btn-lang {
-  background: radial-gradient(circle at 35% 30%, #442a08 0%, #241603 65%, #130a01 100%);
-  border-color: #e5a722;
+  background: rgba(12, 14, 22, 0.75);
+  border-color: rgba(212, 149, 20, 0.7);
 }
 
 .btn-icon-mini.btn-install {
-  background: radial-gradient(circle at 35% 30%, #4a3009 0%, #281803 65%, #150b01 100%);
-  border-color: #ffd54f;
+  background: rgba(12, 14, 22, 0.75);
+  border-color: rgba(212, 149, 20, 0.7);
   display: none; /* Shown dynamically if beforeinstallprompt fires */
 }
 
@@ -1222,8 +1210,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.88);
   z-index: 100;
   display: none;
   align-items: center;
