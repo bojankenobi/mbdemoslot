@@ -808,7 +808,7 @@ body {
    ============================================================ */
 .controls-panel {
   width: 100%;
-  max-width: 440px;
+  max-width: 470px;
   margin-top: 6px;
   display: flex;
   flex-direction: column;
@@ -947,8 +947,8 @@ body {
 
 .btn-spin-round {
   position: relative;
-  width: 86px;
-  height: 86px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   border: none;
   background: radial-gradient(circle at 35% 30%, 
@@ -959,10 +959,10 @@ body {
     #5c1b00 100%
   );
   box-shadow: 
-    0 8px 24px rgba(0, 0, 0, 0.75),
-    0 3px 12px rgba(255, 145, 0, 0.65),
-    inset 0 3px 4px rgba(255, 255, 255, 0.8),
-    inset 0 -4px 6px rgba(60, 20, 0, 0.8);
+    0 10px 28px rgba(0, 0, 0, 0.78),
+    0 4px 16px rgba(255, 145, 0, 0.65),
+    inset 0 3px 5px rgba(255, 255, 255, 0.85),
+    inset 0 -5px 7px rgba(60, 20, 0, 0.85);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -980,58 +980,58 @@ body {
 .btn-spin-round::before {
   content: '';
   position: absolute;
-  inset: -4px;
+  inset: -5px;
   border-radius: 50%;
   background: linear-gradient(135deg, #ffe082 0%, #b8790b 45%, #ffd700 70%, #593500 100%);
   z-index: -1;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.65);
 }
 
 /* Inner Face of Circular Button with Dark Velvet Contrast */
 .spin-face {
-  width: 72px;
-  height: 72px;
+  width: 92px;
+  height: 92px;
   border-radius: 50%;
   background: radial-gradient(circle at 45% 40%, 
     #23160a 0%, 
     #170c04 55%, 
     #0a0501 100%
   );
-  border: 1.5px solid rgba(255, 224, 130, 0.65);
+  border: 1.5px solid rgba(255, 224, 130, 0.7);
   box-shadow: 
-    inset 0 3px 6px rgba(0, 0, 0, 0.9),
-    inset 0 0 10px rgba(255, 170, 0, 0.35);
+    inset 0 4px 8px rgba(0, 0, 0, 0.95),
+    inset 0 0 14px rgba(255, 170, 0, 0.4);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1px;
+  gap: 2px;
   pointer-events: none;
   transition: transform 0.15s ease;
 }
 
 .spin-flower-logo {
-  width: 40px;
-  height: 40px;
+  width: 52px;
+  height: 52px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 6px rgba(255, 215, 0, 0.4));
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
   transition: transform 0.25s ease;
 }
 
 .spin-text-mini {
   font-family: var(--font-title);
-  font-size: 0.72rem;
+  font-size: 0.84rem;
   font-weight: 900;
-  letter-spacing: 2px;
+  letter-spacing: 2.5px;
   color: #ffe57f;
-  text-shadow: 0 1px 3px #000, 0 0 6px rgba(255, 215, 0, 0.6);
+  text-shadow: 0 1px 3px #000, 0 0 8px rgba(255, 215, 0, 0.7);
   line-height: 1;
 }
 
 /* Efekat Posvetljenja (Flash Glow & Burst on Click/Spin) */
 .spin-light-burst {
   position: absolute;
-  inset: -14px;
+  inset: -20px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 220, 80, 0.8) 35%, rgba(255, 145, 0, 0.4) 65%, transparent 80%);
   opacity: 0;
@@ -1271,16 +1271,19 @@ body {
     font-size: 1.2rem;
   }
   .btn-spin-round {
-    width: 82px;
-    height: 82px;
+    width: 96px;
+    height: 96px;
   }
   .spin-face {
-    width: 68px;
-    height: 68px;
+    width: 80px;
+    height: 80px;
   }
   .spin-flower-logo {
-    width: 38px;
-    height: 38px;
+    width: 45px;
+    height: 45px;
+  }
+  .spin-text-mini {
+    font-size: 0.76rem;
   }
   .aux-row {
     margin-top: 8px;
@@ -1312,19 +1315,19 @@ body {
     font-size: 0.58rem;
   }
   .btn-spin-round {
-    width: 74px;
-    height: 74px;
+    width: 84px;
+    height: 84px;
   }
   .spin-face {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
   }
   .spin-flower-logo {
-    width: 32px;
-    height: 32px;
+    width: 38px;
+    height: 38px;
   }
   .spin-text-mini {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
   }
   .btn-step {
     width: 32px;
@@ -1402,19 +1405,19 @@ body {
     gap: 10px;
   }
   .btn-spin-round {
-    width: 68px;
-    height: 68px;
+    width: 78px;
+    height: 78px;
   }
   .spin-face {
-    width: 56px;
-    height: 56px;
+    width: 65px;
+    height: 65px;
   }
   .spin-flower-logo {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
   }
   .spin-text-mini {
-    font-size: 0.6rem;
+    font-size: 0.64rem;
   }
   .btn-step {
     width: 30px;
