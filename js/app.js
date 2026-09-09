@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
     const availW = Math.max(260, vw - 24);
-    const scaleW = Math.min(1.0, availW / 510);
+    const scaleW = Math.min(1.0, availW / 514);
     const availH = Math.max(100, vh - 300);
     const scaleH = Math.min(1.0, availH / 165);
     const finalScale = Math.max(0.48, Math.min(scaleW, scaleH));
@@ -106,8 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (deltaY > 0) {
         currentDeltaY = deltaY;
         if (leverArm) {
-          // Pivot arm rests at rotate(44deg), swings to rotate(115deg)
-          const pullAngle = 44 + Math.min(71, deltaY * 0.75);
+          // Pivot arm rests at rotate(38deg), swings to rotate(110deg)
+          const pullAngle = 38 + Math.min(72, deltaY * 0.75);
           const pullScale = 1 - Math.min(0.15, (deltaY / 90) * 0.15);
           leverArm.style.transform = `rotate(${pullAngle}deg) scaleY(${pullScale})`;
         }
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (leverArm) {
           leverArm.style.transition = 'transform 0.12s ease-in';
-          leverArm.style.transform = 'rotate(115deg) scaleY(0.85)';
+          leverArm.style.transform = 'rotate(110deg) scaleY(0.86)';
         }
 
         game.spin();

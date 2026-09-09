@@ -11,7 +11,7 @@
   --text-main: #f3f3f3;
   --font-title: 'Montserrat', sans-serif;
   --font-script: 'Yellowtail', cursive;
-  --slot-scale: min(1, calc((100vw - 24px) / 510));
+  --slot-scale: min(1, calc((100vw - 24px) / 514));
 }
 
 * {
@@ -147,7 +147,7 @@ body {
    Guarantees 100% full visibility of cylinder + lever on all mobile screens
    ------------------------------------------------------------ */
 .slot-stage-scaler {
-  width: calc(510px * var(--slot-scale, 1));
+  width: calc(514px * var(--slot-scale, 1));
   height: calc(160px * var(--slot-scale, 1));
   position: relative;
   display: flex;
@@ -162,7 +162,7 @@ body {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 510px;
+  width: 514px;
   height: 160px;
   transform: translate(-50%, -50%) scale(var(--slot-scale, 1));
   transform-origin: center center;
@@ -173,7 +173,7 @@ body {
 .cylinder-ground-shadow {
   position: absolute;
   top: 130px;
-  left: 20px;
+  left: 18px;
   width: 380px;
   height: 26px;
   background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 80%);
@@ -186,7 +186,7 @@ body {
    ============================================================ */
 .slot-cylinder-replica {
   position: absolute;
-  left: 10px;
+  left: 2px;
   top: 6px;
   width: 416px;
   height: 144px;
@@ -535,15 +535,15 @@ body {
 }
 
 /* ------------------------------------------------------------
-   45-DEGREE MECHANICAL LEVER ON THE RIGHT END
-   Mounted flush against the outer edge of the cylinder cap
+   ULTRA-REALISTIC 3D MECHANICAL LEVER ON THE RIGHT ENDCAP
+   Mounted 100% flush against the outer apex of the right cylinder dome
    ------------------------------------------------------------ */
 .slot-lever-replica {
   position: absolute;
-  left: calc(100% - 3px);
+  left: 100%; /* Exactly on the outer edge / green line! */
   top: 50%;
   transform: translateY(-50%);
-  width: 140px;
+  width: 110px;
   height: 120px;
   cursor: pointer;
   z-index: 15;
@@ -553,30 +553,82 @@ body {
   user-select: none;
 }
 
-.lever-pivot-mount {
+/* Heavy gold socket flange attaching seamlessly to the curved dome edge */
+.lever-socket-flange {
   position: absolute;
-  left: -2px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 14px;
-  height: 22px;
-  border-radius: 4px;
-  background: radial-gradient(circle at 40% 40%, #ffffff 0%, #ffd54f 35%, #b8860b 75%, #4a2800 100%);
-  border: 1px solid rgba(255, 235, 130, 0.8);
+  left: -2px; /* Flushes seamlessly into the right dome apex */
+  top: calc(50% - 14px);
+  width: 8px;
+  height: 28px;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(180deg, 
+    #3b1e00 0%, 
+    #7a4500 15%, 
+    #ffea8c 42%, 
+    #ffffff 52%, 
+    #d49514 75%, 
+    #291400 100%
+  );
   box-shadow: 
-    0 3px 6px rgba(0, 0, 0, 0.85),
-    inset 0 1px 2px #fff;
+    inset -1px 0 2px rgba(0, 0, 0, 0.7),
+    0 2px 5px rgba(0, 0, 0, 0.85);
   z-index: 2;
 }
 
+/* Machined 3D circular bearing hub outside the cylinder */
+.lever-pivot-mount {
+  position: absolute;
+  left: 4px;
+  top: calc(50% - 17px);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 32%, 
+    #ffffff 0%, 
+    #fff5c0 18%, 
+    #f6c845 45%, 
+    #b8790b 72%, 
+    #3d2100 100%
+  );
+  border: 1.5px solid #ffe57f;
+  box-shadow: 
+    0 6px 14px rgba(0, 0, 0, 0.9),
+    0 0 12px rgba(246, 200, 69, 0.35),
+    inset 0 2px 3px rgba(255, 255, 255, 0.9),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.85);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Central chrome bolt cap on bearing hub */
+.lever-pivot-mount::after {
+  content: '';
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, 
+    #ffffff 0%, 
+    #ffd54f 35%, 
+    #8a5200 80%, 
+    #291500 100%
+  );
+  border: 1px solid rgba(255, 235, 130, 0.9);
+  box-shadow: 
+    inset 0 1px 2px #fff,
+    0 2px 4px rgba(0, 0, 0, 0.85);
+}
+
+/* Mechanical lever arm emerging cleanly from the center of the bearing hub */
 .lever-pivot-arm {
   position: absolute;
-  left: 2px;
-  top: calc(50% - 88px);
-  width: 11px;
-  height: 88px;
-  transform-origin: 5px 88px; /* Exact pivot nestled flush on the outer edge */
-  transform: rotate(44deg);
+  left: 17px; /* Exact center of the bearing hub (4px + 17px - 4px = 17px) */
+  top: calc(50% - 84px);
+  width: 12px;
+  height: 84px;
+  transform-origin: 4px 84px; /* Centered directly on bearing axle */
+  transform: rotate(38deg);
   transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.35);
   z-index: 3;
 }
@@ -585,27 +637,27 @@ body {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 10px;
-  height: 88px;
+  width: 9px;
+  height: 84px;
   background: linear-gradient(90deg, 
     #ffffff 0%, 
     #fff4ba 18%, 
-    #f6c845 44%, 
-    #c48a12 75%, 
+    #f6c845 42%, 
+    #c48a12 72%, 
     #4a2800 100%
   );
-  border-radius: 5px;
+  border-radius: 4.5px;
   box-shadow: 
     3px 4px 10px rgba(0, 0, 0, 0.7),
-    inset 1px 0 1px rgba(255, 255, 255, 0.8);
+    inset 1px 0 1.5px rgba(255, 255, 255, 0.9);
 }
 
 .lever-ball {
   position: absolute;
   top: -18px;
   left: -14px;
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 28%, 
     #ffffff 0%, 
@@ -614,16 +666,16 @@ body {
     #d99a18 78%, 
     #5c3400 100%
   );
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.75);
   box-shadow: 
     0 8px 20px rgba(0, 0, 0, 0.9),
     0 0 25px rgba(255, 215, 0, 0.75),
     inset 0 2px 4px #ffffff;
 }
 
-/* Lever Pull Action: swings down around the center of the outer cylinder */
+/* Lever Pull Action */
 .slot-lever-replica.pulled .lever-pivot-arm {
-  transform: rotate(115deg) scaleY(0.85);
+  transform: rotate(110deg) scaleY(0.86);
   transition: transform 0.14s ease-in;
 }
 
