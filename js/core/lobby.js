@@ -63,7 +63,10 @@ class CasinoLobby {
 
   openModal() {
     this.updateLobbyJackpots();
-    if (this.modal) this.modal.classList.add('active');
+    if (this.modal) {
+      this.modal.classList.remove('is-hidden');
+      this.modal.classList.add('active');
+    }
   }
 
   updateLobbyJackpots() {
@@ -72,7 +75,10 @@ class CasinoLobby {
   }
 
   closeModal() {
-    if (this.modal) this.modal.classList.remove('active');
+    if (this.modal) {
+      this.modal.classList.add('is-hidden');
+      this.modal.classList.remove('active');
+    }
   }
 
   switchGame(gameId) {

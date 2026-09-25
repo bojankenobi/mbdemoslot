@@ -665,10 +665,15 @@ body {
    EGT / AMUSNET AUTHENTIC CABINET LOBBY (MAXBET EDITION)
    ============================================================ */
 .egt-lobby-overlay {
+  display: flex !important;
   background: radial-gradient(circle at center, rgba(6, 64, 45, 0.96) 0%, rgba(3, 36, 25, 0.99) 100%) !important;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   z-index: 1000 !important;
+}
+
+.egt-lobby-overlay.is-hidden {
+  display: none !important;
 }
 
 .egt-cabinet-frame {
