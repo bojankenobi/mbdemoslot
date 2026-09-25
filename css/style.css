@@ -1673,24 +1673,26 @@ body {
 
 /* ============================================================
    FULL FOCUS MODE (BEZ RUČICE - 100% FOCUS NA EKRANU)
-   Centrira cilindar, skriva ručicu i omogućava veći slot scale
+   Centrira cilindar bez ručice sa maksimalnim slot scale-om
    ============================================================ */
 .slot-stage-scaler:has(.game-mode-fullfocus),
 .stage-area.has-fullfocus .slot-stage-scaler {
-  width: calc(416px * var(--slot-scale, 1));
+  width: calc(416px * var(--slot-scale, 1)) !important;
 }
 
 .slot-assembly-wrap.game-mode-fullfocus {
-  width: 416px; /* Tačna širina celog 3D cilindra sa kapama (416px)! */
-  left: 50%;
-  transform: translate(-50%, -50%) scale(var(--slot-scale, 1));
+  width: 416px !important; /* Tačna širina celog 3D cilindra sa kapama (416px)! */
+  left: 50% !important;
+  transform: translate(-50%, -50%) scale(var(--slot-scale, 1)) !important;
 }
 
 .game-mode-fullfocus .slot-cylinder-replica {
-  position: absolute;
-  left: 0;
-  top: 4px;
-  width: 416px;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin: 0 auto !important;
+  top: 4px !important;
+  width: 416px !important;
   transform: none !important;
 }
 
@@ -1700,9 +1702,9 @@ body {
 }
 
 .game-mode-fullfocus .cylinder-ground-shadow {
-  left: 50%;
-  transform: translateX(-50%);
-  width: 400px;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 400px !important;
 }
 
 /* SVG Paylines Overlay for 3x3 Mode */
@@ -2512,43 +2514,6 @@ body {
   color: #e040fb;
   font-weight: 800;
   margin-bottom: 4px;
-}
-
-/* ============================================================
-   RESPONSIVE CYLINDER CENTERING ACROSS ALL VIEWPORT SIZES
-   Guarantees 100% symmetric screen centering of the 3D cylinder
-   ============================================================ */
-@media (max-width: 600px) {
-  /* On mobile (<600px), center directly on the 416px 3D cylinder */
-  .slot-stage-scaler {
-    width: calc(416px * var(--slot-scale, 1)) !important;
-  }
-  
-  .slot-assembly-wrap {
-    width: 416px !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) scale(var(--slot-scale, 1)) !important;
-  }
-  
-  .slot-cylinder-replica {
-    left: 0 !important;
-    margin: 0 auto !important;
-    position: absolute !important;
-  }
-  
-  .cylinder-ground-shadow {
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    width: 390px !important;
-  }
-  
-  /* On mobile phones, hide the lever so cylinder has full screen width & true geometric center */
-  .slot-lever-replica {
-    display: none !important;
-    pointer-events: none !important;
-  }
-}
-
 /* Responsiveness for mobile screens */
 @media (max-width: 480px) {
   .brand-logo-wrap {
