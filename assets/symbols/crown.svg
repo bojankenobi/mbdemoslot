@@ -1,0 +1,70 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <!-- Rich 3D Gold Gradient -->
+    <linearGradient id="crownGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffce6" />
+      <stop offset="25%" stop-color="#f5cb42" />
+      <stop offset="50%" stop-color="#ffd700" />
+      <stop offset="75%" stop-color="#c48a10" />
+      <stop offset="100%" stop-color="#543800" />
+    </linearGradient>
+
+    <!-- Deep Gold Inset Shadow -->
+    <linearGradient id="crownDarkGold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffd54f" />
+      <stop offset="50%" stop-color="#b27b0d" />
+      <stop offset="100%" stop-color="#3d2200" />
+    </linearGradient>
+
+    <!-- Ruby / Velvet Red Inset -->
+    <linearGradient id="crownRedVelvet" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff2a55" />
+      <stop offset="50%" stop-color="#a80927" />
+      <stop offset="100%" stop-color="#4d000e" />
+    </linearGradient>
+
+    <!-- Diamond Gem Shimmer -->
+    <linearGradient id="diamondShine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#b3e5fc" />
+      <stop offset="100%" stop-color="#0288d1" />
+    </linearGradient>
+
+    <filter id="crownGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.85"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#ffb300" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#crownGlow)">
+    <!-- Red Velvet Cushion Background Behind Peaks -->
+    <path d="M 28 72 C 28 48, 92 48, 92 72 Z" fill="url(#crownRedVelvet)" opacity="0.9" />
+
+    <!-- Royal Crown Main Gold Body with 5 Spikes -->
+    <path d="M 20 76 L 24 38 L 42 56 L 60 26 L 78 56 L 96 38 L 100 76 Z" 
+          fill="url(#crownGold)" stroke="#fff8cc" stroke-width="1.6" stroke-linejoin="round"/>
+
+    <!-- Inner Relief Gold Shading -->
+    <path d="M 26 74 L 28 44 L 43 58 L 60 32 L 77 58 L 92 44 L 94 74 Z" 
+          fill="url(#crownDarkGold)" opacity="0.4" />
+
+    <!-- Crown Base Band -->
+    <rect x="18" y="74" width="84" height="18" rx="5" fill="url(#crownGold)" stroke="#fff8cc" stroke-width="1.5" />
+    <rect x="22" y="78" width="76" height="10" rx="3" fill="#1c0f00" opacity="0.7" />
+
+    <!-- Jewels on Base Band -->
+    <circle cx="32" cy="83" r="3.5" fill="url(#diamondShine)" stroke="#ffffff" stroke-width="0.7"/>
+    <circle cx="60" cy="83" r="4" fill="url(#crownRedVelvet)" stroke="#fff2b2" stroke-width="0.8"/>
+    <circle cx="88" cy="83" r="3.5" fill="url(#diamondShine)" stroke="#ffffff" stroke-width="0.7"/>
+
+    <!-- Pearls / Gems on Spikes -->
+    <circle cx="24" cy="36" r="4" fill="url(#diamondShine)" stroke="#ffffff" stroke-width="0.8" />
+    <circle cx="42" cy="54" r="3.2" fill="url(#crownGold)" stroke="#ffffff" stroke-width="0.6" />
+    <circle cx="60" cy="24" r="5.2" fill="url(#crownGold)" stroke="#ffffff" stroke-width="1" />
+    <circle cx="78" cy="54" r="3.2" fill="url(#crownGold)" stroke="#ffffff" stroke-width="0.6" />
+    <circle cx="96" cy="36" r="4" fill="url(#diamondShine)" stroke="#ffffff" stroke-width="0.8" />
+
+    <!-- Center Cross Highlight -->
+    <path d="M 60 17 L 60 21 M 58 19 L 62 19" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
+</svg>

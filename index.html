@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>grandslot</title>
+  <title>MaxBet Casino</title>
   
   <!-- Native PWA & Mobile Meta Tags (Android & iOS) -->
-  <meta name="theme-color" content="#090a0f">
-  <meta name="msapplication-navbutton-color" content="#090a0f">
+  <meta name="theme-color" content="#06402d">
+  <meta name="msapplication-navbutton-color" content="#06402d">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="grandslot">
-  <meta name="application-name" content="grandslot">
+  <meta name="apple-mobile-web-app-title" content="MaxBet">
+  <meta name="application-name" content="MaxBet">
   <meta name="format-detection" content="telephone=no">
   
   <!-- Manifest & Icons -->
@@ -23,7 +23,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png?v=33">
   
   <!-- Styles -->
-  <link rel="stylesheet" href="css/style.css?v=33">
+  <link rel="stylesheet" href="css/style.css?v=61">
 </head>
 <body>
   <!-- Ambient Gold Rays Background -->
@@ -33,10 +33,80 @@
   <canvas id="fx-canvas"></canvas>
 
   <main class="game-container">
-    <!-- Header Section: Grand Slot Logo (100% Clean Header) -->
+    <!-- Header Section: MaxBet Logo (100% Clean Header) -->
     <header class="header-section">
       <div class="brand-logo-wrap">
-        <img src="assets/logo.svg" alt="grandslot" class="main-brand-logo">
+        <img src="assets/logo.svg" alt="MaxBet" class="main-brand-logo">
+      </div>
+      <!-- Live Casino Jackpots Bar: SILVER, GOLD & DIAMOND (Thin Metallic Frames) -->
+      <div class="jackpots-ticker-bar" id="jackpots-ticker-bar">
+        <!-- Silver Jackpot (Thin Silver Frame) -->
+        <div class="jackpot-pod jp-silver is-active-pulse">
+          <div class="jp-shine-sweep"></div>
+          <div class="jp-pod-badge">
+            <span class="jp-icon">🥈</span>
+            <span class="jp-name">SILVER</span>
+          </div>
+          <div class="jp-val-wrap">
+            <span class="jp-currency">RSD</span>
+            <span class="jp-val" id="val-jp-silver">1,250</span>
+          </div>
+        </div>
+
+        <!-- Gold Jackpot (Thin Gold Frame) -->
+        <div class="jackpot-pod jp-gold is-active-pulse">
+          <div class="jp-shine-sweep"></div>
+          <div class="jp-pod-badge">
+            <span class="jp-icon">🏆</span>
+            <span class="jp-name">GOLD</span>
+          </div>
+          <div class="jp-val-wrap">
+            <span class="jp-currency">RSD</span>
+            <span class="jp-val" id="val-jp-gold">5,800</span>
+          </div>
+        </div>
+
+        <!-- Grand Jackpot (Thin Diamond/Cyan Chrome Frame) -->
+        <div class="jackpot-pod jp-diamond is-active-pulse">
+          <div class="jp-shine-sweep"></div>
+          <div class="jp-pod-badge">
+            <span class="jp-icon">💎</span>
+            <span class="jp-name">GRAND</span>
+          </div>
+          <div class="jp-val-wrap">
+            <span class="jp-currency">RSD</span>
+            <span class="jp-val" id="val-jp-diamond">500.00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bonus Charge Meters Bar: Diamond Cards & Emerald Mines (Fills with spins, unlocks 40s-50s frenzy) -->
+      <div class="bonus-meters-bar" id="bonus-meters-bar">
+        <!-- Diamond Cards Progress Meter -->
+        <div class="meter-pod meter-cards" id="meter-pod-cards" title="Karte / Duplanje Bonus">
+          <div class="meter-badge">
+            <span class="meter-icon">💎</span>
+            <span class="meter-name" data-i18n="meterCardsLabel">KARTE</span>
+            <span class="meter-val" id="meter-cards-val">0%</span>
+          </div>
+          <div class="meter-track">
+            <div class="meter-fill fill-cards" id="meter-cards-fill" style="width: 0%;"></div>
+            <div class="meter-shimmer"></div>
+          </div>
+        </div>
+
+        <!-- Mines Progress Meter -->
+        <div class="meter-pod meter-mines" id="meter-pod-mines" title="MaxBet Mines Bonus">
+          <div class="meter-badge">
+            <span class="meter-icon">💣</span>
+            <span class="meter-name" data-i18n="meterMinesLabel">MINE</span>
+            <span class="meter-val" id="meter-mines-val">0%</span>
+          </div>
+          <div class="meter-track">
+            <div class="meter-fill fill-mines" id="meter-mines-fill" style="width: 0%;"></div>
+            <div class="meter-shimmer"></div>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -85,6 +155,11 @@
             <div class="reel-column" id="viewport-3">
               <div class="reel-3d-drum" id="reel-drum-3"></div>
             </div>
+
+            <!-- Dynamic SVG Paylines Overlay for 3x3 Line Wins -->
+            <svg class="paylines-overlay" id="paylines-overlay" viewBox="0 0 304 230" preserveAspectRatio="none">
+              <!-- Lines are drawn dynamically via JS -->
+            </svg>
           </div>
         </div>
 
@@ -107,6 +182,65 @@
       </div>
     </div>
   </div>
+
+      <!-- Standalone MaxBet Mines Game View (Mounted when Mines X is selected in Lobby) -->
+      <div class="mines-stage-view" id="mines-game-view" style="display: none;">
+        <div class="mines-cabinet-panel">
+          <!-- Top Multipliers Progress Bar -->
+          <div class="mines-top-bar">
+            <div class="mines-multipliers-bar" id="mines-multipliers-bar">
+              <!-- Dynamically populated step chips: 1.15x, 1.45x, 1.85x... -->
+            </div>
+          </div>
+
+          <!-- Mines Interactive Grid (3x3 or 5x5) -->
+          <div class="mines-board-wrap">
+            <div class="mines-board-grid grid-3x3" id="mines-grid">
+              <!-- Interactive tiles generated dynamically -->
+            </div>
+          </div>
+
+          <!-- Bottom Control Bar inside Mines panel -->
+          <div class="mines-control-deck">
+            <!-- Grid Size & Mine Count Quick Selector -->
+            <div class="mines-config-strip">
+              <div class="mines-grid-size-selector">
+                <button class="mines-grid-size-btn active" data-size="3">3x3</button>
+                <button class="mines-grid-size-btn" data-size="5">5x5</button>
+                <button class="mines-grid-size-btn" data-size="7">7x7</button>
+                <button class="mines-grid-size-btn" data-size="8">8x8</button>
+              </div>
+              <div class="mines-count-row">
+                <span class="mines-config-label" data-i18n="minesConfigLabel">MINE:</span>
+                <div class="mines-count-selector" id="mines-count-selector">
+                  <!-- Dynamically populated per grid size -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Bet & Cashout Actions cluster -->
+            <div class="mines-action-row">
+              <div class="mines-bet-box">
+                <button class="mines-step-btn" id="mines-bet-minus">−</button>
+                <div class="mines-bet-center">
+                  <span class="mines-bet-tag" data-i18n="minesBetTag">ULOG</span>
+                  <span class="mines-bet-amount" id="mines-bet-val">20</span>
+                </div>
+                <button class="mines-step-btn" id="mines-bet-plus">+</button>
+              </div>
+
+              <button class="btn-mines-action btn-mines-start" id="mines-action-btn">
+                <span class="action-top" data-i18n="minesBetBtn">BET</span>
+                <span class="action-val">20 RSD</span>
+              </button>
+            </div>
+
+            <!-- In-game status tag -->
+            <div class="mines-status-text" id="mines-status-text" data-i18n="minesPickPrompt">IZABERITE ULOG I POKRENITE IGRU</div>
+          </div>
+        </div>
+      </div>
+
     </section>
 
     <!-- Status Message Banner: Situated cleanly between slot machine and bet controls -->
@@ -132,7 +266,7 @@
       </div>
     </section>
 
-    <!-- Controls Panel: Left side Bet controls, Right side Big Round Grandslot Spin -->
+    <!-- Controls Panel: Left side Bet controls, Right side Big Round MaxBet Spin -->
     <section class="controls-panel">
       <div class="main-action-cluster">
         <div class="bet-side-controls">
@@ -146,14 +280,17 @@
             <button class="btn-auto" id="auto-btn" data-i18n="autoSpin">AUTO</button>
           </div>
 
-          <!-- Bottom Row: + Krediti & Max Bet -->
+          <!-- Bottom Row: + Krediti, Max Bet & Card-Suit Diamond Gamble -->
           <div class="bet-quick-row">
             <button class="btn-secondary" id="refill-credits-btn" title="Dodaj besplatne kredite" data-i18n="addCredits" data-i18n-title="addCreditsTitle">+ KREDITI</button>
             <button class="btn-secondary" id="max-bet-btn" data-i18n="maxBet">MAX BET</button>
+            <button class="btn-gamble-card-suit is-dimmed" id="gamble-btn" type="button" title="Kristalni Pik (Karte Bonus)" data-i18n-title="cardsEmblemTitle">
+              <img src="assets/symbols/crystal-spade-clean.png" alt="Pik" class="crystal-spade-img" />
+            </button>
           </div>
         </div>
 
-        <!-- Right Side: Luxury Circular Grandslot SPIN Button for player's thumb -->
+        <!-- Right Side: Luxury Circular MaxBet SPIN Button for player's thumb -->
         <div class="spin-side-wrap">
           <button class="btn-spin-round" id="spin-btn" aria-label="Spin" title="Spin" data-i18n-title="spin">
             <div class="spin-light-burst"></div>
@@ -166,8 +303,16 @@
       </div>
     </section>
 
-    <!-- Minimalist Icon-Only Footer Controls (Sophisticated Gold Theme) -->
+    <!-- Minimalist Footer Controls (MaxBet Game Selector & System Icons) -->
     <footer class="aux-row">
+      <!-- MaxBet Game Selector Button -->
+      <button class="btn-grand-game-select" id="egt-game-select-btn" title="Izaberi Igru / Select Game" aria-label="Izaberi Igru">
+        <span class="grand-btn-glow"></span>
+        <span class="grand-select-icon">💎</span>
+        <span class="grand-select-label" id="egt-current-game-label">1-LINE CLASSIC</span>
+        <span class="grand-caret">▲</span>
+      </button>
+
       <button class="btn-icon-mini" id="paytable-btn" title="Pravila i Isplate" data-i18n-title="rulesAndPayouts" aria-label="Pravila">
         <svg class="gold-icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 .88-.36 1.68-.93 2.25z"/>
@@ -196,6 +341,155 @@
       </button>
     </footer>
   </main>
+
+  <!-- MaxBet Game Selection Modal (Luxury Casino Multigame Terminal) -->
+  <div class="modal-overlay egt-lobby-overlay" id="egt-games-modal">
+    <div class="egt-cabinet-frame">
+      <!-- MaxBet Cabinet Top Bezel / Live Jackpot Strip -->
+      <div class="egt-cabinet-top">
+        <div class="egt-cabinet-brand">
+          <img src="assets/logo.svg" alt="MaxBet" class="egt-brand-main-logo" />
+          <span class="egt-brand-badge">VIP CASINO</span>
+        </div>
+        <div class="grand-lobby-jackpot-strip">
+          <div class="grand-jp-card jp-silver">
+            <span class="grand-jp-icon">🥈</span>
+            <div class="grand-jp-meta">
+              <span class="grand-jp-name">SILVER</span>
+              <span class="grand-jp-val" id="egt-lobby-jp-silver">50.00</span>
+            </div>
+          </div>
+          <div class="grand-jp-card jp-gold">
+            <span class="grand-jp-icon">🏆</span>
+            <div class="grand-jp-meta">
+              <span class="grand-jp-name">GOLD</span>
+              <span class="grand-jp-val" id="egt-lobby-jp-gold">200.00</span>
+            </div>
+          </div>
+          <div class="grand-jp-card jp-diamond">
+            <span class="grand-jp-icon">💎</span>
+            <div class="grand-jp-meta">
+              <span class="grand-jp-name">GRAND</span>
+              <span class="grand-jp-val" id="egt-lobby-jp-diamond">500.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MaxBet Subheader / Prompt banner -->
+      <div class="egt-cabinet-subheader">
+        <div class="egt-sub-title" data-i18n="egtLobbyTitle">IZBOR IGARA</div>
+        <div class="egt-sub-desc" data-i18n="egtLobbySub">DODIRNITE IGRU ZA POKRETANJE</div>
+      </div>
+
+      <!-- Games Showcase Grid -->
+      <div class="egt-games-grid">
+        <!-- Game 1: 1-Line Classic -->
+        <div class="egt-game-card active" id="egt-opt-classic" data-game="classic">
+          <div class="egt-card-glow"></div>
+          <div class="egt-card-border-gold"></div>
+          <div class="egt-card-ribbon ribbon-gold">RETRO CLASSIC</div>
+          
+          <div class="grand-card-poster poster-classic">
+            <div class="poster-symbols-cluster">
+              <img src="assets/symbols/logo-flower.svg" alt="MaxBet Symbol" class="poster-hero-sym" />
+              <img src="assets/symbols/bar.svg" alt="Bar" class="poster-sub-sym sym-left" />
+              <img src="assets/symbols/bell.svg" alt="Bell" class="poster-sub-sym sym-right" />
+            </div>
+            <div class="poster-specs-tag">1 LINIJA • RETRO CILINDAR</div>
+          </div>
+
+          <div class="egt-card-details">
+            <h3 class="egt-card-title" data-i18n="gameClassic">1-LINE CLASSIC</h3>
+            <p class="egt-card-sub" data-i18n="egtClassicDesc">1 Centralna Linija • Retro Zlatni Cilindar • Autentična Ručica</p>
+          </div>
+          <div class="egt-card-action">
+            <span class="egt-badge-status" data-i18n="egtActiveTag">AKTIVNA IGRA</span>
+          </div>
+        </div>
+
+        <!-- Game 2: Royal 3x3 -->
+        <div class="egt-game-card" id="egt-opt-royal" data-game="royal3x3">
+          <div class="egt-card-glow"></div>
+          <div class="egt-card-border-gold"></div>
+          <div class="egt-card-ribbon ribbon-red">HOT 5 LINES</div>
+          
+          <div class="grand-card-poster poster-royal">
+            <div class="poster-symbols-cluster">
+              <img src="assets/symbols/crown.svg" alt="Crown" class="poster-hero-sym" />
+              <img src="assets/symbols/seven.svg" alt="Seven" class="poster-sub-sym sym-left" />
+              <img src="assets/symbols/coin.svg" alt="Coin" class="poster-sub-sym sym-right" />
+            </div>
+            <div class="poster-specs-tag">5 LINIJA • MINES BONUS</div>
+          </div>
+
+          <div class="egt-card-details">
+            <h3 class="egt-card-title" data-i18n="gameRoyal3x3">ROYAL 3x3 (5 LINES)</h3>
+            <p class="egt-card-sub" data-i18n="egtRoyalDesc">5 Isplatnih Linija • MaxBet Mines Bonus • Scatter Dijamanti</p>
+          </div>
+          <div class="egt-card-action">
+            <span class="egt-badge-status" data-i18n="egtSelectTag">IGRAJ SADA</span>
+          </div>
+        </div>
+
+        <!-- Game 3: Full Focus -->
+        <div class="egt-game-card" id="egt-opt-fullfocus" data-game="fullfocus">
+          <div class="egt-card-glow"></div>
+          <div class="egt-card-border-gold"></div>
+          <div class="egt-card-ribbon ribbon-cyan">FULL SCREEN</div>
+          
+          <div class="grand-card-poster poster-focus">
+            <div class="poster-symbols-cluster">
+              <img src="assets/symbols/diamond.svg" alt="Diamond" class="poster-hero-sym" />
+              <img src="assets/symbols/horseshoe.svg" alt="Horseshoe" class="poster-sub-sym sym-left" />
+              <img src="assets/symbols/seven.svg" alt="Seven" class="poster-sub-sym sym-right" />
+            </div>
+            <div class="poster-specs-tag">PUN EKRAN • 5 LINIJA</div>
+          </div>
+
+          <div class="egt-card-details">
+            <h3 class="egt-card-title" data-i18n="gameFullFocus">ROYAL 3x3 FULL FOCUS</h3>
+            <p class="egt-card-sub" data-i18n="egtFocusDesc">Maksimalan Prikaz • 5 Isplatnih Linija • Specijalno za Mobilni Ekran</p>
+          </div>
+          <div class="egt-card-action">
+            <span class="egt-badge-status" data-i18n="egtSelectTag">IGRAJ SADA</span>
+          </div>
+        </div>
+
+        <!-- Game 4: MaxBet Mines X -->
+        <div class="egt-game-card" id="egt-opt-mines" data-game="mines">
+          <div class="egt-card-glow"></div>
+          <div class="egt-card-border-gold"></div>
+          <div class="egt-card-ribbon ribbon-green">MINES X</div>
+          
+          <div class="grand-card-poster poster-mines">
+            <div class="poster-symbols-cluster">
+              <img src="assets/symbols/bomb.svg" alt="Bomb" class="poster-hero-sym bomb-hero" />
+              <img src="assets/symbols/diamond.svg" alt="Diamond" class="poster-sub-sym sym-left" />
+              <img src="assets/symbols/coin.svg" alt="Coin" class="poster-sub-sym sym-right" />
+            </div>
+            <div class="poster-specs-tag">CASHOUT • MULTIPLIER</div>
+          </div>
+
+          <div class="egt-card-details">
+            <h3 class="egt-card-title" data-i18n="gameMines">MAXBET MINES X</h3>
+            <p class="egt-card-sub" data-i18n="egtMinesDesc">Podesiva Mreža & Broj Mina • Multiplier Traka • Instant Isplata</p>
+          </div>
+          <div class="egt-card-action">
+            <span class="egt-badge-status" data-i18n="egtSelectTag">IGRAJ SADA</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EGT Cabinet Bottom Control/Exit Bar -->
+      <div class="egt-cabinet-footer">
+        <button class="btn-egt-return" id="close-egt-games">
+          <span class="btn-egt-return-icon">◀</span>
+          <span data-i18n="egtReturnToGame">NAZAD NA IGRU</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Paytable Modal -->
   <div class="modal-overlay" id="paytable-modal">
@@ -253,21 +547,180 @@
             <div class="pay-val">3x = 20x + 5 Free Spins!</div>
           </div>
         </div>
+
+        <div class="pay-card">
+          <img src="assets/symbols/crown.svg" alt="Zlatna Kruna" class="pay-img">
+          <div class="pay-info">
+            <div class="pay-name" data-i18n="symCrown">Zlatna Kruna</div>
+            <div class="pay-val">3x = 75x | 2x = 8x</div>
+          </div>
+        </div>
+
+        <div class="pay-card">
+          <img src="assets/symbols/horseshoe.svg" alt="Srećna Potkovica" class="pay-img">
+          <div class="pay-info">
+            <div class="pay-name" data-i18n="symHorseshoe">Srećna Potkovica</div>
+            <div class="pay-val">3x = 30x | 2x = 4x</div>
+          </div>
+        </div>
       </div>
 
       <div class="bonus-info-box">
         <div class="bonus-title" data-i18n="freeSpinsRuleHeading">✨ PRAVILA IGRE & BONUSI</div>
-        <p data-i18n-html="freeSpinsRuleText">Pogodak 3 Dijamanta donosi <strong>5 BESPLATNIH SPINOVA</strong>!</p>
+        <p style="margin-top: 6px;"><strong data-i18n="ruleHoldWinTitle">🔥 HOLD & WIN (MAXBET RESPINS):</strong> <span data-i18n="ruleHoldWinDesc">Kad 3 ili više Zlatnika padnu na bubnjeve, pokreće se bonus sa 3 Respina. Svi novčići ostaju zaključani na tabli. Svaki novi novčić koji padne se takođe zaključava i resetuje broj respina ponovo na 3! Kada popunite svih 9 polja, osvajate maksimalni 💎 DIAMOND JACKPOT!</span></p>
+        <p style="margin-top: 6px;"><strong data-i18n="ruleMysteryJpTitle">🎰 MYSTERY JACKPOT:</strong> <span data-i18n="ruleMysteryJpDesc">Svaki spin može nasumično osvojiti progresivni Silver, Gold ili Diamond Jackpot prikazan na vrhu ekrana!</span></p>
+        <p style="margin-top: 6px;"><strong data-i18n="ruleCardsTitle">♠️ KRISTALNI PIK (KARTE):</strong> <span data-i18n="ruleCardsDesc">Kada se gornja traka za karte napuni spinovima, Kristalni Pik počinje da svetli i pulsira! Dok svetli, možete ući u igru pogađanja crvene ili crne karte i uvećati dobitak.</span></p>
+        <p style="margin-top: 6px;" data-i18n-html="linesRuleText">U <strong>Royal 3x3</strong> igri aktivno je <strong>5 linija</strong> (3 horizontalne + 2 dijagonalne). Dobici na više linija se sabiraju!</p>
         <p style="margin-top: 6px;" data-i18n="instructionsRuleText">Možete povući i 3D ručicu sa desne strane za pokretanje valjaka ili pritisnuti taster Space na tastaturi.</p>
+        <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed rgba(255, 215, 0, 0.3); text-align: center;">
+          <button id="open-admin-from-rules" style="background: rgba(255, 215, 0, 0.12); border: 1px solid #ffd700; color: #ffd700; font-size: 0.78rem; font-weight: 800; padding: 6px 14px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;" data-i18n="openAdminPanel">
+            ⚙️ OTVORI ADMIN / OPERATOR PANEL
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Red / Black Gamble Modal -->
+  <div class="modal-overlay" id="gamble-modal">
+    <div class="modal-card gamble-card">
+      <div class="modal-header">
+        <h2 class="modal-title" data-i18n="gambleTitle">♠️ KARTE (CRVENA / CRNA)</h2>
+        <button class="btn-close" id="close-gamble">&times;</button>
+      </div>
+
+      <div class="gamble-body">
+        <div class="gamble-history-wrap">
+          <span class="gamble-history-label" data-i18n="gambleHistory">ISTORIJA:</span>
+          <div class="gamble-history" id="gamble-history">
+            <!-- Dynamic past cards history -->
+          </div>
+        </div>
+
+        <div class="gamble-stakes">
+          <div class="gamble-stake-box">
+            <span class="stake-label" data-i18n="currentGambleWin">TRENUTNI DOBITAK:</span>
+            <span class="stake-val" id="gamble-current-val">0</span>
+          </div>
+          <div class="gamble-stake-box highlight-box">
+            <span class="stake-label" data-i18n="gambleToWin">DOBITAK ZA POGODAK:</span>
+            <span class="stake-val" id="gamble-next-val">0</span>
+          </div>
+        </div>
+
+        <!-- 3D Card Display -->
+        <div class="gamble-card-display" id="gamble-card-display">
+          <div class="flip-card-inner" id="flip-card-inner">
+            <div class="card-face card-back" id="card-back-side">
+              <div class="card-back-pattern">
+                <span class="card-gold-logo">MB</span>
+              </div>
+            </div>
+            <div class="card-face card-front" id="card-front-side">
+              <div class="card-corner top-left">
+                <span class="card-rank" id="card-rank-tl">A</span>
+                <span class="card-suit" id="card-suit-tl">♥</span>
+              </div>
+              <div class="card-center-suit" id="card-center-suit">♥</div>
+              <div class="card-corner bottom-right">
+                <span class="card-rank" id="card-rank-br">A</span>
+                <span class="card-suit" id="card-suit-br">♥</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gamble-actions">
+          <button class="btn-gamble-choice btn-gamble-red" id="gamble-red-btn">
+            <span class="gamble-btn-icon">♦ ♥</span>
+            <span data-i18n="gambleRed">CRVENA (RED)</span>
+          </button>
+          <button class="btn-gamble-choice btn-gamble-black" id="gamble-black-btn">
+            <span class="gamble-btn-icon">♣ ♠</span>
+            <span data-i18n="gambleBlack">CRNA (BLACK)</span>
+          </button>
+        </div>
+
+        <button class="btn-take-win" id="gamble-take-btn">
+          <span data-i18n="takeWin">💰 UZMI DOBITAK (TAKE WIN)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mini-Mines Slot Bonus Modal (Triggered by 3+ Gold Coins on Slot Reels) -->
+  <div class="modal-overlay mini-mines-overlay" id="mini-mines-modal">
+    <div class="mini-mines-container">
+      <div class="mini-mines-ambient-glow"></div>
+      
+      <!-- Top Decorative Bar & Title -->
+      <div class="mini-mines-header">
+        <div class="mini-mines-tag" data-i18n="miniMinesBonusTag">BONUS RUNDA</div>
+        <div class="mini-mines-title" data-i18n="miniMinesBonusTitle">💎 MAXBET MINES BONUS 💣</div>
+        <div class="mini-mines-subtitle" data-i18n="miniMinesBonusSub">OTKRIJTE ZLATNIKE I IZBEGNITE MINE!</div>
+
+        <!-- Hazard Info Strip -->
+        <div class="mini-mines-info-strip">
+          <div class="hazard-badge">
+            <span class="hazard-icon">💣</span>
+            <span class="hazard-label">MINE: <strong>2</strong></span>
+          </div>
+          <div class="hazard-badge safe">
+            <span class="hazard-icon">🪙</span>
+            <span class="hazard-label">ZLATNICI: <strong>7</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3x3 Mini Mines Grid -->
+      <div class="mini-mines-grid" id="mini-mines-grid">
+        <!-- Generated dynamically with buttons -->
+      </div>
+
+      <!-- Footer Win Display & Instant Cashout Button -->
+      <div class="mini-mines-footer">
+        <div class="mini-mines-status-tag" id="mini-mines-status-text" data-i18n="miniMinesPrompt">OTVARAJTE POLJA ILI UZMITE DOBITAK!</div>
+        
+        <div class="mini-mines-total-card">
+          <span class="mini-total-label" data-i18n="totalBonusWin">TRENUTNI DOBITAK:</span>
+          <div class="mini-total-value-wrap">
+            <span class="mini-currency">RSD</span>
+            <span class="mini-total-amount" id="mini-mines-total-amount">0</span>
+          </div>
+        </div>
+
+        <button class="btn-mini-mines-cashout" id="mini-mines-cashout-btn">
+          <span class="btn-cashout-icon">💰</span>
+          <span class="btn-cashout-label" data-i18n="miniMinesCashoutLabel">UZMI DOBITAK (TAKE WIN)</span>
+          <span class="btn-cashout-val">0 RSD</span>
+        </button>
       </div>
     </div>
   </div>
 
   <!-- Scripts -->
-  <script src="js/audio.js?v=33"></script>
-  <script src="js/i18n.js?v=33"></script>
-  <script src="js/particles.js?v=33"></script>
-  <script src="js/slot.js?v=33"></script>
-  <script src="js/app.js?v=33"></script>
+  <script src="js/audio.js?v=61"></script>
+  <script src="js/i18n.js?v=61"></script>
+  <script src="js/particles.js?v=63"></script>
+  
+  <!-- Core Platform Modules -->
+  <script src="js/core/wallet.js?v=61"></script>
+  <script src="js/core/jackpots.js?v=61"></script>
+  <script src="js/core/meters.js?v=61"></script>
+  <script src="js/core/gamble.js?v=61"></script>
+  <script src="js/core/math-manager.js?v=61"></script>
+  <script src="js/core/admin.js?v=61"></script>
+  <script src="js/core/lobby.js?v=61"></script>
+
+  <!-- Game Modules -->
+  <script src="js/games/classic/symbols.js?v=61"></script>
+  <script src="js/games/classic/classic.js?v=61"></script>
+  <script src="js/games/royal3x3/symbols.js?v=61"></script>
+  <script src="js/games/royal3x3/royal3x3.js?v=61"></script>
+  <script src="js/games/mines/mines.js?v=61"></script>
+  <script src="js/games/mines/mini-mines.js?v=61"></script>
+
+  <!-- Application Controller -->
+  <script src="js/app.js?v=61"></script>
 </body>
 </html>

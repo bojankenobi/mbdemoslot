@@ -1,7 +1,7 @@
 /**
- * Happy Hour Slot - PWA Service Worker
+ * MaxBet 3D Casino Slot - PWA Service Worker
  */
-const CACHE_NAME = 'slot-3d-v33';
+const CACHE_NAME = 'maxbet-slot-v63';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -9,7 +9,19 @@ const ASSETS_TO_CACHE = [
   './js/audio.js',
   './js/i18n.js',
   './js/particles.js',
-  './js/slot.js',
+  './js/core/wallet.js',
+  './js/core/jackpots.js',
+  './js/core/meters.js',
+  './js/core/gamble.js',
+  './js/core/math-manager.js',
+  './js/core/admin.js',
+  './js/core/lobby.js',
+  './js/games/classic/symbols.js',
+  './js/games/classic/classic.js',
+  './js/games/royal3x3/symbols.js',
+  './js/games/royal3x3/royal3x3.js',
+  './js/games/mines/mines.js',
+  './js/games/mines/mini-mines.js',
   './js/app.js',
   './manifest.webmanifest',
   './assets/logo.svg',
@@ -19,6 +31,8 @@ const ASSETS_TO_CACHE = [
   './assets/symbols/coin.svg',
   './assets/symbols/seven.svg',
   './assets/symbols/bell.svg',
+  './assets/symbols/bomb.svg',
+  './assets/symbols/crystal-spade-clean.png',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
   './assets/icons/icon-maskable-512.png',

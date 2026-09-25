@@ -1,77 +1,314 @@
 /**
- * Happy Hour Slot 3D - Application Controller & PWA Manager
+ * MaxBet - Application Controller & Platform Orchestrator
+ * Integrates Core Services (Wallet, Jackpots, Audio, Lobby) with Game Engines.
  */
+class MaxBetApp {
+  constructor() {
+    this.messageBanner = document.getElementById('status-banner');
+    this.spinBtn = document.getElementById('spin-btn');
+    this.autoBtn = document.getElementById('auto-btn');
+    this.isAutoSpin = false;
+
+    // 1. Core Services
+    this.wallet = new window.CasinoWallet(1000, 20);
+    this.jackpots = new window.CasinoJackpots(this.wallet);
+    this.meters = new window.BonusMeters(this.wallet);
+
+    // 2. Auxiliary Engines
+    this.gamble = new window.CardGambleGame(this.wallet, (amount) => {
+      this.wallet.updateUI();
+    });
+
+    this.miniMines = new window.MiniMinesBonus(this.wallet, (totalWin) => {
+      this.showMessage(window.i18n ? window.i18n.t('miniMinesFinished', { amount: totalWin }) : `💣 ZAVRŠEN MINES BONUS: +${totalWin}!`, 'jackpot');
+      this.gamble.showTrigger(totalWin);
+      this.wallet.updateUI();
+      this.updateSpinButtonState();
+    });
+
+    // 3. Game Engines
+    this.classicGame = new window.ClassicSlotGame(
+      this.wallet,
+      this.jackpots,
+      (res) => this.handleSpinResult(res)
+    );
+
+    this.royalGame = new window.Royal3x3Game(
+      this.wallet,
+      this.jackpots,
+      (res) => this.handleSpinResult(res),
+      (matrix) => this.handleTriggerHoldWin(matrix)
+    );
+
+    this.minesGame = new window.MinesGame(this.wallet, this.jackpots);
+
+    // 4. Lobby
+    this.lobby = new window.CasinoLobby(this.wallet, this.jackpots);
+    this.lobby.registerGame('classic', this.classicGame);
+    this.lobby.registerGame('royal3x3', {
+      mount: () => {
+        const stage = document.querySelector('.slot-stage-scaler');
+        if (stage) stage.style.display = 'flex';
+        this.royalGame.mount(false);
+      },
+      unmount: () => this.royalGame.unmount(),
+      spin: () => this.royalGame.spin(),
+      get isSpinning() { return this.gameInstance.isSpinning; },
+      gameInstance: this.royalGame
+    });
+    this.lobby.registerGame('fullfocus', {
+      mount: () => {
+        const stage = document.querySelector('.slot-stage-scaler');
+        if (stage) stage.style.display = 'flex';
+        this.royalGame.mount(true);
+      },
+      unmount: () => this.royalGame.unmount(),
+      spin: () => this.royalGame.spin(),
+      get isSpinning() { return this.gameInstance.isSpinning; },
+      gameInstance: this.royalGame
+    });
+    this.lobby.registerGame('mines', {
+      mount: () => {
+        const stage = document.querySelector('.slot-stage-scaler');
+        if (stage) stage.style.display = 'none';
+        
+        // Hide slot controls panel (Bet stepper, Max Bet, Gamble, and Big Spin button)
+        const controlsPanel = document.querySelector('.controls-panel');
+        if (controlsPanel) controlsPanel.style.display = 'none';
+
+        // Hide regular slot status banner to avoid clutter
+        const bannerWrap = document.querySelector('.status-banner-wrap');
+        if (bannerWrap) bannerWrap.style.display = 'none';
+
+        // Add class to container for clean vertical layout
+        const container = document.querySelector('.game-container');
+        if (container) container.classList.add('in-mines-mode');
+
+        // Cancel any active auto spin
+        if (this.isAutoSpin) this.toggleAutoSpin(false);
+
+        this.minesGame.mount();
+      },
+      unmount: () => {
+        this.minesGame.unmount();
+
+        const stage = document.querySelector('.slot-stage-scaler');
+        if (stage) stage.style.display = 'flex';
+
+        // Restore slot controls panel and status banner
+        const controlsPanel = document.querySelector('.controls-panel');
+        if (controlsPanel) controlsPanel.style.display = 'flex';
+
+        const bannerWrap = document.querySelector('.status-banner-wrap');
+        if (bannerWrap) bannerWrap.style.display = 'block';
+
+        const container = document.querySelector('.game-container');
+        if (container) container.classList.remove('in-mines-mode');
+      },
+      spin: () => {
+        if (this.minesGame.gameState === 'idle' || this.minesGame.gameState === 'cashed_out' || this.minesGame.gameState === 'exploded') {
+          this.minesGame.startGame();
+        } else if (this.minesGame.gameState === 'playing') {
+          this.minesGame.cashout();
+        }
+      },
+      get isSpinning() { return this.gameInstance.isSpinning; },
+      gameInstance: this.minesGame
+    });
+
+    // Default Game: Classic
+    this.lobby.switchGame('classic');
+
+    this.initControls();
+
+    // 5. Open Lobby Menu Immediately on App Entry
+    if (this.lobby) {
+      this.lobby.openModal();
+    }
+
+    // 6. Admin / Operator Control Panel
+    if (window.AdminPanel) {
+      this.adminPanel = new window.AdminPanel(this);
+    }
+  }
+
+  showMessage(msg, type = 'normal') {
+    if (!this.messageBanner) return;
+    this.messageBanner.textContent = msg;
+    this.messageBanner.className = `status-banner status-${type}`;
+  }
+
+  spin() {
+    if (!this.lobby || !this.lobby.activeGame) return;
+    if (this.lobby.activeGame.isSpinning || (this.miniMines && this.miniMines.isActive)) return;
+
+    if (!this.wallet.canAffordSpin()) {
+      this.showMessage(window.i18n ? window.i18n.t('notEnoughCredits') : 'NEMATE DOVOLJNO KREDITA!', 'warning');
+      if (window.slotAudio) window.slotAudio.playClick();
+      return;
+    }
+
+    this.gamble.hideTrigger();
+    this.animateSpinButton();
+    this.showMessage(window.i18n ? window.i18n.t('spinning') : 'VRTENJE U TOKU...', 'normal');
+
+    const result = this.lobby.activeGame.spin();
+    if (result && result.success !== false) {
+      if (this.meters) {
+        this.meters.chargeOnSpin(this.wallet.bet);
+      }
+    }
+    this.updateSpinButtonState();
+  }
+
+  animateSpinButton() {
+    if (this.spinBtn) {
+      this.spinBtn.classList.remove('flash-active');
+      void this.spinBtn.offsetWidth;
+      this.spinBtn.classList.add('flash-active');
+      setTimeout(() => {
+        if (this.spinBtn) this.spinBtn.classList.remove('flash-active');
+      }, 420);
+    }
+  }
+
+  updateSpinButtonState() {
+    if (this.spinBtn) {
+      const isSpinning = (this.lobby.activeGame && this.lobby.activeGame.isSpinning) || (this.miniMines && this.miniMines.isActive);
+      this.spinBtn.disabled = isSpinning;
+      this.spinBtn.classList.toggle('disabled', isSpinning);
+    }
+  }
+
+  handleTriggerHoldWin(sourceMatrix) {
+    this.showMessage(window.i18n ? window.i18n.t('miniMinesBonusTitle') : '💎 GRAND MINES BONUS! 💣', 'jackpot');
+    if (this.miniMines) {
+      this.miniMines.trigger(sourceMatrix, this.wallet.bet);
+    }
+    this.updateSpinButtonState();
+  }
+
+  handleSpinResult(result) {
+    this.updateSpinButtonState();
+    if (!result) return;
+
+    const { winAmount, winMultiplier, isDiamondBonus, winningLines } = result;
+
+    if (winAmount > 0) {
+      if (isDiamondBonus) {
+        const msg = window.i18n ? window.i18n.t('freeSpinsPlusWin', { amount: winAmount }) : `💎 5 BESPLATNIH SPINOVA + ${winAmount}! 💎`;
+        this.showMessage(msg, 'jackpot');
+      } else if (winMultiplier >= 30) {
+        this.showMessage(`${window.i18n ? window.i18n.t('bigWin') : '🎰 VELIKI DOBITAK! +'}${winAmount} 🎰`, 'jackpot');
+      } else {
+        const linesCount = winningLines ? winningLines.length : 1;
+        const msg = (linesCount > 1) 
+          ? `+${winAmount} (${linesCount} LINIJA)` 
+          : `${window.i18n ? window.i18n.t('winPrefix') : 'DOBITAK: +'}${winAmount}`;
+        this.showMessage(msg, 'win');
+      }
+      this.gamble.showTrigger(winAmount);
+    } else {
+      if (this.wallet.freeSpins <= 0) {
+        this.showMessage(window.i18n ? window.i18n.t('tryAgain') : 'POKUŠAJTE PONOVO!', 'normal');
+      }
+    }
+
+    // Check Mystery Jackpots on spin end
+    this.jackpots.checkMysteryJackpot((tier, prize, msgKey) => {
+      const defaultMsg = tier === 'diamond' 
+        ? `💎 DIAMOND JACKPOT! +${prize.toLocaleString()} RSD! 💎`
+        : (tier === 'gold' 
+          ? `🏆 GOLD JACKPOT! +${prize.toLocaleString()} RSD! 🏆`
+          : `🥈 SILVER JACKPOT! +${prize.toLocaleString()} RSD! 🥈`);
+      this.showMessage(window.i18n ? window.i18n.t(msgKey, { amount: prize.toLocaleString() }) : defaultMsg, 'jackpot');
+      this.gamble.showTrigger(prize);
+    });
+
+    // Auto-spin next cycle
+    if (this.isAutoSpin) {
+      if (this.wallet.canAffordSpin()) {
+        setTimeout(() => {
+          if (this.isAutoSpin) this.spin();
+        }, 1300);
+      } else {
+        this.toggleAutoSpin(false);
+      }
+    }
+  }
+
+  toggleAutoSpin(forcedState = null) {
+    if (window.slotAudio) window.slotAudio.playClick();
+    this.isAutoSpin = (forcedState !== null) ? forcedState : !this.isAutoSpin;
+    if (this.autoBtn) {
+      this.autoBtn.classList.toggle('active', this.isAutoSpin);
+      const label = this.isAutoSpin 
+        ? (window.i18n ? window.i18n.t('autoSpinOn') : 'STOP') 
+        : (window.i18n ? window.i18n.t('autoSpin') : 'AUTO');
+      this.autoBtn.textContent = label;
+    }
+    if (this.isAutoSpin && (!this.lobby.activeGame || !this.lobby.activeGame.isSpinning)) {
+      this.spin();
+    }
+  }
+
+  initControls() {
+    if (this.spinBtn) {
+      this.spinBtn.addEventListener('click', () => this.spin());
+    }
+    if (this.autoBtn) {
+      this.autoBtn.addEventListener('click', () => this.toggleAutoSpin());
+    }
+
+    const betMinusBtn = document.getElementById('bet-minus');
+    const betPlusBtn = document.getElementById('bet-plus');
+    const maxBetBtn = document.getElementById('max-bet-btn');
+    const refillBtn = document.getElementById('refill-credits-btn');
+
+    if (betMinusBtn) betMinusBtn.addEventListener('click', () => this.wallet.changeBet(-5));
+    if (betPlusBtn) betPlusBtn.addEventListener('click', () => this.wallet.changeBet(5));
+    if (maxBetBtn) maxBetBtn.addEventListener('click', () => this.wallet.setMaxBet());
+    if (refillBtn) refillBtn.addEventListener('click', () => {
+      this.wallet.addCredits(500);
+      this.showMessage(window.i18n ? window.i18n.t('creditsAdded', { amount: 500 }) : 'DODATO +500 KREDITA!', 'gold');
+    });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Initialize Particles and 3D Game Engine
   const particles = new window.ParticleEngine('fx-canvas');
   window.particleEngine = particles;
 
-  const game = new window.SlotGame();
-  window.slotGame = game;
+  const app = new MaxBetApp();
+  window.MaxBetApp = MaxBetApp;
+  window.GrandSlotApp = MaxBetApp; // Backwards compatibility
+  window.slotApp = app;
+  window.slotGame = app; // Backwards compatibility for inspect/dev
 
-  // Universal Responsive Scaler (Guarantees cylinder + lever are 100% visible on any phone)
+  // Universal Responsive Scaler
   function updateSlotScale() {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    const availW = Math.max(260, vw - 24);
-    const scaleW = Math.min(1.0, availW / 514);
-    const availH = Math.max(100, vh - 300);
-    const scaleH = Math.min(1.0, availH / 165);
+    const isFullFocus = (app.lobby && app.lobby.activeGameId === 'fullfocus');
+    const is3x3 = (app.lobby && (app.lobby.activeGameId === 'royal3x3' || isFullFocus));
+
+    const baseW = isFullFocus ? 416 : 514;
+    const availW = Math.max(260, vw - (isFullFocus ? 16 : 24));
+    const scaleW = Math.min(1.22, availW / baseW);
+
+    const baseH = is3x3 ? 250 : 165;
+    const availH = Math.max(100, vh - 320);
+    const scaleH = Math.min(1.22, availH / baseH);
     const finalScale = Math.max(0.48, Math.min(scaleW, scaleH));
     document.documentElement.style.setProperty('--slot-scale', finalScale.toFixed(4));
   }
+  window.updateSlotScale = updateSlotScale;
   window.addEventListener('resize', updateSlotScale);
   window.addEventListener('orientationchange', () => setTimeout(updateSlotScale, 100));
   updateSlotScale();
 
-  // 2. User Controls Bindings
-  const spinBtn = document.getElementById('spin-btn');
-  const autoBtn = document.getElementById('auto-btn');
+  // Mechanical Lever Interaction
   const lever = document.getElementById('slot-lever');
-  const betMinusBtn = document.getElementById('bet-minus');
-  const betPlusBtn = document.getElementById('bet-plus');
-  const maxBetBtn = document.getElementById('max-bet-btn');
-  const soundBtn = document.getElementById('sound-btn');
-  const paytableBtn = document.getElementById('paytable-btn');
-  const paytableModal = document.getElementById('paytable-modal');
-  const closePaytableBtn = document.getElementById('close-paytable');
-  const refillBtn = document.getElementById('refill-credits-btn');
-  const langSrBtn = document.getElementById('lang-sr');
-  const langEnBtn = document.getElementById('lang-en');
-
-  const langToggleBtn = document.getElementById('lang-toggle');
-
-  // Initialize and apply translations
-  if (window.i18n) {
-    window.i18n.applyTranslations();
-  }
-
-  // Discreet single-click language toggle (SR <-> EN)
-  if (langToggleBtn) {
-    langToggleBtn.addEventListener('click', () => {
-      window.slotAudio.playClick();
-      window.i18n.toggleLanguage();
-    });
-  }
-
-  // Language switch triggers (if present)
-  if (langSrBtn) {
-    langSrBtn.addEventListener('click', () => {
-      window.slotAudio.playClick();
-      window.i18n.setLanguage('sr');
-    });
-  }
-  if (langEnBtn) {
-    langEnBtn.addEventListener('click', () => {
-      window.slotAudio.playClick();
-      window.i18n.setLanguage('en');
-    });
-  }
-
-  // Spin triggers: button, 3D lever, and Space key
-  if (spinBtn) spinBtn.addEventListener('click', () => game.spin());
-
-  // 3D Lever Interaction: Click, Touch Tap, and Mobile Swipe / Drag Down
   if (lever) {
     const leverArm = lever.querySelector('.lever-pivot-arm');
     let startY = 0;
@@ -79,34 +316,26 @@ document.addEventListener('DOMContentLoaded', () => {
     let isDragging = false;
     let justSwiped = false;
 
-    // Standard click handler (tap or click without dragging)
     lever.addEventListener('click', () => {
       if (justSwiped) return;
-      game.spin();
+      app.spin();
     });
 
-    // Pointer events for real-time swipe / pull tracking
     lever.addEventListener('pointerdown', (e) => {
-      if (game.isSpinning) return;
+      if (app.lobby.activeGame && app.lobby.activeGame.isSpinning) return;
       startY = e.clientY;
       currentDeltaY = 0;
       isDragging = true;
-      try {
-        lever.setPointerCapture(e.pointerId);
-      } catch (err) {}
-      if (leverArm) {
-        leverArm.style.transition = 'none';
-      }
+      try { lever.setPointerCapture(e.pointerId); } catch (err) {}
+      if (leverArm) leverArm.style.transition = 'none';
     });
 
     lever.addEventListener('pointermove', (e) => {
-      if (!isDragging || game.isSpinning) return;
+      if (!isDragging || (app.lobby.activeGame && app.lobby.activeGame.isSpinning)) return;
       const deltaY = e.clientY - startY;
-
       if (deltaY > 0) {
         currentDeltaY = deltaY;
         if (leverArm) {
-          // Pivot arm rests at rotate(38deg), swings to rotate(110deg)
           const pullAngle = 38 + Math.min(72, deltaY * 0.75);
           const pullScale = 1 - Math.min(0.15, (deltaY / 90) * 0.15);
           leverArm.style.transform = `rotate(${pullAngle}deg) scaleY(${pullScale})`;
@@ -123,8 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } catch (err) {}
 
-      if (currentDeltaY >= 25 && !game.isSpinning) {
-        // Dragged down far enough to trigger spin!
+      if (currentDeltaY >= 25 && (!app.lobby.activeGame || !app.lobby.activeGame.isSpinning)) {
         justSwiped = true;
         setTimeout(() => { justSwiped = false; }, 450);
 
@@ -133,26 +361,20 @@ document.addEventListener('DOMContentLoaded', () => {
           leverArm.style.transform = 'rotate(110deg) scaleY(0.86)';
         }
 
-        game.spin();
+        app.spin();
 
-        // Release back to rest position smoothly
         setTimeout(() => {
           if (leverArm) {
             leverArm.style.transition = 'transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.35)';
             leverArm.style.transform = '';
-            setTimeout(() => {
-              if (leverArm) leverArm.style.transition = '';
-            }, 360);
+            setTimeout(() => { if (leverArm) leverArm.style.transition = ''; }, 360);
           }
         }, 220);
       } else {
-        // Drag was small -> spring back to resting angle
         if (leverArm) {
           leverArm.style.transition = 'transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.35)';
           leverArm.style.transform = '';
-          setTimeout(() => {
-            if (leverArm) leverArm.style.transition = '';
-          }, 260);
+          setTimeout(() => { if (leverArm) leverArm.style.transition = ''; }, 260);
         }
       }
       currentDeltaY = 0;
@@ -162,25 +384,17 @@ document.addEventListener('DOMContentLoaded', () => {
     lever.addEventListener('pointercancel', finishLeverDrag);
   }
 
+  // Spacebar Spin
   window.addEventListener('keydown', (e) => {
-    if (e.code === 'Space' && !e.repeat && !paytableModal.classList.contains('active')) {
+    const paytableModal = document.getElementById('paytable-modal');
+    if (e.code === 'Space' && !e.repeat && (!paytableModal || !paytableModal.classList.contains('active'))) {
       e.preventDefault();
-      game.spin();
+      app.spin();
     }
   });
 
-  // Auto spin
-  if (autoBtn) autoBtn.addEventListener('click', () => game.toggleAutoSpin());
-
-  // Bet adjustments
-  if (betMinusBtn) betMinusBtn.addEventListener('click', () => game.changeBet(-5));
-  if (betPlusBtn) betPlusBtn.addEventListener('click', () => game.changeBet(5));
-  if (maxBetBtn) maxBetBtn.addEventListener('click', () => game.setMaxBet());
-
-  // Refill credits
-  if (refillBtn) refillBtn.addEventListener('click', () => game.addCredits(500));
-
   // Sound toggle
+  const soundBtn = document.getElementById('sound-btn');
   if (soundBtn) {
     soundBtn.addEventListener('click', () => {
       const isMuted = window.slotAudio.toggleMute();
@@ -191,93 +405,44 @@ document.addEventListener('DOMContentLoaded', () => {
         onIcon.style.display = isMuted ? 'none' : 'block';
         offIcon.style.display = isMuted ? 'block' : 'none';
       }
-      const iconEl = soundBtn.querySelector('.icon');
-      if (iconEl) {
-        iconEl.textContent = isMuted ? '🔇' : '🔊';
-      }
+    });
+  }
+
+  // Language toggle
+  const langToggleBtn = document.getElementById('lang-toggle');
+  if (langToggleBtn) {
+    langToggleBtn.addEventListener('click', () => {
+      if (window.slotAudio) window.slotAudio.playClick();
+      if (window.i18n) window.i18n.toggleLanguage();
     });
   }
 
   // Paytable Modal
+  const paytableBtn = document.getElementById('paytable-btn');
+  const paytableModal = document.getElementById('paytable-modal');
+  const closePaytableBtn = document.getElementById('close-paytable');
   if (paytableBtn && paytableModal) {
     paytableBtn.addEventListener('click', () => {
-      window.slotAudio.playClick();
+      if (window.slotAudio) window.slotAudio.playClick();
       paytableModal.classList.add('active');
     });
   }
-
   if (closePaytableBtn && paytableModal) {
     closePaytableBtn.addEventListener('click', () => {
-      window.slotAudio.playClick();
+      if (window.slotAudio) window.slotAudio.playClick();
       paytableModal.classList.remove('active');
     });
   }
-
   if (paytableModal) {
     paytableModal.addEventListener('click', (e) => {
       if (e.target === paytableModal) paytableModal.classList.remove('active');
     });
   }
 
-  // 3. PWA Installation & Native App UX
-  let deferredPrompt;
-  const pwaInstallBtn = document.getElementById('pwa-install-btn');
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
-                       window.matchMedia('(display-mode: fullscreen)').matches ||
-                       window.navigator.standalone === true;
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-  // Hide install button if already running as installed native PWA
-  if (isStandalone && pwaInstallBtn) {
-    pwaInstallBtn.style.display = 'none';
-  } else if (isIOS && pwaInstallBtn) {
-    // Show install button for iOS users
-    pwaInstallBtn.style.display = 'inline-flex';
-  }
-
-  // Prevent context menu (long-press popup on mobile) for true native game feel
-  window.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-  });
-
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    if (pwaInstallBtn && !isStandalone) {
-      pwaInstallBtn.style.display = 'inline-flex';
-    }
-  });
-
-  if (pwaInstallBtn) {
-    pwaInstallBtn.addEventListener('click', async () => {
-      window.slotAudio.playClick();
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-          pwaInstallBtn.style.display = 'none';
-        }
-        deferredPrompt = null;
-      } else if (isIOS) {
-        const isEn = window.i18n && window.i18n.currentLang === 'en';
-        alert(isEn 
-          ? "📲 To install grandslot on iPhone/iPad:\n1. Tap the Share button in Safari (⎋)\n2. Scroll down and tap 'Add to Home Screen' (⊞)\n\nThe app will launch in full screen without browser bars!" 
-          : "📲 Za instalaciju grandslot aplikacije na iPhone/iPad:\n1. Dodirnite dugme Deli u Safariju (⎋)\n2. Izaberite 'Dodaj na početni ekran' (⊞)\n\nAplikacija će se otvarati preko celog ekrana kao prava izvorna igra!");
-      }
-    });
-  }
-
-  window.addEventListener('appinstalled', () => {
-    if (pwaInstallBtn) pwaInstallBtn.style.display = 'none';
-  });
-
-  // 4. Register Service Worker
+  // PWA Service Worker
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js')
-      .then((reg) => {
-        console.log('PWA Service Worker registered:', reg.scope);
-        reg.update();
-      })
-      .catch((err) => console.error('PWA Service Worker registration failed:', err));
+      .then((reg) => reg.update())
+      .catch((err) => console.error('PWA SW registration failed:', err));
   }
 });

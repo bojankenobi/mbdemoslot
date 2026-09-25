@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <!-- Bomb Body Gradient -->
+    <radialGradient id="bomb-body" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#475569" />
+      <stop offset="25%" stop-color="#1e293b" />
+      <stop offset="70%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+
+    <!-- Bomb Rim Light / Glow -->
+    <linearGradient id="bomb-neon-stroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff453a" />
+      <stop offset="100%" stop-color="#ff2d55" />
+    </linearGradient>
+
+    <!-- Spark Gradient -->
+    <radialGradient id="spark-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="40%" stop-color="#ffea00" />
+      <stop offset="80%" stop-color="#ff3d00" />
+      <stop offset="100%" stop-color="transparent" />
+    </radialGradient>
+
+    <!-- Fuse Gradient -->
+    <linearGradient id="fuse-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#78716c" />
+      <stop offset="50%" stop-color="#d6d3d1" />
+      <stop offset="100%" stop-color="#ff9800" />
+    </linearGradient>
+
+    <filter id="bomb-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#ff1744" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#bomb-glow)">
+    <!-- Smoke puffs behind spark -->
+    <circle cx="70" cy="22" r="8" fill="#475569" opacity="0.4" />
+    <circle cx="64" cy="16" r="6" fill="#64748b" opacity="0.3" />
+    <circle cx="78" cy="18" r="5" fill="#334155" opacity="0.4" />
+
+    <!-- Fuse path -->
+    <path d="M54 36 C 54 20, 72 28, 72 16" fill="none" stroke="url(#fuse-grad)" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- Sparks -->
+    <path d="M 72 16 L 68 8 L 74 12 L 80 6 L 76 14 L 84 14 L 76 18 L 82 24 L 74 20 L 72 26 Z" fill="url(#spark-glow)"/>
+
+    <!-- Bomb cap collar -->
+    <rect x="46" y="32" width="16" height="8" rx="3" fill="#334155" stroke="#ff453a" stroke-width="1.5" />
+
+    <!-- Bomb spherical body -->
+    <circle cx="54" cy="68" r="42" fill="url(#bomb-body)" stroke="url(#bomb-neon-stroke)" stroke-width="2.8"/>
+
+    <!-- Neon Skull / Hazard contour on bomb body -->
+    <!-- Stylized Hazard X or Bomb Shine -->
+    <path d="M30 52 C32 42, 45 36, 56 36" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.4" />
+    <circle cx="34" cy="56" r="3" fill="#ffffff" opacity="0.5" />
+    
+    <!-- Neon Danger Glow Ring inside -->
+    <circle cx="54" cy="68" r="30" fill="none" stroke="#ff1744" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+    <!-- Center Danger Symbol -->
+    <path d="M46 64 L62 64 L54 78 Z" fill="#ff1744" opacity="0.85" />
+    <rect x="52" y="58" width="4" height="4" rx="1" fill="#ff1744" opacity="0.85" />
+  </g>
+</svg>
