@@ -44,6 +44,10 @@ class ClassicSlotGame {
     if (stageArea) {
       stageArea.classList.remove('has-3x3', 'has-fullfocus');
     }
+    const stageScaler = document.querySelector('.slot-stage-scaler');
+    if (stageScaler) {
+      stageScaler.classList.remove('is-fullfocus');
+    }
     this.initReels();
   }
 

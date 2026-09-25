@@ -50,6 +50,10 @@ class Royal3x3Game {
       stageArea.classList.toggle('has-3x3', !isFullFocus);
       stageArea.classList.toggle('has-fullfocus', isFullFocus);
     }
+    const stageScaler = document.querySelector('.slot-stage-scaler');
+    if (stageScaler) {
+      stageScaler.classList.toggle('is-fullfocus', isFullFocus);
+    }
     this.initReels();
   }
 
