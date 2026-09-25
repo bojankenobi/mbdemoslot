@@ -146,7 +146,19 @@
       hwFinished: '🏆 HOLD & WIN BONUS ZAVRŠEN! OSVOJENO: +{amount}',
       jackpotWonSilver: '🥈 ČESTITAMO! OSVOJILI STE SILVER JACKPOT: +{amount}! 🥈',
       jackpotWonGold: '🏆 MAXBET POGODAK! OSVOJILI STE GOLD JACKPOT: +{amount}! 🏆',
-      jackpotWonDiamond: '💎 MEGA BANGER! OSVOJILI STE DIAMOND JACKPOT: +{amount}! 💎'
+      jackpotWonDiamond: '💎 MEGA BANGER! OSVOJILI STE DIAMOND JACKPOT: +{amount}! 💎',
+
+      // PWA Install Keys
+      pwaBannerTitle: 'Instalirajte MaxBet Casino',
+      pwaBannerSub: 'Igrajte na punom ekranu bez browser traka, brže i glatko!',
+      pwaBannerInstallBtn: 'INSTALIRAJ ODMAH',
+      pwaBannerDismissBtn: 'Kasnije',
+      pwaIosModalTitle: '📲 INSTALACIJA NA IPHONE / IPAD',
+      pwaIosStep1: 'Dodirnite ikonicu <strong>Deli (Share)</strong> na dnu Safari browsera:',
+      pwaIosStep2: 'U meniju izaberite opciju <strong>„Dodaj na početni ekran” (Add to Home Screen)</strong>:',
+      pwaIosStep3: 'Dodirnite <strong>„Dodaj” (Add)</strong> u gornjem desnom uglu.',
+      pwaIosCloseBtn: 'RAZUMEM',
+      pwaInstalledSuccess: 'Aplikacija je uspešno instalirana!'
     },
     en: {
       brandSub: 'MAXBET CASINO',
@@ -290,7 +302,19 @@
       hwFinished: '🏆 HOLD & WIN BONUS FINISHED! WON: +{amount}',
       jackpotWonSilver: '🥈 CONGRATULATIONS! YOU WON THE SILVER JACKPOT: +{amount}! 🥈',
       jackpotWonGold: '🏆 MAXBET HIT! YOU WON THE GOLD JACKPOT: +{amount}! 🏆',
-      jackpotWonDiamond: '💎 MEGA BANGER! YOU WON THE DIAMOND JACKPOT: +{amount}! 💎'
+      jackpotWonDiamond: '💎 MEGA BANGER! YOU WON THE DIAMOND JACKPOT: +{amount}! 💎',
+
+      // PWA Install Keys
+      pwaBannerTitle: 'Install MaxBet Casino',
+      pwaBannerSub: 'Play in fullscreen without browser bars, faster and smoother!',
+      pwaBannerInstallBtn: 'INSTALL NOW',
+      pwaBannerDismissBtn: 'Later',
+      pwaIosModalTitle: '📲 INSTALL ON IPHONE / IPAD',
+      pwaIosStep1: 'Tap the <strong>Share</strong> icon at the bottom of Safari:',
+      pwaIosStep2: 'Scroll and select <strong>„Add to Home Screen”</strong>:',
+      pwaIosStep3: 'Tap <strong>„Add”</strong> in the top right corner.',
+      pwaIosCloseBtn: 'GOT IT',
+      pwaInstalledSuccess: 'App successfully installed!'
     }
   };
 

@@ -698,6 +698,76 @@
     </div>
   </div>
 
+  <!-- Smart PWA Install Bottom Bar / Floating Prompt -->
+  <aside class="pwa-install-banner" id="pwa-install-banner" aria-label="Instalacija aplikacije">
+    <div class="pwa-banner-glow"></div>
+    <div class="pwa-banner-content">
+      <div class="pwa-banner-icon-wrap">
+        <img src="assets/icons/icon-192.png" alt="MaxBet Casino" class="pwa-banner-logo" />
+        <span class="pwa-banner-badge">APP</span>
+      </div>
+      <div class="pwa-banner-text">
+        <div class="pwa-banner-title" data-i18n="pwaBannerTitle">Instalirajte MaxBet Casino</div>
+        <div class="pwa-banner-sub" data-i18n="pwaBannerSub">Igrajte na punom ekranu bez browser traka, brže i glatko!</div>
+      </div>
+    </div>
+    <div class="pwa-banner-actions">
+      <button class="btn-pwa-dismiss" id="pwa-dismiss-btn" data-i18n="pwaBannerDismissBtn">Kasnije</button>
+      <button class="btn-pwa-install" id="pwa-banner-install-btn">
+        <span class="pwa-btn-shine"></span>
+        <span class="pwa-btn-icon">⚡</span>
+        <span class="pwa-btn-label" data-i18n="pwaBannerInstallBtn">INSTALIRAJ ODMAH</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- iOS Step-by-Step Installation Modal Guide (for Safari users) -->
+  <div class="modal-overlay pwa-ios-modal-overlay" id="pwa-ios-modal">
+    <div class="pwa-ios-card">
+      <div class="pwa-ios-header">
+        <div class="pwa-ios-icon-box">📲</div>
+        <div class="pwa-ios-title-wrap">
+          <h3 class="pwa-ios-title" data-i18n="pwaIosModalTitle">INSTALACIJA NA IPHONE / IPAD</h3>
+          <span class="pwa-ios-tag">Apple iOS Safari</span>
+        </div>
+        <button class="btn-close pwa-ios-close" id="pwa-ios-close-x">&times;</button>
+      </div>
+      <div class="pwa-ios-body">
+        <div class="pwa-ios-step">
+          <div class="pwa-step-num">1</div>
+          <div class="pwa-step-desc">
+            <span data-i18n="pwaIosStep1">Dodirnite ikonicu <strong>Deli (Share)</strong> na dnu Safari browsera:</span>
+            <div class="pwa-ios-share-badge">
+              <svg class="pwa-share-svg" viewBox="0 0 50 50" aria-hidden="true">
+                <path fill="#2997ff" d="M25 4c-.6 0-1.1.2-1.5.6l-8 8c-.8.8-.8 2 0 2.8s2 .8 2.8 0L23 10.7V32c0 1.1.9 2 2 2s2-.9 2-2V10.7l4.7 4.7c.8.8 2 .8 2.8 0s.8-2 0-2.8l-8-8c-.4-.4-.9-.6-1.5-.6zM13 22c-1.1 0-2 .9-2 2v18c0 2.2 1.8 4 4 4h20c2.2 0 4-1.8 4-4V24c0-1.1-.9-2-2-2s-2 .9-2 2v18H15V24c0-1.1-.9-2-2-2z"/>
+              </svg>
+              <span>Share (Deli)</span>
+            </div>
+          </div>
+        </div>
+        <div class="pwa-ios-step">
+          <div class="pwa-step-num">2</div>
+          <div class="pwa-step-desc">
+            <span data-i18n="pwaIosStep2">U meniju izaberite opciju <strong>„Dodaj na početni ekran” (Add to Home Screen)</strong>:</span>
+            <div class="pwa-ios-add-badge">
+              <span class="ios-plus-icon">⊞</span>
+              <span>Dodaj na početni ekran / Add to Home Screen</span>
+            </div>
+          </div>
+        </div>
+        <div class="pwa-ios-step">
+          <div class="pwa-step-num">3</div>
+          <div class="pwa-step-desc">
+            <span data-i18n="pwaIosStep3">Dodirnite <strong>„Dodaj” (Add)</strong> u gornjem desnom uglu.</span>
+          </div>
+        </div>
+      </div>
+      <div class="pwa-ios-footer">
+        <button class="btn-pwa-ios-confirm" id="pwa-ios-confirm-btn" data-i18n="pwaIosCloseBtn">RAZUMEM</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="js/audio.js?v=61"></script>
   <script src="js/i18n.js?v=61"></script>

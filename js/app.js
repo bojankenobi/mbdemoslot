@@ -439,6 +439,143 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // PWA Automated 1-Click Installation Controller
+  let deferredPrompt = null;
+  const installBtn = document.getElementById('pwa-install-btn');
+  const bannerInstallBtn = document.getElementById('pwa-banner-install-btn');
+  const installBanner = document.getElementById('pwa-install-banner');
+  const dismissBannerBtn = document.getElementById('pwa-dismiss-btn');
+  const iosModal = document.getElementById('pwa-ios-modal');
+  const closeIosModalBtn = document.getElementById('pwa-ios-close-x');
+  const confirmIosModalBtn = document.getElementById('pwa-ios-confirm-btn');
+
+  // Check if running in standalone mode (already installed)
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                       window.navigator.standalone === true ||
+                       document.referrer.includes('android-app://');
+
+  // Detect iOS Safari
+  const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+  function showInstallBanner() {
+    if (isStandalone) return;
+    const dismissedTime = localStorage.getItem('maxbet_pwa_dismissed');
+    // If dismissed recently (within 24h), do not annoy the user
+    if (dismissedTime && (Date.now() - parseInt(dismissedTime, 10)) < 86400000) {
+      return;
+    }
+    if (installBanner) {
+      setTimeout(() => {
+        installBanner.classList.add('is-visible');
+      }, 1500);
+    }
+  }
+
+  function hideInstallBanner(permanently = false) {
+    if (installBanner) {
+      installBanner.classList.remove('is-visible');
+    }
+    if (permanently) {
+      localStorage.setItem('maxbet_pwa_dismissed', Date.now().toString());
+    }
+  }
+
+  // Handle Android / Chrome automated beforeinstallprompt
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the default mini-infobar from appearing on mobile
+    e.preventDefault();
+    deferredPrompt = e;
+
+    // Highlight install button in footer
+    if (installBtn) {
+      installBtn.classList.add('is-pulse');
+    }
+
+    // Show floating installation banner
+    showInstallBanner();
+  });
+
+  async function triggerAutomatedInstall() {
+    if (window.slotAudio) window.slotAudio.playClick();
+
+    // 1. Android / Chrome / Edge Native 1-Click Prompt
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const choiceResult = await deferredPrompt.userChoice;
+      if (choiceResult && choiceResult.outcome === 'accepted') {
+        hideInstallBanner(true);
+        if (installBtn) installBtn.classList.remove('is-pulse');
+      }
+      deferredPrompt = null;
+      return;
+    }
+
+    // 2. iOS Safari Step-by-Step visual guide
+    if (isIos || isSafari) {
+      hideInstallBanner(false);
+      if (iosModal) iosModal.classList.add('active');
+      return;
+    }
+
+    // 3. Fallback for Desktop/Unsupported browsers: show gentle prompt
+    if (app && typeof app.showMessage === 'function') {
+      const msg = window.i18n ? window.i18n.t('pwaBannerTitle') : 'Instalirajte MaxBet Casino';
+      app.showMessage(msg, 'gold');
+    }
+  }
+
+  if (installBtn) {
+    installBtn.addEventListener('click', triggerAutomatedInstall);
+  }
+
+  if (bannerInstallBtn) {
+    bannerInstallBtn.addEventListener('click', triggerAutomatedInstall);
+  }
+
+  if (dismissBannerBtn) {
+    dismissBannerBtn.addEventListener('click', () => {
+      if (window.slotAudio) window.slotAudio.playClick();
+      hideInstallBanner(true);
+    });
+  }
+
+  // iOS Guide Modal Events
+  if (closeIosModalBtn && iosModal) {
+    closeIosModalBtn.addEventListener('click', () => {
+      if (window.slotAudio) window.slotAudio.playClick();
+      iosModal.classList.remove('active');
+    });
+  }
+
+  if (confirmIosModalBtn && iosModal) {
+    confirmIosModalBtn.addEventListener('click', () => {
+      if (window.slotAudio) window.slotAudio.playClick();
+      iosModal.classList.remove('active');
+    });
+  }
+
+  if (iosModal) {
+    iosModal.addEventListener('click', (e) => {
+      if (e.target === iosModal) iosModal.classList.remove('active');
+    });
+  }
+
+  // App Installed Event Listener
+  window.addEventListener('appinstalled', () => {
+    hideInstallBanner(true);
+    if (installBtn) installBtn.classList.remove('is-pulse');
+    if (app && typeof app.showMessage === 'function') {
+      const msg = window.i18n ? window.i18n.t('pwaInstalledSuccess') : 'Aplikacija je uspešno instalirana!';
+      app.showMessage(msg, 'jackpot');
+    }
+  });
+
+  // Prompt banner on iOS or first visit if not installed
+  if (!isStandalone) {
+    setTimeout(showInstallBanner, 2000);
+  }
+
   // PWA Service Worker
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js')
