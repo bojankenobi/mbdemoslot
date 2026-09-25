@@ -2514,6 +2514,41 @@ body {
   margin-bottom: 4px;
 }
 
+/* ============================================================
+   RESPONSIVE CYLINDER CENTERING ACROSS ALL VIEWPORT SIZES
+   Guarantees 100% symmetric screen centering of the 3D cylinder
+   ============================================================ */
+@media (max-width: 600px) {
+  /* On mobile (<600px), center directly on the 416px 3D cylinder */
+  .slot-stage-scaler {
+    width: calc(416px * var(--slot-scale, 1)) !important;
+  }
+  
+  .slot-assembly-wrap {
+    width: 416px !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) scale(var(--slot-scale, 1)) !important;
+  }
+  
+  .slot-cylinder-replica {
+    left: 0 !important;
+    margin: 0 auto !important;
+    position: absolute !important;
+  }
+  
+  .cylinder-ground-shadow {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 390px !important;
+  }
+  
+  /* On mobile phones, hide the lever so cylinder has full screen width & true geometric center */
+  .slot-lever-replica {
+    display: none !important;
+    pointer-events: none !important;
+  }
+}
+
 /* Responsiveness for mobile screens */
 @media (max-width: 480px) {
   .brand-logo-wrap {

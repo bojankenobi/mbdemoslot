@@ -289,11 +289,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateSlotScale() {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
+    const isMobile = vw <= 600;
     const isFullFocus = (app.lobby && app.lobby.activeGameId === 'fullfocus');
     const is3x3 = (app.lobby && (app.lobby.activeGameId === 'royal3x3' || isFullFocus));
 
-    const baseW = isFullFocus ? 416 : 514;
-    const availW = Math.max(260, vw - (isFullFocus ? 16 : 24));
+    const baseW = (isFullFocus || isMobile) ? 416 : 514;
+    const availW = Math.max(260, vw - ((isFullFocus || isMobile) ? 16 : 24));
     const scaleW = Math.min(1.22, availW / baseW);
 
     const baseH = is3x3 ? 250 : 165;
