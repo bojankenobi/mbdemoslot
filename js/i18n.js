@@ -71,8 +71,8 @@
       bet: 'Ulog',
       win: 'Dobitak',
 
-      addCredits: '+ KREDITI',
-      addCreditsTitle: 'Dodaj besplatne kredite',
+      addCredits: 'DOPUNA RSD',
+      addCreditsTitle: 'Dopunite fiktivne dinare (otvara profil)',
       betLabel: 'ULOG',
       maxBet: 'MAX BET',
       spin: 'SPIN',
@@ -263,8 +263,8 @@
       bet: 'Bet',
       win: 'Win',
 
-      addCredits: '+ CREDITS',
-      addCreditsTitle: 'Add free credits',
+      addCredits: 'DEPOSIT RSD',
+      addCreditsTitle: 'Deposit fictional RSD (opens profile)',
       betLabel: 'BET',
       maxBet: 'MAX BET',
       spin: 'SPIN',

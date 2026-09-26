@@ -297,8 +297,12 @@ class MaxBetApp {
     if (betPlusBtn) betPlusBtn.addEventListener('click', () => this.wallet.changeBet(5));
     if (maxBetBtn) maxBetBtn.addEventListener('click', () => this.wallet.setMaxBet());
     if (refillBtn) refillBtn.addEventListener('click', () => {
-      this.wallet.addCredits(500);
-      this.showMessage(window.i18n ? window.i18n.t('creditsAdded', { amount: 500 }) : 'DODATO +500 KREDITA!', 'gold');
+      if (typeof this.openProfileModal === 'function') {
+        this.openProfileModal();
+      } else {
+        const pBtn = document.getElementById('player-profile-btn');
+        if (pBtn) pBtn.click();
+      }
     });
 
     if (hudDenomToggle) {
@@ -727,15 +731,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (playTimeEl) playTimeEl.textContent = app.playerTracker.getSessionPlayTime();
   }
 
+  app.openProfileModal = function() {
+    if (window.slotAudio) window.slotAudio.playClick();
+    if (!app.playerTracker || !app.playerTracker.profile.isLoggedIn) {
+      if (loginModal) loginModal.classList.add('active');
+    } else {
+      renderProfileStats();
+      if (profileModal) profileModal.classList.add('active');
+    }
+  };
+
   if (playerProfileBtn) {
     playerProfileBtn.addEventListener('click', () => {
-      if (window.slotAudio) window.slotAudio.playClick();
-      if (!app.playerTracker || !app.playerTracker.profile.isLoggedIn) {
-        if (loginModal) loginModal.classList.add('active');
-      } else {
-        renderProfileStats();
-        if (profileModal) profileModal.classList.add('active');
-      }
+      app.openProfileModal();
     });
   }
 

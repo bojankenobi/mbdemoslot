@@ -3,15 +3,7 @@
  * Centralized credit, bet, and payout ledger across all slot games.
  */
 class CasinoWallet {
-  constructor(initialBalance = 1000, initialBet = 20) {
-    this.balance = initialBalance; // Balance in credits
-    this.bet = initialBet;         // Bet in credits
-    this.minBet = 5;
-    this.maxBet = 100;
-    this.lastWin = 0;             // Last win in credits
-    this.freeSpins = 0;
-    this.happyHourMultiplier = 1;
-
+  constructor(initialRsdBalance = 1000, initialBetCredits = 20) {
     // Denomination settings: 0.2, 0.5, 1, 2, 4 RSD per credit
     this.denominations = [0.2, 0.5, 1, 2, 4];
     this.activeDenom = 1; // Default: 1 RSD = 1 Credit
@@ -24,6 +16,28 @@ class CasinoWallet {
       }
     } catch (e) {}
 
+    // Load saved RSD balance if exists, else initial 1000 RSD
+    this.rsdBalance = initialRsdBalance;
+    try {
+      const savedBal = parseFloat(localStorage.getItem('maxbet_rsd_balance'));
+      if (!isNaN(savedBal) && savedBal >= 0) {
+        this.rsdBalance = savedBal;
+      }
+    } catch (e) {}
+
+    this.bet = initialBetCredits; // Bet in credits
+    this.minBet = 5;
+    this.maxBet = 100;
+    this.lastWinCredits = 0;
+    this.lastWinRsd = 0;
+    this.freeSpins = 0;
+    this.happyHourMultiplier = 1;
+
+    this.initDOM();
+    this.updateUI();
+  }
+
+  initDOM() {
     this.balanceEl = document.getElementById('val-balance');
     this.betEl = document.getElementById('val-bet');
     this.winEl = document.getElementById('val-win');
@@ -31,17 +45,39 @@ class CasinoWallet {
     this.denomSubEl = document.getElementById('hud-denom-sub');
     this.balanceRsdEl = document.getElementById('hud-balance-rsd');
     this.betRsdEl = document.getElementById('hud-bet-rsd');
+  }
 
-    this.updateUI();
+  // Dynamic Credits balance calculated from real RSD and active denomination
+  get balance() {
+    return Math.floor(this.rsdBalance / this.activeDenom);
+  }
+
+  set balance(credits) {
+    this.rsdBalance = Math.round(credits * this.activeDenom);
+    this.saveState();
+  }
+
+  get lastWin() {
+    return this.lastWinCredits;
+  }
+
+  set lastWin(credits) {
+    this.lastWinCredits = credits;
+    this.lastWinRsd = +(credits * this.activeDenom).toFixed(2);
+  }
+
+  saveState() {
+    try {
+      localStorage.setItem('maxbet_rsd_balance', this.rsdBalance.toString());
+      localStorage.setItem('maxbet_denomination', this.activeDenom.toString());
+    } catch (e) {}
   }
 
   setDenomination(val) {
     const num = parseFloat(val);
     if (this.denominations.includes(num)) {
       this.activeDenom = num;
-      try {
-        localStorage.setItem('maxbet_denomination', num.toString());
-      } catch (e) {}
+      this.saveState();
       if (window.slotAudio) window.slotAudio.playClick();
       this.updateUI();
     }
@@ -66,40 +102,52 @@ class CasinoWallet {
       this.freeSpins--;
       return { isFree: true, remainingFree: this.freeSpins, betAmount: this.bet };
     }
-    if (this.balance >= this.bet) {
-      this.balance -= this.bet;
-      this.lastWin = 0;
+    const betInRsd = +(this.bet * this.activeDenom).toFixed(2);
+    if (this.rsdBalance >= betInRsd) {
+      this.rsdBalance = +(this.rsdBalance - betInRsd).toFixed(2);
+      this.lastWinCredits = 0;
+      this.lastWinRsd = 0;
+      this.saveState();
       this.updateUI();
       return { isFree: false, remainingFree: 0, betAmount: this.bet };
     }
     return null;
   }
 
-  addWin(amount) {
-    if (amount > 0) {
-      this.balance += amount;
-      this.lastWin = amount;
+  addWin(creditsAmount) {
+    if (creditsAmount > 0) {
+      const winInRsd = +(creditsAmount * this.activeDenom).toFixed(2);
+      this.rsdBalance = +(this.rsdBalance + winInRsd).toFixed(2);
+      this.lastWinCredits = creditsAmount;
+      this.lastWinRsd = winInRsd;
+      this.saveState();
       this.updateUI();
     }
   }
 
-  setLastWin(amount) {
-    this.lastWin = amount;
+  setLastWin(creditsAmount) {
+    this.lastWinCredits = creditsAmount;
+    this.lastWinRsd = +(creditsAmount * this.activeDenom).toFixed(2);
     this.updateUI();
   }
 
-  addCredits(amount = 500) {
-    this.balance += amount;
-    this.updateUI();
-    if (window.slotAudio) window.slotAudio.playCoinDrop();
-  }
-
+  // Fictional RSD Deposit - Pure fiat addition that automatically recalculates credits
   addFictionalRsd(rsdAmount = 1000) {
-    const credits = Math.round(rsdAmount / this.activeDenom);
-    this.balance += credits;
-    this.updateUI();
-    if (window.slotAudio) window.slotAudio.playCoinDrop();
-    return credits;
+    const num = Math.max(0, parseFloat(rsdAmount) || 0);
+    if (num > 0) {
+      this.rsdBalance = +(this.rsdBalance + num).toFixed(2);
+      this.saveState();
+      this.updateUI();
+      if (window.slotAudio) window.slotAudio.playCoinDrop();
+      return Math.floor(num / this.activeDenom);
+    }
+    return 0;
+  }
+
+  addCredits(credits = 500) {
+    // Backwards compatibility: add equivalent in RSD
+    const rsdEq = +(credits * this.activeDenom).toFixed(2);
+    this.addFictionalRsd(rsdEq);
   }
 
   changeBet(delta) {
@@ -124,19 +172,21 @@ class CasinoWallet {
   }
 
   updateUI() {
-    const rsdBalance = this.getRsdAmount(this.balance);
-    const rsdBet = this.getRsdAmount(this.bet);
-    const rsdWin = this.getRsdAmount(this.lastWin);
+    if (!this.balanceEl) this.initDOM();
 
-    if (this.balanceEl) this.balanceEl.textContent = this.balance.toLocaleString();
+    const currentCredits = this.balance;
+    const betRsd = +(this.bet * this.activeDenom).toFixed(2);
+    const winCredits = this.lastWinCredits;
+
+    if (this.balanceEl) this.balanceEl.textContent = currentCredits.toLocaleString();
     if (this.betEl) this.betEl.textContent = this.bet.toLocaleString();
-    if (this.winEl) this.winEl.textContent = this.lastWin.toLocaleString();
+    if (this.winEl) this.winEl.textContent = winCredits.toLocaleString();
 
     if (this.balanceRsdEl) {
-      this.balanceRsdEl.textContent = `≈ ${rsdBalance.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 2 })} RSD`;
+      this.balanceRsdEl.textContent = `≈ ${this.rsdBalance.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })} RSD`;
     }
     if (this.betRsdEl) {
-      this.betRsdEl.textContent = `≈ ${rsdBet.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 2 })} RSD`;
+      this.betRsdEl.textContent = `≈ ${betRsd.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })} RSD`;
     }
 
     if (this.denomValEl) {

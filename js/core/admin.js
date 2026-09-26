@@ -316,17 +316,16 @@ class AdminPanel {
 
     const triggerAdd10k = document.getElementById('btn-trigger-add-10k');
     if (triggerAdd10k) triggerAdd10k.addEventListener('click', () => {
-      this.app.wallet.balance += 10000;
-      this.app.wallet.updateUI();
-      this.app.showMessage('💰 +10.000 RSD KREDITA DODATO!', 'win');
-      if (window.slotAudio) window.slotAudio.playCoin();
+      this.app.wallet.addFictionalRsd(10000);
+      this.app.showMessage('💰 +10.000 RSD DODATO NA RAČUN!', 'win');
     });
 
     const triggerReset1k = document.getElementById('btn-trigger-reset-1k');
     if (triggerReset1k) triggerReset1k.addEventListener('click', () => {
-      this.app.wallet.balance = 1000;
+      this.app.wallet.rsdBalance = 1000;
+      this.app.wallet.saveState();
       this.app.wallet.updateUI();
-      this.app.showMessage('🔄 KREDIT POSTAVLJEN NA 1.000 RSD', 'info');
+      this.app.showMessage('🔄 STANJE POSTAVLJENO NA 1.000 RSD', 'info');
       if (window.slotAudio) window.slotAudio.playClick();
     });
 
