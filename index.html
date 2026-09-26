@@ -250,17 +250,24 @@
       </div>
     </div>
 
-    <!-- HUD Dashboard Counters (Intimate Borderless Display) -->
+    <!-- HUD Dashboard Counters (Intimate Borderless Display with Live Denomination & RSD conversion) -->
     <section class="hud-panel">
-      <div class="hud-item">
+      <div class="hud-item hud-balance-item">
         <div class="hud-label" data-i18n="credits">Krediti</div>
         <div class="hud-val" id="val-balance">1,000</div>
+        <div class="hud-sub-rsd" id="hud-balance-rsd">≈ 1,000 RSD</div>
       </div>
-      <div class="hud-item">
+      <div class="hud-item hud-denom-item" id="hud-denom-toggle-btn" role="button" tabindex="0" title="Kliknite da promenite denominaciju (0.2, 0.5, 1, 2, 4 RSD)">
+        <div class="hud-label" data-i18n="denominationLabel">DENOM</div>
+        <div class="hud-val hud-val-denom" id="hud-denom-val">1 RSD</div>
+        <div class="hud-sub-rsd" id="hud-denom-sub">1 KR = 1 RSD</div>
+      </div>
+      <div class="hud-item hud-bet-item">
         <div class="hud-label" data-i18n="bet">Ulog</div>
         <div class="hud-val" id="val-bet">20</div>
+        <div class="hud-sub-rsd" id="hud-bet-rsd">≈ 20 RSD</div>
       </div>
-      <div class="hud-item win-item">
+      <div class="hud-item win-item hud-win-item">
         <div class="hud-label" data-i18n="win">Dobitak</div>
         <div class="hud-val" id="val-win">0</div>
       </div>
@@ -909,6 +916,35 @@
           <div class="breakdown-row">
             <span class="breakdown-label" data-i18n="profilePlayTime">Vreme u Igri:</span>
             <span class="breakdown-val" id="profile-playtime">0m 0s</span>
+          </div>
+        </div>
+
+        <!-- Fictional RSD Wallet Deposit (Demo Dopuna Dinara) -->
+        <div class="profile-deposit-section">
+          <div class="breakdown-title" style="color: #10b981;">💳 FIKTIVNA DOPUNA DINARA (DEMO)</div>
+          <p class="profile-deposit-desc" data-i18n="profileDepositDesc">Dodajte fiktivna sredstva na svoj račun u dinarima radi testiranja igre:</p>
+          <div class="profile-deposit-chips">
+            <button type="button" class="btn-deposit-chip" data-amount="500">+500 RSD</button>
+            <button type="button" class="btn-deposit-chip" data-amount="1000">+1.000 RSD</button>
+            <button type="button" class="btn-deposit-chip" data-amount="2000">+2.000 RSD</button>
+            <button type="button" class="btn-deposit-chip" data-amount="5000">+5.000 RSD</button>
+          </div>
+          <div class="profile-custom-deposit-row">
+            <input type="number" id="custom-deposit-input" class="input-custom-deposit" placeholder="Iznos u RSD..." min="100" max="50000" step="100">
+            <button type="button" class="btn-custom-deposit" id="btn-submit-custom-deposit" data-i18n="profileDepositBtn">DOPUNI RSD</button>
+          </div>
+        </div>
+
+        <!-- Denomination Selector in Profile -->
+        <div class="profile-denom-section">
+          <div class="breakdown-title">🎰 DENOMINACIJA (VREDNOST KREDITA)</div>
+          <p class="profile-deposit-desc" data-i18n="profileDenomDesc">Izaberite koliko dinara vredi 1 kredit:</p>
+          <div class="profile-denom-chips">
+            <button type="button" class="denom-pill-btn" data-denom="0.2">0.2 RSD</button>
+            <button type="button" class="denom-pill-btn" data-denom="0.5">0.5 RSD</button>
+            <button type="button" class="denom-pill-btn active" data-denom="1">1 RSD</button>
+            <button type="button" class="denom-pill-btn" data-denom="2">2 RSD</button>
+            <button type="button" class="denom-pill-btn" data-denom="4">4 RSD</button>
           </div>
         </div>
       </div>

@@ -291,6 +291,7 @@ class MaxBetApp {
     const betPlusBtn = document.getElementById('bet-plus');
     const maxBetBtn = document.getElementById('max-bet-btn');
     const refillBtn = document.getElementById('refill-credits-btn');
+    const hudDenomToggle = document.getElementById('hud-denom-toggle-btn');
 
     if (betMinusBtn) betMinusBtn.addEventListener('click', () => this.wallet.changeBet(-5));
     if (betPlusBtn) betPlusBtn.addEventListener('click', () => this.wallet.changeBet(5));
@@ -299,6 +300,14 @@ class MaxBetApp {
       this.wallet.addCredits(500);
       this.showMessage(window.i18n ? window.i18n.t('creditsAdded', { amount: 500 }) : 'DODATO +500 KREDITA!', 'gold');
     });
+
+    if (hudDenomToggle) {
+      hudDenomToggle.addEventListener('click', () => {
+        this.wallet.cycleDenomination();
+        const msg = `DENOMINACIJA: 1 KR = ${this.wallet.activeDenom} RSD`;
+        this.showMessage(msg, 'info');
+      });
+    }
   }
 }
 
@@ -754,6 +763,50 @@ document.addEventListener('DOMContentLoaded', () => {
       if (loginModal) loginModal.classList.add('active');
     });
   }
+
+  // Fictional RSD Deposit chips in Profile
+  document.querySelectorAll('.btn-deposit-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const amount = parseInt(btn.getAttribute('data-amount'), 10) || 500;
+      if (app && app.wallet) {
+        const addedCredits = app.wallet.addFictionalRsd(amount);
+        renderProfileStats();
+        app.showMessage(`💰 USPEŠNO UPLAĆENO +${amount.toLocaleString()} RSD (+${addedCredits.toLocaleString()} KR)!`, 'jackpot');
+      }
+    });
+  });
+
+  // Custom RSD Deposit in Profile
+  const customDepositInput = document.getElementById('custom-deposit-input');
+  const btnSubmitCustomDeposit = document.getElementById('btn-submit-custom-deposit');
+  if (btnSubmitCustomDeposit) {
+    btnSubmitCustomDeposit.addEventListener('click', () => {
+      const val = parseInt(customDepositInput ? customDepositInput.value : 0, 10);
+      if (val && val > 0) {
+        if (app && app.wallet) {
+          const addedCredits = app.wallet.addFictionalRsd(val);
+          if (customDepositInput) customDepositInput.value = '';
+          renderProfileStats();
+          app.showMessage(`💰 USPEŠNO UPLAĆENO +${val.toLocaleString()} RSD (+${addedCredits.toLocaleString()} KR)!`, 'jackpot');
+        }
+      } else {
+        if (window.slotAudio) window.slotAudio.playClick();
+        if (customDepositInput) customDepositInput.focus();
+      }
+    });
+  }
+
+  // Profile Denomination Pills
+  document.querySelectorAll('.denom-pill-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const denomVal = parseFloat(btn.getAttribute('data-denom'));
+      if (app && app.wallet && denomVal) {
+        app.wallet.setDenomination(denomVal);
+        renderProfileStats();
+        app.showMessage(`🎰 DENOMINACIJA: 1 KR = ${denomVal} RSD`, 'info');
+      }
+    });
+  });
 
   // PWA Service Worker
   if ('serviceWorker' in navigator) {

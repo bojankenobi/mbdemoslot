@@ -190,7 +190,11 @@
       profileJackpotGold: 'Gold Jackpoti:',
       profileJackpotDiamond: 'Diamond Jackpoti:',
       profileLogoutBtn: 'ODJAVI SE',
-      profileCloseBtn: 'ZATVORI'
+      profileCloseBtn: 'ZATVORI',
+      denominationLabel: 'DENOM',
+      profileDepositDesc: 'Dodajte fiktivna sredstva na svoj račun u dinarima radi testiranja igre:',
+      profileDepositBtn: 'DOPUNI RSD',
+      profileDenomDesc: 'Izaberite koliko dinara vredi 1 kredit:'
     },
     en: {
       brandSub: 'MAXBET CASINO',
@@ -378,7 +382,11 @@
       profileJackpotGold: 'Gold Jackpots:',
       profileJackpotDiamond: 'Diamond Jackpots:',
       profileLogoutBtn: 'LOGOUT',
-      profileCloseBtn: 'CLOSE'
+      profileCloseBtn: 'CLOSE',
+      denominationLabel: 'DENOM',
+      profileDepositDesc: 'Add fictional demo funds in RSD to test slot gameplay:',
+      profileDepositBtn: 'DEPOSIT RSD',
+      profileDenomDesc: 'Select RSD coin value per 1 credit:'
     }
   };
 
