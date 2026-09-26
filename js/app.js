@@ -9,17 +9,24 @@ class MaxBetApp {
     this.autoBtn = document.getElementById('auto-btn');
     this.isAutoSpin = false;
 
-    // 1. Core Services
+    // 1. Core Services & Player Tracking
+    this.playerTracker = new window.PlayerTracker();
     this.wallet = new window.CasinoWallet(1000, 20);
     this.jackpots = new window.CasinoJackpots(this.wallet);
     this.meters = new window.BonusMeters(this.wallet);
 
     // 2. Auxiliary Engines
     this.gamble = new window.CardGambleGame(this.wallet, (amount) => {
+      if (amount > 0 && this.playerTracker) {
+        this.playerTracker.recordBonus('gambleDouble');
+      }
       this.wallet.updateUI();
     });
 
     this.miniMines = new window.MiniMinesBonus(this.wallet, (totalWin) => {
+      if (this.playerTracker) {
+        this.playerTracker.recordBonus('miniMines');
+      }
       this.showMessage(window.i18n ? window.i18n.t('miniMinesFinished', { amount: totalWin }) : `💣 ZAVRŠEN MINES BONUS: +${totalWin}!`, 'jackpot');
       this.gamble.showTrigger(totalWin);
       this.wallet.updateUI();
@@ -121,9 +128,14 @@ class MaxBetApp {
 
     this.initControls();
 
-    // 5. Open Lobby Menu Immediately on App Entry
-    if (this.lobby) {
-      this.lobby.openModal();
+    // 5. Check 18+ Login State & Open Appropriate Modal
+    if (this.playerTracker && !this.playerTracker.profile.isLoggedIn) {
+      const loginModal = document.getElementById('login-modal');
+      if (loginModal) loginModal.classList.add('active');
+    } else {
+      if (this.lobby) {
+        this.lobby.openModal();
+      }
     }
 
     // 6. Admin / Operator Control Panel
@@ -181,6 +193,9 @@ class MaxBetApp {
   }
 
   handleTriggerHoldWin(sourceMatrix) {
+    if (this.playerTracker) {
+      this.playerTracker.recordBonus('holdAndWin');
+    }
     this.showMessage(window.i18n ? window.i18n.t('miniMinesBonusTitle') : '💎 GRAND MINES BONUS! 💣', 'jackpot');
     if (this.miniMines) {
       this.miniMines.trigger(sourceMatrix, this.wallet.bet);
@@ -194,8 +209,17 @@ class MaxBetApp {
 
     const { winAmount, winMultiplier, isDiamondBonus, winningLines } = result;
 
+    // Record spin in PlayerTracker
+    if (this.playerTracker) {
+      const activeGameId = (this.lobby && this.lobby.activeGameId) || 'classic';
+      this.playerTracker.recordSpin(activeGameId, this.wallet.bet, winAmount);
+    }
+
     if (winAmount > 0) {
       if (isDiamondBonus) {
+        if (this.playerTracker) {
+          this.playerTracker.recordBonus('freeSpins');
+        }
         const msg = window.i18n ? window.i18n.t('freeSpinsPlusWin', { amount: winAmount }) : `💎 5 BESPLATNIH SPINOVA + ${winAmount}! 💎`;
         this.showMessage(msg, 'jackpot');
       } else if (winMultiplier >= 30) {
@@ -216,6 +240,9 @@ class MaxBetApp {
 
     // Check Mystery Jackpots on spin end
     this.jackpots.checkMysteryJackpot((tier, prize, msgKey) => {
+      if (this.playerTracker) {
+        this.playerTracker.recordJackpot(tier, prize);
+      }
       const defaultMsg = tier === 'diamond' 
         ? `💎 DIAMOND JACKPOT! +${prize.toLocaleString()} RSD! 💎`
         : (tier === 'gold' 
@@ -574,6 +601,154 @@ document.addEventListener('DOMContentLoaded', () => {
   // Prompt banner on iOS or first visit if not installed
   if (!isStandalone) {
     setTimeout(showInstallBanner, 2000);
+  }
+
+  // 18+ Login & Player Profile UI Controller
+  const loginModal = document.getElementById('login-modal');
+  const loginForm = document.getElementById('login-form');
+  const loginUserInput = document.getElementById('login-username');
+  const loginPinInput = document.getElementById('login-pin');
+  const loginAgeCheck = document.getElementById('login-age-check');
+  const loginRememberCheck = document.getElementById('login-remember-me');
+  const loginErrorMsg = document.getElementById('login-error-msg');
+  const headerPlayerName = document.getElementById('header-player-name');
+  const playerProfileBtn = document.getElementById('player-profile-btn');
+  const profileModal = document.getElementById('profile-modal');
+  const profileCloseX = document.getElementById('profile-close-x');
+  const profileCloseBtn = document.getElementById('profile-close-btn');
+  const profileLogoutBtn = document.getElementById('profile-logout-btn');
+
+  function updateHeaderProfile() {
+    if (!app || !app.playerTracker) return;
+    const profile = app.playerTracker.profile;
+    if (headerPlayerName) {
+      headerPlayerName.textContent = profile.isLoggedIn ? (profile.username || 'Igrač') : 'Prijava';
+    }
+  }
+
+  // Pre-fill remembered username
+  if (app && app.playerTracker && app.playerTracker.profile) {
+    if (loginUserInput && app.playerTracker.profile.username) {
+      loginUserInput.value = app.playerTracker.profile.username;
+    }
+    updateHeaderProfile();
+  }
+
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!loginAgeCheck || !loginAgeCheck.checked) {
+        if (loginErrorMsg) {
+          loginErrorMsg.textContent = window.i18n ? window.i18n.t('loginAgeRequiredMsg') : 'Morate potvrditi da imate 18 ili više godina!';
+          loginErrorMsg.style.display = 'block';
+        }
+        return;
+      }
+
+      const username = (loginUserInput ? loginUserInput.value : '').trim() || 'Demo Player';
+      const pin = loginPinInput ? loginPinInput.value : '';
+      const remember = loginRememberCheck ? loginRememberCheck.checked : true;
+
+      if (app && app.playerTracker) {
+        app.playerTracker.login(username, pin, remember);
+      }
+
+      if (window.slotAudio) window.slotAudio.playClick();
+      if (loginModal) loginModal.classList.remove('active');
+      updateHeaderProfile();
+
+      // Open games lobby upon successful login
+      if (app && app.lobby) {
+        app.lobby.openModal();
+      }
+    });
+  }
+
+  function renderProfileStats() {
+    if (!app || !app.playerTracker) return;
+    const p = app.playerTracker.profile;
+    const s = p.stats;
+
+    const modalUsername = document.getElementById('profile-modal-username');
+    if (modalUsername) modalUsername.textContent = p.username || 'Demo Player';
+
+    const statSpins = document.getElementById('profile-stat-spins');
+    if (statSpins) statSpins.textContent = s.totalSpins.toLocaleString();
+
+    const statRtp = document.getElementById('profile-stat-rtp');
+    if (statRtp) statRtp.textContent = `${app.playerTracker.getCalculatedRTP()}%`;
+
+    const statBet = document.getElementById('profile-stat-bet');
+    if (statBet) statBet.textContent = `${s.totalBet.toLocaleString()} RSD`;
+
+    const statWin = document.getElementById('profile-stat-win');
+    if (statWin) statWin.textContent = `${s.totalWin.toLocaleString()} RSD`;
+
+    const statBiggest = document.getElementById('profile-stat-biggest-win');
+    if (statBiggest) statBiggest.textContent = `${s.biggestWin.toLocaleString()} RSD`;
+
+    const bdClassic = document.getElementById('profile-breakdown-classic');
+    if (bdClassic) bdClassic.textContent = `${(s.spinsByGame.classic || 0).toLocaleString()} spinova`;
+
+    const bdRoyal = document.getElementById('profile-breakdown-royal');
+    if (bdRoyal) bdRoyal.textContent = `${((s.spinsByGame.royal3x3 || 0) + (s.spinsByGame.fullfocus || 0)).toLocaleString()} spinova`;
+
+    const bdMines = document.getElementById('profile-breakdown-mines');
+    if (bdMines) bdMines.textContent = `${(s.spinsByGame.mines || 0).toLocaleString()} rundi`;
+
+    const bFree = document.getElementById('profile-bonus-freespins');
+    if (bFree) bFree.textContent = (s.bonusesTriggered.freeSpins || 0).toString();
+
+    const bHold = document.getElementById('profile-bonus-holdwin');
+    if (bHold) bHold.textContent = (s.bonusesTriggered.holdAndWin || 0).toString();
+
+    const bMines = document.getElementById('profile-bonus-mines');
+    if (bMines) bMines.textContent = (s.bonusesTriggered.miniMines || 0).toString();
+
+    const jSummary = document.getElementById('profile-jackpot-summary');
+    if (jSummary) {
+      jSummary.textContent = `${s.jackpotsWon.silver || 0} / ${s.jackpotsWon.gold || 0} / ${s.jackpotsWon.diamond || 0}`;
+    }
+
+    const playTimeEl = document.getElementById('profile-playtime');
+    if (playTimeEl) playTimeEl.textContent = app.playerTracker.getSessionPlayTime();
+  }
+
+  if (playerProfileBtn) {
+    playerProfileBtn.addEventListener('click', () => {
+      if (window.slotAudio) window.slotAudio.playClick();
+      if (!app.playerTracker || !app.playerTracker.profile.isLoggedIn) {
+        if (loginModal) loginModal.classList.add('active');
+      } else {
+        renderProfileStats();
+        if (profileModal) profileModal.classList.add('active');
+      }
+    });
+  }
+
+  function closeProfileModal() {
+    if (window.slotAudio) window.slotAudio.playClick();
+    if (profileModal) profileModal.classList.remove('active');
+  }
+
+  if (profileCloseX) profileCloseX.addEventListener('click', closeProfileModal);
+  if (profileCloseBtn) profileCloseBtn.addEventListener('click', closeProfileModal);
+  if (profileModal) {
+    profileModal.addEventListener('click', (e) => {
+      if (e.target === profileModal) closeProfileModal();
+    });
+  }
+
+  if (profileLogoutBtn) {
+    profileLogoutBtn.addEventListener('click', () => {
+      if (window.slotAudio) window.slotAudio.playClick();
+      if (app && app.playerTracker) {
+        app.playerTracker.logout();
+      }
+      closeProfileModal();
+      updateHeaderProfile();
+      if (loginModal) loginModal.classList.add('active');
+    });
   }
 
   // PWA Service Worker

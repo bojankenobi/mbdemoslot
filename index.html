@@ -33,10 +33,17 @@
   <canvas id="fx-canvas"></canvas>
 
   <main class="game-container">
-    <!-- Header Section: MaxBet Logo (100% Clean Header) -->
+    <!-- Header Section: MaxBet Logo (100% Clean Header) & Player Profile Button -->
     <header class="header-section">
-      <div class="brand-logo-wrap">
-        <img src="assets/logo.svg" alt="MaxBet" class="main-brand-logo">
+      <div class="header-top-row">
+        <div class="brand-logo-wrap">
+          <img src="assets/logo.svg" alt="MaxBet" class="main-brand-logo">
+        </div>
+        <button class="btn-player-profile" id="player-profile-btn" title="Profil igrača & statistika" aria-label="Profil igrača">
+          <div class="profile-avatar-icon">👤</div>
+          <span class="profile-btn-name" id="header-player-name">Igrač</span>
+          <span class="profile-badge-18">18+</span>
+        </button>
       </div>
       <!-- Live Casino Jackpots Bar: SILVER, GOLD & DIAMOND (Thin Metallic Frames) -->
       <div class="jackpots-ticker-bar" id="jackpots-ticker-bar">
@@ -768,12 +775,158 @@
     </div>
   </div>
 
+  <!-- 18+ Mandatory Demo Login Modal / Age Gate -->
+  <div class="modal-overlay login-gate-overlay" id="login-modal">
+    <div class="login-card-frame">
+      <div class="login-glow-bar"></div>
+      <div class="login-header">
+        <img src="assets/logo.svg" alt="MaxBet" class="login-logo-img" />
+        <h2 class="login-heading" data-i18n="loginTitle">MAXBET DEMO PRIJAVA</h2>
+        <p class="login-subheading" data-i18n="loginSub">Pristup 3D kazino platformi i igračkom profilu</p>
+      </div>
+
+      <form class="login-form" id="login-form">
+        <div class="login-notice-box" data-i18n="loginNotice18">
+          🔞 Strogo zabranjeno licima mlađim od 18 godina. Igrajte odgovorno.
+        </div>
+
+        <div class="login-field-group">
+          <label class="login-label" for="login-username">Korisničko ime / Nickname:</label>
+          <div class="login-input-wrap">
+            <span class="login-input-icon">👤</span>
+            <input type="text" id="login-username" class="login-input" placeholder="Vaše korisničko ime / Nickname" required data-i18n-placeholder="loginUserPlaceholder" maxlength="20" autocomplete="nickname" />
+          </div>
+        </div>
+
+        <div class="login-field-group">
+          <label class="login-label" for="login-pin">PIN Kod (opciono):</label>
+          <div class="login-input-wrap">
+            <span class="login-input-icon">🔒</span>
+            <input type="password" id="login-pin" class="login-input" placeholder="Demo PIN (opciono)" data-i18n-placeholder="loginPinPlaceholder" maxlength="6" inputmode="numeric" />
+          </div>
+        </div>
+
+        <div class="login-checkbox-group">
+          <label class="login-checkbox-label">
+            <input type="checkbox" id="login-age-check" class="login-checkbox" required />
+            <span class="checkbox-custom"></span>
+            <span class="checkbox-text" data-i18n="loginAgeConfirm">Potvrđujem da imam 18+ godina i prihvatam uslove.</span>
+          </label>
+
+          <label class="login-checkbox-label">
+            <input type="checkbox" id="login-remember-me" class="login-checkbox" checked />
+            <span class="checkbox-custom"></span>
+            <span class="checkbox-text" data-i18n="loginRememberMe">Zapamti me na ovom uređaju</span>
+          </label>
+        </div>
+
+        <div class="login-error-msg" id="login-error-msg"></div>
+
+        <button type="submit" class="btn-login-submit" id="btn-login-submit">
+          <span class="btn-login-shine"></span>
+          <span class="btn-login-icon">🎰</span>
+          <span class="btn-login-text" data-i18n="loginSubmitBtn">POTVRDI I UĐI U IGRU</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Player Profile & Tracking Modal -->
+  <div class="modal-overlay profile-modal-overlay" id="profile-modal">
+    <div class="profile-card-frame">
+      <div class="profile-header">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar-large">👤</div>
+          <div class="profile-meta">
+            <h3 class="profile-username" id="profile-modal-username">Demo Player</h3>
+            <span class="profile-badge-tag" data-i18n="profileVerifiedTag">18+ VERIFIKOVAN</span>
+          </div>
+        </div>
+        <button class="btn-close profile-close-x" id="profile-close-x">&times;</button>
+      </div>
+
+      <div class="profile-body-stats">
+        <!-- Highlights Cluster -->
+        <div class="profile-highlights-grid">
+          <div class="profile-stat-box highlight-box">
+            <span class="stat-box-label" data-i18n="profileTotalSpins">Ukupno Spinova:</span>
+            <span class="stat-box-val" id="profile-stat-spins">0</span>
+          </div>
+          <div class="profile-stat-box highlight-box">
+            <span class="stat-box-label" data-i18n="profileRtp">Lični RTP:</span>
+            <span class="stat-box-val val-gold" id="profile-stat-rtp">0.00%</span>
+          </div>
+          <div class="profile-stat-box highlight-box">
+            <span class="stat-box-label" data-i18n="profileTotalBet">Ukupan Ulog:</span>
+            <span class="stat-box-val" id="profile-stat-bet">0 RSD</span>
+          </div>
+          <div class="profile-stat-box highlight-box">
+            <span class="stat-box-label" data-i18n="profileTotalWin">Ukupan Dobitak:</span>
+            <span class="stat-box-val val-green" id="profile-stat-win">0 RSD</span>
+          </div>
+          <div class="profile-stat-box highlight-box full-width">
+            <span class="stat-box-label" data-i18n="profileBiggestWin">Najveći Dobitak:</span>
+            <span class="stat-box-val val-gold" id="profile-stat-biggest-win">0 RSD</span>
+          </div>
+        </div>
+
+        <!-- Breakdown Section -->
+        <div class="profile-breakdown-section">
+          <div class="breakdown-title">📊 RASPODELA PO IGRAMA</div>
+          <div class="breakdown-row">
+            <span class="breakdown-label" data-i18n="profileClassicSpins">1-Line Classic:</span>
+            <span class="breakdown-val" id="profile-breakdown-classic">0 spinova</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label" data-i18n="profileRoyalSpins">Royal 3x3:</span>
+            <span class="breakdown-val" id="profile-breakdown-royal">0 spinova</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label" data-i18n="profileMinesRounds">Mines Igre:</span>
+            <span class="breakdown-val" id="profile-breakdown-mines">0 rundi</span>
+          </div>
+        </div>
+
+        <!-- Bonuses & Jackpots Section -->
+        <div class="profile-breakdown-section">
+          <div class="breakdown-title">🏆 BONISI & JACKPOTI</div>
+          <div class="breakdown-row">
+            <span class="breakdown-label" data-i18n="profileFreeSpinsCount">Besplatni Spinovi:</span>
+            <span class="breakdown-val" id="profile-bonus-freespins">0</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label" data-i18n="profileHoldWinCount">Hold & Win Bonusi:</span>
+            <span class="breakdown-val" id="profile-bonus-holdwin">0</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label" data-i18n="profileMiniMinesCount">Mines Bonusi:</span>
+            <span class="breakdown-val" id="profile-bonus-mines">0</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label">Osvojeni Jackpoti (S / G / D):</span>
+            <span class="breakdown-val val-gold" id="profile-jackpot-summary">0 / 0 / 0</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label" data-i18n="profilePlayTime">Vreme u Igri:</span>
+            <span class="breakdown-val" id="profile-playtime">0m 0s</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-footer-actions">
+        <button class="btn-profile-logout" id="profile-logout-btn" data-i18n="profileLogoutBtn">ODJAVI SE</button>
+        <button class="btn-profile-close" id="profile-close-btn" data-i18n="profileCloseBtn">ZATVORI</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="js/audio.js?v=61"></script>
   <script src="js/i18n.js?v=61"></script>
   <script src="js/particles.js?v=63"></script>
   
   <!-- Core Platform Modules -->
+  <script src="js/core/player-tracker.js?v=61"></script>
   <script src="js/core/wallet.js?v=61"></script>
   <script src="js/core/jackpots.js?v=61"></script>
   <script src="js/core/meters.js?v=61"></script>

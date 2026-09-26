@@ -158,7 +158,39 @@
       pwaIosStep2: 'U meniju izaberite opciju <strong>„Dodaj na početni ekran” (Add to Home Screen)</strong>:',
       pwaIosStep3: 'Dodirnite <strong>„Dodaj” (Add)</strong> u gornjem desnom uglu.',
       pwaIosCloseBtn: 'RAZUMEM',
-      pwaInstalledSuccess: 'Aplikacija je uspešno instalirana!'
+      pwaInstalledSuccess: 'Aplikacija je uspešno instalirana!',
+
+      // 18+ Gate & Login Keys
+      loginTitle: 'MAXBET DEMO PRIJAVA',
+      loginSub: 'Pristup 3D kazino platformi i igračkom profilu',
+      loginNotice18: '🔞 Strogo zabranjeno licima mlađim od 18 godina. Igrajte odgovorno.',
+      loginUserPlaceholder: 'Vaše korisničko ime / Nickname',
+      loginPinPlaceholder: 'Demo PIN (opciono)',
+      loginAgeConfirm: 'Potvrđujem da imam 18+ godina i prihvatam uslove.',
+      loginRememberMe: 'Zapamti me na ovom uređaju',
+      loginSubmitBtn: 'POTVRDI I UĐI U IGRU',
+      loginAgeRequiredMsg: 'Morate potvrditi da imate 18 ili više godina za pristup!',
+
+      // Player Profile & Statistics Keys
+      profileModalTitle: 'PROFIL IGRAČA & STATISTIKA',
+      profileVerifiedTag: '18+ VERIFIKOVAN',
+      profileTotalSpins: 'Ukupno Spinova:',
+      profileTotalBet: 'Ukupan Ulog:',
+      profileTotalWin: 'Ukupan Dobitak:',
+      profileRtp: 'Lični RTP:',
+      profileBiggestWin: 'Najveći Dobitak:',
+      profilePlayTime: 'Vreme u Igri:',
+      profileClassicSpins: '1-Line Classic:',
+      profileRoyalSpins: 'Royal 3x3:',
+      profileMinesRounds: 'Mines Igre:',
+      profileFreeSpinsCount: 'Besplatni Spinovi:',
+      profileHoldWinCount: 'Hold & Win Bonusi:',
+      profileMiniMinesCount: 'Mines Bonusi:',
+      profileJackpotSilver: 'Silver Jackpoti:',
+      profileJackpotGold: 'Gold Jackpoti:',
+      profileJackpotDiamond: 'Diamond Jackpoti:',
+      profileLogoutBtn: 'ODJAVI SE',
+      profileCloseBtn: 'ZATVORI'
     },
     en: {
       brandSub: 'MAXBET CASINO',
@@ -314,7 +346,39 @@
       pwaIosStep2: 'Scroll and select <strong>„Add to Home Screen”</strong>:',
       pwaIosStep3: 'Tap <strong>„Add”</strong> in the top right corner.',
       pwaIosCloseBtn: 'GOT IT',
-      pwaInstalledSuccess: 'App successfully installed!'
+      pwaInstalledSuccess: 'App successfully installed!',
+
+      // 18+ Gate & Login Keys
+      loginTitle: 'MAXBET DEMO LOGIN',
+      loginSub: 'Access to 3D casino platform and player profile',
+      loginNotice18: '🔞 Strictly prohibited for individuals under 18. Play responsibly.',
+      loginUserPlaceholder: 'Your nickname / Player ID',
+      loginPinPlaceholder: 'Demo PIN (optional)',
+      loginAgeConfirm: 'I confirm that I am 18+ years of age and accept terms.',
+      loginRememberMe: 'Remember me on this device',
+      loginSubmitBtn: 'CONFIRM & ENTER GAME',
+      loginAgeRequiredMsg: 'You must confirm that you are 18 or older to enter!',
+
+      // Player Profile & Statistics Keys
+      profileModalTitle: 'PLAYER PROFILE & STATS',
+      profileVerifiedTag: '18+ VERIFIED',
+      profileTotalSpins: 'Total Spins:',
+      profileTotalBet: 'Total Bet:',
+      profileTotalWin: 'Total Win:',
+      profileRtp: 'Personal RTP:',
+      profileBiggestWin: 'Biggest Win:',
+      profilePlayTime: 'Play Time:',
+      profileClassicSpins: '1-Line Classic:',
+      profileRoyalSpins: 'Royal 3x3:',
+      profileMinesRounds: 'Mines Games:',
+      profileFreeSpinsCount: 'Free Spins:',
+      profileHoldWinCount: 'Hold & Win Bonuses:',
+      profileMiniMinesCount: 'Mines Bonuses:',
+      profileJackpotSilver: 'Silver Jackpots:',
+      profileJackpotGold: 'Gold Jackpots:',
+      profileJackpotDiamond: 'Diamond Jackpots:',
+      profileLogoutBtn: 'LOGOUT',
+      profileCloseBtn: 'CLOSE'
     }
   };
 

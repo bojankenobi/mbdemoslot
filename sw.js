@@ -1,7 +1,7 @@
 /**
  * MaxBet 3D Casino Slot - PWA Service Worker
  */
-const CACHE_NAME = 'maxbet-slot-v65';
+const CACHE_NAME = 'maxbet-slot-v66';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -9,6 +9,7 @@ const ASSETS_TO_CACHE = [
   './js/audio.js',
   './js/i18n.js',
   './js/particles.js',
+  './js/core/player-tracker.js',
   './js/core/wallet.js',
   './js/core/jackpots.js',
   './js/core/meters.js',

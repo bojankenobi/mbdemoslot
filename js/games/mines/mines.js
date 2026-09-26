@@ -332,6 +332,10 @@ class MinesGame {
   triggerExplosion(tileEl, clickedIndex) {
     this.gameState = 'exploded';
 
+    if (window.slotApp && window.slotApp.playerTracker) {
+      window.slotApp.playerTracker.recordSpin('mines', this.currentBet, 0);
+    }
+
     tileEl.classList.add('revealed', 'exploded');
     const backSide = tileEl.querySelector('.mines-tile-back');
     if (backSide) {
@@ -377,6 +381,10 @@ class MinesGame {
     this.gameState = 'cashed_out';
     const winAmount = Math.round(this.currentBet * this.currentMultiplier);
     this.wallet.addWin(winAmount);
+
+    if (window.slotApp && window.slotApp.playerTracker) {
+      window.slotApp.playerTracker.recordSpin('mines', this.currentBet, winAmount);
+    }
 
     if (window.slotAudio) window.slotAudio.playCashout();
     if (window.particleEngine) window.particleEngine.spawnCelebration(allCleared);
