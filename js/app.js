@@ -624,6 +624,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (headerPlayerName) {
       headerPlayerName.textContent = profile.isLoggedIn ? (profile.username || 'Igrač') : 'Prijava';
     }
+    if (playerProfileBtn) {
+      const uName = profile.isLoggedIn ? (profile.username || 'Igrač') : 'Prijava';
+      playerProfileBtn.title = `${uName} (18+) - Profil & Statistika`;
+    }
   }
 
   // Pre-fill remembered username
