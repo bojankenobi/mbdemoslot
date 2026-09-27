@@ -2071,7 +2071,11 @@ body {
 }
 
 .btn-secondary {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   background: rgba(12, 14, 22, 0.75);
   border: 1.5px solid rgba(212, 149, 20, 0.7);
   color: #ffd700;
@@ -2088,7 +2092,6 @@ body {
     0 0 10px rgba(212, 149, 20, 0.2),
     inset 0 1px 2px rgba(255, 215, 0, 0.2);
   text-align: center;
-  white-space: nowrap;
   text-shadow: 0 1px 3px #000, 0 0 6px rgba(255, 215, 0, 0.55);
 }
 
@@ -2115,13 +2118,13 @@ body {
    ============================================================ */
 .btn-gamble-card-suit {
   flex: 0 0 auto;
-  width: 48px;
-  height: 48px;
+  width: 46px;
+  height: 46px;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0;
-  margin: 0 4px;
+  margin: 0;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -2654,20 +2657,85 @@ body {
   .hud-sub-rsd {
     font-size: 0.52rem;
   }
+  .main-action-cluster {
+    gap: 8px;
+    align-items: center;
+  }
+  .bet-side-controls {
+    gap: 6px;
+    min-width: 0;
+  }
+  .bet-stepper-row {
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+  }
+  .bet-stepper {
+    border-radius: 10px;
+  }
+  .btn-step {
+    width: 34px;
+    height: 34px;
+    font-size: 1.15rem;
+  }
+  .bet-display {
+    padding: 0 6px;
+    font-size: 0.8rem;
+    letter-spacing: 0.8px;
+  }
+  .btn-auto {
+    height: 34px;
+    padding: 0 10px;
+    font-size: 0.72rem;
+    letter-spacing: 0.6px;
+    border-radius: 9px;
+    flex-shrink: 0;
+  }
+  .bet-quick-row {
+    gap: 5px;
+    width: 100%;
+    min-width: 0;
+  }
+  .btn-secondary {
+    padding: 6px 3px;
+    font-size: 0.68rem;
+    letter-spacing: 0.2px;
+    font-weight: 800;
+    border-radius: 8px;
+    min-width: 0;
+  }
+  .btn-gamble-card-suit {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    margin: 0;
+    flex-shrink: 0;
+  }
+  .crystal-spade-img {
+    width: 26px;
+    height: 30px;
+  }
+  .spin-side-wrap {
+    flex-shrink: 0;
+  }
   .btn-spin-round {
-    width: 96px;
-    height: 96px;
+    width: 86px;
+    height: 86px;
+    flex-shrink: 0;
+  }
+  .btn-spin-round::before {
+    inset: -3px;
   }
   .spin-face {
-    width: 80px;
-    height: 80px;
+    width: 72px;
+    height: 72px;
   }
   .spin-flower-logo {
-    width: 45px;
-    height: 45px;
+    width: 38px;
+    height: 38px;
   }
   .spin-text-mini {
-    font-size: 0.76rem;
+    font-size: 0.68rem;
   }
   .aux-row {
     margin-top: 8px;
@@ -2684,6 +2752,10 @@ body {
 }
 
 @media (max-width: 370px) {
+  .game-container {
+    padding-left: max(8px, env(safe-area-inset-left));
+    padding-right: max(8px, env(safe-area-inset-right));
+  }
   .brand-logo-wrap {
     max-width: 210px;
   }
@@ -2696,51 +2768,106 @@ body {
     min-height: 28px;
   }
   .hud-val {
-    font-size: 1.05rem;
+    font-size: 1.02rem;
+  }
+  .hud-val-denom {
+    font-size: 0.92rem !important;
   }
   .hud-label {
-    font-size: 0.58rem;
+    font-size: 0.56rem;
   }
-  .btn-spin-round {
-    width: 84px;
-    height: 84px;
+  .main-action-cluster {
+    gap: 6px;
+    align-items: center;
   }
-  .spin-face {
-    width: 70px;
-    height: 70px;
+  .bet-side-controls {
+    gap: 5px;
+    min-width: 0;
   }
-  .spin-flower-logo {
-    width: 38px;
-    height: 38px;
-  }
-  .spin-text-mini {
-    font-size: 0.7rem;
+  .bet-stepper-row {
+    gap: 4px;
+    width: 100%;
+    min-width: 0;
   }
   .btn-step {
-    width: 32px;
-    height: 32px;
-    font-size: 1.1rem;
+    width: 30px;
+    height: 30px;
+    font-size: 1.05rem;
   }
   .bet-display {
-    padding: 0 5px;
-    font-size: 0.78rem;
+    padding: 0 4px;
+    font-size: 0.74rem;
+    letter-spacing: 0.4px;
   }
   .btn-auto {
-    height: 34px;
+    height: 30px;
     padding: 0 8px;
-    font-size: 0.72rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.4px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  .bet-quick-row {
+    gap: 4px;
+    width: 100%;
+    min-width: 0;
   }
   .btn-secondary {
-    padding: 6px 4px;
-    font-size: 0.68rem;
+    padding: 5px 2px;
+    font-size: 0.62rem;
+    letter-spacing: 0;
+    min-width: 0;
+    border-radius: 7px;
+  }
+  .btn-gamble-card-suit {
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    margin: 0;
+    flex-shrink: 0;
+  }
+  .crystal-spade-img {
+    width: 22px;
+    height: 25px;
+  }
+  .spin-side-wrap {
+    flex-shrink: 0;
+  }
+  .btn-spin-round {
+    width: 76px;
+    height: 76px;
+    flex-shrink: 0;
+  }
+  .btn-spin-round::before {
+    inset: -3px;
+  }
+  .spin-face {
+    width: 62px;
+    height: 62px;
+  }
+  .spin-flower-logo {
+    width: 32px;
+    height: 32px;
+  }
+  .spin-text-mini {
+    font-size: 0.62rem;
+  }
+  .aux-row {
+    margin-top: 6px;
+    gap: 6px;
+  }
+  .btn-grand-game-select {
+    padding: 4px 8px;
+    font-size: 0.65rem;
+    gap: 4px;
   }
   .btn-icon-mini {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
   }
   .gold-icon {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
   }
   .paytable-grid {
     grid-template-columns: 1fr;
@@ -2792,11 +2919,36 @@ body {
     margin-top: 3px;
   }
   .main-action-cluster {
-    gap: 10px;
+    gap: 8px;
+    align-items: center;
+  }
+  .bet-side-controls {
+    min-width: 0;
+    gap: 5px;
+  }
+  .bet-quick-row {
+    gap: 5px;
+    width: 100%;
+    min-width: 0;
+  }
+  .btn-gamble-card-suit {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    margin: 0;
+    flex-shrink: 0;
+  }
+  .crystal-spade-img {
+    width: 24px;
+    height: 26px;
+  }
+  .spin-side-wrap {
+    flex-shrink: 0;
   }
   .btn-spin-round {
     width: 78px;
     height: 78px;
+    flex-shrink: 0;
   }
   .spin-face {
     width: 65px;
@@ -2822,6 +2974,7 @@ body {
   .btn-secondary {
     padding: 5px 6px;
     font-size: 0.68rem;
+    min-width: 0;
   }
   .aux-row {
     margin-top: 3px;
